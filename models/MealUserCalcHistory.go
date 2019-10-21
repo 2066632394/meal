@@ -34,7 +34,7 @@ func CheckIsExists(date,userid int64) bool {
 	m := MealUserCalcHistory{MealDate:date,Id:userid}
 	err := o.Read(&m)
 	if err == orm.ErrNoRows {
-		return true
+		return false
 	}
-	return false
+	return true
 }
