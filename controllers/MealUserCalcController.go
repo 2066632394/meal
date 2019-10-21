@@ -34,7 +34,7 @@ func (c *MealUserCalcController) Secday() {
 		}
 
 	} else {
-		c.jsonResult(enums.JRCodeSucc,"ok",nil)
+		c.jsonResult(enums.JRCodeSucc,"谢谢参与",nil)
 	}
 
 }

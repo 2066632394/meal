@@ -7,7 +7,7 @@ import (
 
 // init 初始化
 func init() {
-	orm.RegisterModel(new(Course), new(BackendUser), new(Resource), new(Role), new(RoleResourceRel), new(RoleBackendUserRel),new(Meal),new(DailyMeal),new(MealUser))
+	orm.RegisterModel(new(Course), new(BackendUser), new(Resource), new(Role), new(RoleResourceRel), new(RoleBackendUserRel),new(Meal),new(DailyMeal),new(MealUser),new(MealUserCalc),new(MealUserCalcHistory))
 }
 
 // TableName 下面是统一的表名管理
@@ -63,4 +63,12 @@ func MealUserAdiveTBName() string {
 
 func MealUserOrderTBName() string {
 	return TableName("user_order")
+}
+
+func MealUserCalcOrderTBName() string {
+	return TableName("user_calc")
+}
+
+func MealUserCalcHistoryTBName() string {
+	return TableName("user_calc_history")
 }
