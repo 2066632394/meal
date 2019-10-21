@@ -42,9 +42,6 @@ func (c *WeixinController) WeixinLogin() {
 		if err != nil {
 			beego.Error("weixin login err",err)
 			c.jsonResult(enums.JRCodeFailed,"微信登录异常"+err.Error(),nil)
-		}
-		if err := res.CommonError.GetResponseError(); err != nil {
-			c.jsonResult(enums.JRCodeFailed,"微信接口登录异常"+err.Error(),nil)
 		} else {
 			beego.Info("weixin login succ",res)
 			isadd,id ,err := models.WeixinUserCheck(res.OpenID)

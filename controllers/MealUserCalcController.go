@@ -15,7 +15,7 @@ func (c *MealUserCalcController) Prepare() {
 
 }
 
-func (c *MealUserController) Secday() {
+func (c *MealUserCalcController) Secday() {
 	var params models.MealUserCalcQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	beego.Info("params",params)
