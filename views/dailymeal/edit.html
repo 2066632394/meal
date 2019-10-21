@@ -1,0 +1,68 @@
+<section class="content container-fluid">
+    <!-- 页面内容开始 -->
+    <div class="row">
+        <div class="col-md-12">
+
+            <form id="searchForm" class="searchForm" onsubmit="return false">
+                <div class="box box-solid collapsed-box">
+                    <div class="box-header with-border">
+                        <input type="text" name="Name" class="form-control pull-left input-wd-md" placeholder="名称">
+                        <div class="btn-group searchbtns">
+                            <button type="button" class="btn btn-warning" id="btnSearch"><i class="fa fa-search"></i> 搜索</button>
+                            <button type="button" class="btn btn-default" id="btnClearSearch"><i class="fa fa-eraser"></i> 清除</button>
+                        </div>
+                        <div class="box-tools pull-right">
+                            <button id="searchpanelbtn" type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="display: none;">
+                        <!-- 这里放更多的查询条件，当 box-body 里出更多查询条件时，右侧会出现展开/收缩的按钮-->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </form>
+            <div class="box box-solid">
+                <form id="thisForm">
+                    <div class="box-body">
+                        <div class="btn-group" id="toolbar">
+                        {{ if .canEdit}}
+                            <button class="btn btn-info" href="javascript:;" onclick="EditFun(0)">
+                                <i class="fa fa-plus"></i> 添加</button>
+                        {{end}}
+                        {{ if .canDelete}}
+                            <button class="btn btn-danger table-btn-check-enable" disabled onclick="DeleteFun()">
+                                <i class="fa fa-trash"></i> 删除
+                            </button>
+                        {{end}}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="dtype" id="dtype" class="form-control bs-select">
+                                        <option value="-1" selected>请选择类型</option>
+                                        <option value="0">早餐</option>
+                                        <option value="1">午餐</option>
+                                        <option value="2">晚餐</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date_e">选择日期：</label>
+                                    <input id="date_e" name="ddate" type="text" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="ids" id="ids">
+                        <table id="dataGrid"></table>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 页面内容结束 -->
+</section>
