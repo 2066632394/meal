@@ -26,7 +26,7 @@ func (c *MealUserCalcController) Secday() {
 		if !exist {
 			err := models.UpdateUserCalc(&params)
 			//定义返回的数据结构
-			if err != nil {
+			if err == nil {
 				c.jsonResult(enums.JRCodeSucc,"ok",nil)
 			} else {
 				c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)

@@ -14,6 +14,10 @@ type WeixinController struct {
 	//WeixinUser models.MealUser
 }
 
+func (c *WeixinController) Prepare() {
+
+}
+
 func (c *WeixinController) Get() {
 	c.Data["Website"] = "beego.me"
 	c.Data["Email"] = "astaxie@gmail.com"
@@ -84,4 +88,38 @@ func (c *WeixinController) WeixinLogin() {
 
 func (c *WeixinController) checkWeixinLogin() {
 
+}
+
+func (c *WeixinController) MealList() {
+	var req models.DailyMealQueryParam
+	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	beego.Info("req",req)
+	m := make(map[string]interface{})
+	//当天
+	if req.DateType == enums.MealToday {
+		//获取当前日期时间戳
+		date := utils.GetNow()
+		req.Ddate = utils.ToString(date)
+		list,count := models.DailyMealPageList(&req)
+		m["total"] = count
+		m["list"] = list
+	} else if req.DateType == enums.MealWeek {
+		datelist,err := utils.GetCurrentDays()
+		if err != nil {
+			c.jsonResult(enums.JRCodeFailed,"getdate err"+err.Error(),datelist)
+		}
+		list := make([]*models.DailyMeal,0)
+		total := int64(0)
+		for _,v:= range datelist {
+			req.Ddate = utils.ToString(v)
+			list1,count := models.DailyMealPageList(&req)
+			total += count
+			list = append(list,list1...)
+		}
+		m["total"] = total
+		m["list"] = list
+	}
+
+	c.Data["json"] = m
+	c.ServeJSONP()
 }

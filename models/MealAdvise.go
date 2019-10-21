@@ -4,6 +4,10 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+// TableName 设置DailyMeal表名
+func (a *MealAdvise) TableName() string {
+	return MealUserAdviseTBName()
+}
 // BackendUserQueryParam 用于查询的类
 type MealAdviseQueryParam struct {
 	BaseQueryParam

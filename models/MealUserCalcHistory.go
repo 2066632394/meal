@@ -4,6 +4,9 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+func (a *MealUserCalcHistory) TableName() string {
+	return MealUserCalcHistoryTBName()
+}
 // BackendUserQueryParam 用于查询的类
 type MealUserCalcHistoryQueryParam struct {
 	BaseQueryParam
@@ -14,8 +17,9 @@ type MealUserCalcHistoryQueryParam struct {
 
 type MealUserCalcHistory struct {
 	Id     int64
+	UserId int64
 	MealDate int64
-	MealNums int32
+	Time int64
 }
 
 // MealUserOne 根据id获取单条

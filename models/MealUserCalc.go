@@ -4,6 +4,9 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
+func (a *MealUserCalc) TableName() string {
+	return MealUserCalcOrderTBName()
+}
 // BackendUserQueryParam 用于查询的类
 type MealUserCalcQueryParam struct {
 	BaseQueryParam
@@ -13,8 +16,7 @@ type MealUserCalcQueryParam struct {
 }
 
 type MealUserCalc struct {
-	Id     int64
-	MealDate int64
+	MealDate int64 `orm:"pk"`
 	MealNums int32
 }
 
@@ -31,7 +33,22 @@ func MealUserCalcOne(id int64) (*MealUserCalc, error) {
 
 func UpdateUserCalc(params *MealUserCalcQueryParam) error {
 	o := orm.NewOrm()
-	m := &MealUserCalc{MealDate:params.MealDate}
-	_,err := o.InsertOrUpdate(m,"MealDate=MealDate+1")
-	return err
+	m := &MealUserCalc{MealDate:params.MealDate,MealNums:1}
+	//err := o.Read(m)
+	//if err != nil && err == orm.ErrNoRows {
+	//	if _,err := o.Insert(m);err != nil {
+	//		return nil
+	//	} else {
+	//		return err
+	//	}
+	//}
+	var r orm.RawSeter
+	r = o.Raw("INSERT INTO `rms_user_meal_calc` (`meal_date`, `meal_nums`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `meal_date`=?, `meal_nums`= `meal_nums` + ?",m.MealDate,m.MealNums,m.MealDate,m.MealNums)
+	_,err := r.Exec()
+	if err != nil {
+		return err
+	}
+	return nil
+	//_,err := o.InsertOrUpdate(m,"meal_nums=meal_nums+1")
+	//return err
 }

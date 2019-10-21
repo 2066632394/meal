@@ -57,7 +57,7 @@ func MealUserTBName() string {
 	return TableName("user")
 }
 
-func MealUserAdiveTBName() string {
+func MealUserAdviseTBName() string {
 	return TableName("user_meal_advise")
 }
 
@@ -66,7 +66,7 @@ func MealUserOrderTBName() string {
 }
 
 func MealUserCalcOrderTBName() string {
-	return TableName("user_calc")
+	return TableName("user_meal_calc")
 }
 
 func MealUserCalcHistoryTBName() string {

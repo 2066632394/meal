@@ -31,6 +31,8 @@ func init() {
 	//weixin
 
 	beego.Router("/weixin/wxlogin", &controllers.WeixinController{}, "Post:WeixinLogin")
+	//当天菜单、一周菜单、今日外卖
+	beego.Router("/weixin/list", &controllers.WeixinController{}, "Post:MealList")
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
 	beego.Router("/meal/datagrid", &controllers.MealController{}, "Get,Post:DataGrid")
@@ -44,8 +46,7 @@ func init() {
 	beego.Router("/dailymeal/edit/?:id", &controllers.DailyMealController{}, "Get,Post:Edit")
 	beego.Router("/dailymeal/delete", &controllers.DailyMealController{}, "Post:Delete")
 	beego.Router("/dailymeal/updateseq", &controllers.DailyMealController{}, "Post:UpdateSeq")
-	//当天菜单、一周菜单、今日外卖
-	beego.Router("/dailymeal/list", &controllers.DailyMealController{}, "Post:MealList")
+
 
 
 	//用户

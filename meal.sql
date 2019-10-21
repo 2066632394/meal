@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
+Source Server         : localhost
 Source Server Version : 50726
 Source Host           : localhost:3306
-Source Database       : sdrms
+Source Database       : meal
 
 Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-10-21 18:52:39
+Date: 2019-10-21 23:26:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -325,6 +325,8 @@ CREATE TABLE `rms_user` (
   `phone` bigint(11) DEFAULT NULL,
   `nick_name` varchar(64) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
+  `session_key` varchar(255) NOT NULL DEFAULT '',
+  `access_token` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `open_id` (`open_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -342,6 +344,7 @@ CREATE TABLE `rms_user_calc_history` (
   `user_id` int(11) DEFAULT NULL,
   `meal_date` int(11) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
+  `meal_nums` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`meal_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='次日就餐历史';
@@ -374,9 +377,9 @@ CREATE TABLE `rms_user_meal_advise` (
 -- ----------------------------
 DROP TABLE IF EXISTS `rms_user_meal_calc`;
 CREATE TABLE `rms_user_meal_calc` (
-  `id` int(11) NOT NULL,
-  `meal_date` bigint(11) DEFAULT NULL,
-  `meal_nums` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL DEFAULT '0',
+  `meal_date` bigint(11) DEFAULT '0',
+  `meal_nums` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `meal_date` (`meal_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='次日用餐统计';
