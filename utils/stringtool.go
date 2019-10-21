@@ -13,6 +13,7 @@ import (
 	"regexp"
 	"sort"
 	"net"
+	"github.com/astaxie/beego"
 )
 
 //将字符串加密成 md5
@@ -188,6 +189,16 @@ func GetCurrentDays() ([]int64,error) {
 	}
 	return list,nil
 
+}
+
+func GetNow() int64 {
+	date := time.Now().Unix()
+
+	nowdate ,err := time.ParseInLocation("2006-01-02",time.Unix(date,0).Format("2006-01-02"),time.Local)
+	if err != nil {
+		beego.Info("date err",err)
+	}
+	return nowdate.Unix()
 }
 
 func RandInt(min, max int) int {

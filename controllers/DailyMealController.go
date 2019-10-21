@@ -51,13 +51,7 @@ func (c *DailyMealController) DataGrid() {
 	beego.Info("params",params)
 	if params.Ddate == "" {
 		//获取当前日期时间戳
-		date := time.Now().Unix()
-
-		nowdate ,err := time.ParseInLocation("2006-01-02",time.Unix(date,0).Format("2006-01-02"),time.Local)
-		if err != nil {
-			beego.Info("date err",err)
-		}
-		date = nowdate.Unix()
+		date := utils.GetNow()
 		params.NameLike = utils.ToString(date)
 		params.Ddate = utils.ToString(date)
 	} else {
@@ -174,13 +168,7 @@ func (c *DailyMealController) MealList() {
 	//当天
 	if req.DateType == enums.MealToday {
 		//获取当前日期时间戳
-		date := time.Now().Unix()
-
-		nowdate ,err := time.ParseInLocation("2006-01-02",time.Unix(date,0).Format("2006-01-02"),time.Local)
-		if err != nil {
-			beego.Info("date err",err)
-		}
-		date = nowdate.Unix()
+		date := utils.GetNow()
 		req.Ddate = utils.ToString(date)
 		list,count := models.DailyMealPageList(&req)
 		m["total"] = count

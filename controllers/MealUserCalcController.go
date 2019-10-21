@@ -5,6 +5,7 @@ import (
 	"meal/models"
 	"encoding/json"
 	"meal/enums"
+	"meal/utils"
 )
 
 type MealUserCalcController struct {
@@ -20,6 +21,7 @@ func (c *MealUserCalcController) Secday() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	beego.Info("params",params)
 	if params.Tomorrow  {
+		params.MealDate = utils.GetNow()
 		exist := models.CheckIsExists(params.MealDate,params.UserId)
 		if !exist {
 			err := models.UpdateUserCalc(&params)
