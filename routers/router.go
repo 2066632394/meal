@@ -5,8 +5,8 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"strings"
 	"github.com/astaxie/beego/context"
+	"strings"
 )
 
 func init() {
@@ -21,8 +21,10 @@ func init() {
 		}
 		if ctx.Request.RequestURI != "/weixin/wxlogin" && ctx.Input.Header("Authorization") != "" {
 			token := ctx.Input.Header("Authorization")
-			token = strings.Split(token, "")[1]
+			token = strings.Split(token, " ")[1]
 			logs.Info("curernttoken: ", token)
+			openid := ctx.Input.Header("openid")
+			logs.Info("openid",openid)
 		}
 	}
 
@@ -33,6 +35,11 @@ func init() {
 	beego.Router("/weixin/wxlogin", &controllers.WeixinController{}, "Post:WeixinLogin")
 	//当天菜单、一周菜单、今日外卖
 	beego.Router("/weixin/list", &controllers.WeixinController{}, "Post:MealList")
+	//次日用餐统计
+	beego.Router("/weixin/secday", &controllers.WeixinController{}, "Post:Secday")
+	//外卖用餐统计
+	beego.Router("/weixin/outlist", &controllers.WeixinController{}, "Post:OutList")
+
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
 	beego.Router("/meal/datagrid", &controllers.MealController{}, "Get,Post:DataGrid")
@@ -47,7 +54,10 @@ func init() {
 	beego.Router("/dailymeal/delete", &controllers.DailyMealController{}, "Post:Delete")
 	beego.Router("/dailymeal/updateseq", &controllers.DailyMealController{}, "Post:UpdateSeq")
 
-
+	//菜单分类
+	beego.Router("/mealtype/index", &controllers.MealTypeController{}, "*:Index")
+	beego.Router("/mealtype/edit/?:id", &controllers.MealTypeController{}, "Get,Post:Edit")
+	beego.Router("/mealtype/delete", &controllers.MealTypeController{}, "Post:Delete")
 
 	//用户
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")

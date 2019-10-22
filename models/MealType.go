@@ -17,6 +17,12 @@ type MealType struct {
 	Time   int64
 }
 
+// TableName 设置MealUser表名
+func (a *MealType) TableName() string {
+	return MealTypeTBName()
+}
+
+
 // CoursePageList 获取分页数据
 func MealTypePageList(params *MealTypeQueryParam) ([]*MealType, int64) {
 	query := orm.NewOrm().QueryTable(CourseTBName())

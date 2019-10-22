@@ -21,6 +21,7 @@ type Meal struct {
 	MealName      string `orm:"size(32)"`
 	MealImg string
 	MealDesc  string
+	MeaType   *MealType `orm:"rel(one)"`
 	Score     int32
 	ScoreList string
 	Seq  int32
@@ -46,7 +47,7 @@ func MealPageList(params *MealQueryParam) ([]*Meal, int64) {
 	}
 	query = query.Filter("MealName__istartswith", params.NameLike)
 	total, _ := query.Count()
-	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
+	query.RelatedSel().OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total
 }
 

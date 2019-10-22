@@ -13,6 +13,7 @@ import (
 	"strings"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/astaxie/beego/logs"
 )
 
 //MealTypeController 菜单管理
@@ -51,6 +52,7 @@ func (c *MealTypeController) DataGrid() {
 	var params models.MealTypeQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	//获取数据列表和总数
+	logs.Info("params",params)
 	data, total := models.MealTypePageList(&params)
 	//定义返回的数据结构
 	result := make(map[string]interface{})
@@ -66,7 +68,7 @@ func (c *MealTypeController) Edit() {
 		c.Save()
 	}
 	Id, _ := c.GetInt64(":id", 0)
-	m := models.Meal{Id: Id}
+	m := models.MealType{Id: Id}
 	if Id > 0 {
 		o := orm.NewOrm()
 		err := o.Read(&m)
@@ -87,7 +89,7 @@ func (c *MealTypeController) Edit() {
 //Save 添加、编辑页面 保存
 func (c *MealTypeController) Save() {
 	var err error
-	m := models.Meal{}
+	m := models.MealType{}
 	//获取form里的值
 	if err = c.ParseForm(&m); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), m.Id)
@@ -105,12 +107,8 @@ func (c *MealTypeController) Save() {
 		}
 
 	} else {
-		oM, err := models.MealOne(m.Id)
-		oM.MealName = m.MealName
-		oM.MealDesc = m.MealDesc
-		oM.MealImg = m.MealImg
-		oM.Seq = m.Seq
-		oM.Score = 0
+		oM, err := models.MealTypeOne(m.Id)
+		oM.Name = m.Name
 		oM.Time = time.Now().Unix()
 		if _, err = o.Update(oM); err == nil {
 			c.jsonResult(enums.JRCodeSucc, "编辑成功", m.Id)

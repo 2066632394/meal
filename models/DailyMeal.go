@@ -15,7 +15,7 @@ type DailyMealQueryParam struct {
 	BaseQueryParam
 	NameLike string
 	DateType int32
-	Ddate    string
+	Ddate    int64
 	Dtype    int32
 }
 
@@ -48,7 +48,10 @@ func DailyMealPageList(params *DailyMealQueryParam) ([]*DailyMeal, int64) {
 	if params.Order == "desc" {
 		sortorder = "-" + sortorder
 	}
-	query = query.Filter("MealDate", params.Ddate).Filter("Type",params.Dtype)
+	if params.Ddate != 0 {
+		query = query.Filter("MealDate", params.Ddate)
+	}
+	query = query.Filter("Type",params.Dtype)
 	total, _ := query.Count()
 	query.RelatedSel().OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total

@@ -9,6 +9,7 @@ import (
 	"meal/utils"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 type BaseController struct {
@@ -39,6 +40,7 @@ func (c *BaseController) checkLogin() {
 			returnURL := c.Ctx.Input.Refer()
 			c.jsonResult(enums.JRCode302, "请登录", urlstr+returnURL)
 		}
+		logs.Info("url",urlstr,returnURL)
 		c.Redirect(urlstr+returnURL, 302)
 		c.StopRun()
 	}

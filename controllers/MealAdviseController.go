@@ -11,7 +11,7 @@ type MealAdviseController struct {
 }
 
 func (c *MealAdviseController) Prepare() {
-
+	c.WeixinController.Prepare()
 }
 
 func (c *MealAdviseController) Advise() {

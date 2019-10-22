@@ -49,17 +49,17 @@ func (c *DailyMealController) DataGrid() {
 	var params models.DailyMealQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	beego.Info("params",params)
-	if params.Ddate == "" {
+	if params.Ddate == 0 {
 		//获取当前日期时间戳
 		date := utils.GetNow()
 		params.NameLike = utils.ToString(date)
-		params.Ddate = utils.ToString(date)
+		params.Ddate = date
 	} else {
-		nowdate ,err := time.ParseInLocation("2006-01-02",params.Ddate,time.Local)
+		nowdate ,err := time.ParseInLocation("2006-01-02",utils.ToString(params.Ddate),time.Local)
 		if err != nil {
 			beego.Info("date err",err)
 		}
-		params.Ddate = utils.ToString(nowdate.Unix())
+		params.Ddate = nowdate.Unix()
 	}
 
 	//获取数据列表和总数

@@ -1,5 +1,7 @@
 package enums
 
+import "errors"
+
 type JsonResultCode int
 
 const (
@@ -31,4 +33,8 @@ const (
 	MealToday = iota
 	MealTodayTakeOut
 	MealWeek
+)
+
+var (
+	ErrTokenOrOpenidNotExist = errors.New("ErrTokenOrOpenidNotExist")
 )
