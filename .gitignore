@@ -5,7 +5,7 @@ logs/
 # Folders
 _obj
 _test
-
+logs
 # Architecture specific extensions/prefixes
 *.out
 static/upload/*
