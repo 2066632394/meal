@@ -66,20 +66,24 @@ func (c *WeixinController) WeixinLogin() {
 			beego.Info("token:",token)
 			//新添加用户
 			m := make(map[string]interface{},0)
+			var user models.MealUser
+			user.OpenId = res.OpenID
+			user.SessionKey = res.SessionKey
+			user.Id = id
+			user.AccessToken = token
 			if id > 0 && isadd {
 				beego.Info("weixin add new user",res.OpenID," id ",id)
-				var user models.MealUser
-				user.OpenId = res.OpenID
-				user.SessionKey = res.SessionKey
-				user.Id = id
-				user.AccessToken = token
+
 				c.SetSession(user.OpenId,user)
 			} else if id > 0 && !isadd {
 				a := c.GetSession(res.OpenID)
 				aa := a.(models.MealUser)
-				aa.AccessToken = token
-				aa.SessionKey = res.SessionKey
-				c.SetSession(res.OpenID,aa)
+				if aa.OpenId != "" {
+					aa.AccessToken = token
+					aa.SessionKey = res.SessionKey
+				} else {
+					c.SetSession(res.OpenID,user)
+				}
 			}
 			m["openid"] = res.OpenID
 			m["accesstoken"] = token
