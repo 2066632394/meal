@@ -39,6 +39,10 @@ func init() {
 	beego.Router("/weixin/secday", &controllers.WeixinController{}, "Post:Secday")
 	//外卖用餐统计
 	beego.Router("/weixin/outlist", &controllers.WeixinController{}, "Post:OutList")
+	//外卖预定
+	beego.Router("/weixin/addorder", &controllers.WeixinController{}, "Post:AddOrder")
+	//外卖取餐列表
+	beego.Router("/weixin/orderlist", &controllers.WeixinController{}, "Post:OrderList")
 
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
@@ -60,9 +64,16 @@ func init() {
 	beego.Router("/mealtype/delete", &controllers.MealTypeController{}, "Post:Delete")
 	beego.Router("/mealtype/datagrid", &controllers.MealTypeController{}, "Get,Post:DataGrid")
 
+	//后台外卖显示
+	beego.Router("/mealuserorder/index", &controllers.MealUserOrderController{}, "*:Index")
+	beego.Router("/mealuserorder/delete", &controllers.MealUserOrderController{}, "Post:Delete")
+
+	//后台意见显示
+	//beego.Router("/mealadvise/index", &controllers.MealAdviseController{}, "*:Index")
+
 	//用户
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")
-	beego.Router("/mealuser/addorder", &controllers.MealUserController{}, "Post:AddOrder")
+
 	//次日用餐统计
 	beego.Router("/mealuser/secday", &controllers.MealUserCalcController{}, "Post:Secday")
 	//提交意见

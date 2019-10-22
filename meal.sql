@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-10-22 13:59:17
+Date: 2019-10-22 17:33:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -417,12 +417,16 @@ CREATE TABLE `rms_user_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `type` tinyint(2) NOT NULL DEFAULT '0',
-  `meal_id` int(11) NOT NULL,
+  `meal_ids` varchar(512) NOT NULL,
   `meal_date` int(11) NOT NULL DEFAULT '0',
   `meal_code` varchar(64) DEFAULT NULL COMMENT '取餐码',
+  `total` varchar(255) DEFAULT NULL,
   `status` tinyint(3) DEFAULT '0' COMMENT '订单状态',
   `time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `user_id_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `meal_date` (`meal_date`,`meal_code`),
+  KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户点餐表';
 
 -- ----------------------------

@@ -87,7 +87,7 @@ response
 
 ```
 
-### 5、/mealuser/addorder  外卖预定接口
+### 5、/weixin/addorder  外卖预定接口
 |参数|类型|是否必填|说明|
 |-|-|-|-|
 |ids|[]int64|是|点的菜编号数组|
@@ -109,7 +109,7 @@ response
 ```
 
 
-### 6、/mealuser/orderlist  外卖取餐列表接口
+### 6、/weixin/orderlist  外卖取餐列表接口
 |参数|类型|是否必填|说明|
 |-|-|-|-|
 |ids|[]int64|是|点的菜编号数组|

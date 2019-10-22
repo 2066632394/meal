@@ -39,7 +39,7 @@ func (c *HomeController) Index() {
 	var user models.MealUserQueryParam
 	user.Limit = 1
 	last,_ := models.MealUserPageList(&user)
-	if len(last) > 1 {
+	if len(last) > 0 {
 		m["user_num"] = last[0].Id
 	}
 	logs.Info("calc",m)

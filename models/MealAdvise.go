@@ -18,17 +18,45 @@ type MealAdviseQueryParam struct {
 
 type MealAdvise struct {
 	Id     int64
-	MealDate int64
-	MealNums int32
+	Advise string
+	TagId    string
+	Score    int32
+	User   *MealUser `orm:"rel(one)"`
+	Time  int64
 }
 
-// MealUserOne 根据id获取单条
-func MealAdviseOne(id int64) (*MealAdvise, error) {
+// CoursePageList 获取分页数据
+func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdviseTag, int64) {
+	query := orm.NewOrm().QueryTable(MealUserAdviseTBName())
+	data := make([]*MealAdviseTag, 0)
+	//默认排序
+	sortorder := "Id"
+	switch params.Sort {
+	case "Id":
+		sortorder = "Id"
+	}
+	if params.Order == "desc" {
+		sortorder = "-" + sortorder
+	}
+	query = query.Filter("advise__istartswith", params.NameLike)
+	if params.UserId != 0 {
+		query = query.Filter("user_id", params.UserId)
+	}
+	total, _ := query.Count()
+	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
+	return data, total
+}
+
+// MealUserOne
+func MealAdviseOne(advise *MealAdvise) (*MealAdvise, error) {
 	o := orm.NewOrm()
-	m := MealAdvise{MealDate: id}
-	err := o.Read(&m)
+	err := o.Read(advise)
 	if err != nil {
 		return nil, err
 	}
-	return &m, nil
+	return advise, nil
+}
+
+func MealAdviseAddOne(advise *MealAdvise) (bool,int64,error) {
+	return false, 0, nil
 }

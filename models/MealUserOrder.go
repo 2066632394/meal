@@ -24,7 +24,7 @@ type MealUserOrderQueryParam struct {
 // MealUserOrder 实体类
 type MealUserOrder struct {
 	Id              int64
-	User          *MealUser  `orm:"rel(one)""`
+	User          *MealUser  `orm:"rel(one)"`
 	Type 			int32
 	MealIds         string
 	MealDate        int64
@@ -65,6 +65,12 @@ func MealUserOrderOne(id int64) (*MealUserOrder, error) {
 		return nil, err
 	}
 	return &m, nil
+}
+// MealBatchDelete 批量删除
+func MealBatchDeleteOrder(ids []int) (int64, error) {
+	query := orm.NewOrm().QueryTable(MealUserOrderTBName())
+	num, err := query.Filter("id__in", ids).Delete()
+	return num, err
 }
 
 

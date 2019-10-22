@@ -20,7 +20,8 @@ func init() {
 		new(MealUserCalc),
 		new(MealUserCalcHistory),
 		new(MealType),
-		new(MealUserOrder))
+		new(MealUserOrder),
+		new(MealAdvise))
 }
 
 // TableName 下面是统一的表名管理
@@ -75,7 +76,11 @@ func MealUserTBName() string {
 }
 
 func MealUserAdviseTBName() string {
-	return TableName("user_meal_advise")
+	return TableName("advise")
+}
+
+func MealAdviseTagTBName() string {
+	return TableName("advise_tag")
 }
 
 func MealUserOrderTBName() string {

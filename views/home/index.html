@@ -13,13 +13,13 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>{{.today_out_num}}</h3>
+                        <h3>{{.json.today_out_num}}</h3>
                         <p>今日外卖</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="../../mealuserorder/index" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -27,14 +27,14 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>{{.json.tomorrow_order_num}}</h3>
 
-                        <p>净利润增长率</p>
+                        <p>次日用餐</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="../../mealusercalchistory/index" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -42,14 +42,14 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{.user_num}}</h3>
+                        <h3>{{.json.user_num}}</h3>
 
                         <p>总注册用户</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="../../mealuser/index" class="small-box-footer">更多信息 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -76,7 +76,7 @@
             <div class="box-header with-border">         
               <h3 class="box-title">电研服务管理系统</h3>
             </div>
-            
+
         </div>
     </div>
     <!-- 页面内容结束 -->
