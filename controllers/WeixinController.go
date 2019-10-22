@@ -77,8 +77,8 @@ func (c *WeixinController) WeixinLogin() {
 				c.SetSession(user.OpenId,user)
 			} else if id > 0 && !isadd {
 				a := c.GetSession(res.OpenID)
-				aa := a.(models.MealUser)
-				if aa.OpenId != "" {
+				aa,ok := a.(models.MealUser)
+				if ok {
 					aa.AccessToken = token
 					aa.SessionKey = res.SessionKey
 				} else {
