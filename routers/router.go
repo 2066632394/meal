@@ -62,6 +62,7 @@ func init() {
 
 	//用户
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")
+	beego.Router("/mealuser/addorder", &controllers.MealUserController{}, "Post:AddOrder")
 	//次日用餐统计
 	beego.Router("/mealuser/secday", &controllers.MealUserCalcController{}, "Post:Secday")
 	//提交意见

@@ -35,6 +35,11 @@ const (
 	MealWeek
 )
 
+const (
+	OutCommit = iota //提交订单
+	OutOk //已取餐
+)
+
 var (
 	ErrTokenOrOpenidNotExist = errors.New("ErrTokenOrOpenidNotExist")
 )

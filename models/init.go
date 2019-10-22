@@ -19,7 +19,8 @@ func init() {
 		new(MealUser),
 		new(MealUserCalc),
 		new(MealUserCalcHistory),
-		new(MealType))
+		new(MealType),
+		new(MealUserOrder))
 }
 
 // TableName 下面是统一的表名管理

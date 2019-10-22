@@ -12,18 +12,25 @@ func (a *MealUserOrder) TableName() string {
 // MealUserOrderQueryParam 用于查询的类
 type MealUserOrderQueryParam struct {
 	BaseQueryParam
+	StatusType int32
 	NameLike string
 	Phone int64
 	UserId int64
+	MealId int64
+	MealDate int64
+	Ids    []int64
 }
 
 // MealUserOrder 实体类
 type MealUserOrder struct {
 	Id              int64
-	User *MealUser  `orm:rel(pk)`
+	User          *MealUser  `orm:"rel(one)""`
 	Type 			int32
-	Meal *Meal      `orm:rel(pk)`
+	MealIds         string
+	MealDate        int64
 	MealCode        string
+	Total           string
+	Status          int32
 	Time            int64
 }
 
@@ -40,11 +47,10 @@ func MealUserOrderPageList(params *MealUserOrderQueryParam) ([]*MealUserOrder, i
 	if params.Order == "desc" {
 		sortorder = "-" + sortorder
 	}
-	query = query.Filter("name__istartswith", params.NameLike)
-	if params.Phone >0 {
-		query = query.Filter("phone", params.Phone)
+	query = query.Filter("status", params.StatusType)
+	if params.MealDate != 0 {
+		query = query.Filter("meal_date", params.MealDate)
 	}
-
 	total, _ := query.Count()
 	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total

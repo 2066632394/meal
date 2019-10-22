@@ -84,4 +84,51 @@ response
     "list": []
   }
 }
+
+```
+
+### 5、/mealuser/addorder  外卖预定接口
+|参数|类型|是否必填|说明|
+|-|-|-|-|
+|ids|[]int64|是|点的菜编号数组|
+request
+```json
+{
+  "ids":[1,2,3,4]
+}
+```
+
+response
+```json
+{
+  "code": 0,
+  "msg": "ok",
+  "obj": 123456
+}
+
+```
+
+
+### 6、/mealuser/orderlist  外卖取餐列表接口
+|参数|类型|是否必填|说明|
+|-|-|-|-|
+|ids|[]int64|是|点的菜编号数组|
+request
+```json
+{
+  "statusType":0,//0提交1已取
+}
+```
+
+response
+```json
+{
+  "code": 0,
+  "msg": "ok",
+  "obj": {
+    "rows": [],
+    "total": 0
+  }
+}
+
 ```

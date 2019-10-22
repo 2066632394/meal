@@ -6,6 +6,7 @@ import (
 	"meal/enums"
 	"meal/models"
 	"meal/utils"
+	"github.com/astaxie/beego/logs"
 )
 
 type HomeController struct {
@@ -15,7 +16,36 @@ type HomeController struct {
 func (c *HomeController) Index() {
 	//判断是否登录
 	c.checkLogin()
+
+	m := make(map[string]interface{},0)
+	//获取次日用餐人数
+	m["tomorrow_order_num"] = 0
+	m["user_num"] = 0
+	m["today_out_num"] = 0
+	tomorrow := utils.GetNow()+86400
+	calc,err := models.MealUserCalcOne(tomorrow)
+	if err != nil {
+		logs.Info("get tomorrow calc order err",err.Error())
+	}
+	if calc!= nil && calc.MealNums != 0 {
+		m["tomorrow_order_num"] = calc.MealNums
+	}
+	//获取当日外卖单数
+	var order models.MealUserOrderQueryParam
+	order.MealDate = utils.GetNow()
+	_,count := models.MealUserOrderPageList(&order)
+	m["today_out_num"] = count
+	//获取总用户数
+	var user models.MealUserQueryParam
+	user.Limit = 1
+	last,_ := models.MealUserPageList(&user)
+	if len(last) > 1 {
+		m["user_num"] = last[0].Id
+	}
+	logs.Info("calc",m)
+	c.Data["json"] = m
 	c.setTpl()
+
 }
 func (c *HomeController) Page404() {
 	c.setTpl()
