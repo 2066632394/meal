@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-10-22 13:22:15
+Date: 2019-10-22 13:59:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -181,13 +181,12 @@ CREATE TABLE `rms_meal` (
   `meal_name` varchar(64) NOT NULL,
   `meal_img` varchar(128) DEFAULT NULL,
   `meal_desc` text,
-  `meal_type` tinyint(4) DEFAULT '0' COMMENT '菜的类别',
   `price` varchar(20) DEFAULT NULL,
   `score` int(5) DEFAULT NULL,
   `score_list` varchar(512) DEFAULT NULL,
   `seq` tinyint(4) DEFAULT NULL,
   `time` int(11) DEFAULT '0',
-  `mea_type_id` bigint(20) NOT NULL,
+  `meal_type_id` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `score` (`score`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
@@ -195,12 +194,12 @@ CREATE TABLE `rms_meal` (
 -- ----------------------------
 -- Records of rms_meal
 -- ----------------------------
-INSERT INTO `rms_meal` VALUES ('4', '红烧肉', '/static/upload/201249aid28sb25dsbiizs.jpg', '', '0', null, '0', '', '111', '1571450873', '0');
-INSERT INTO `rms_meal` VALUES ('5', '花菜', '/static/upload/微信图片_20190112122216.jpg', '', '0', null, '0', '', '12', '1571535437', '0');
-INSERT INTO `rms_meal` VALUES ('6', '包心菜', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '123', '1571535456', '0');
-INSERT INTO `rms_meal` VALUES ('7', '馒头', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '12', '1571577734', '0');
-INSERT INTO `rms_meal` VALUES ('8', '包子', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '123', '1571577742', '0');
-INSERT INTO `rms_meal` VALUES ('9', '牛堡', '/static/upload/201249aid28sb25dsbiizs.jpg', '', '0', null, '0', '', '10', '1571578174', '0');
+INSERT INTO `rms_meal` VALUES ('4', '红烧肉', '/static/upload/201249aid28sb25dsbiizs.jpg', '', null, '0', '', '111', '1571450873', '1');
+INSERT INTO `rms_meal` VALUES ('5', '花菜', '/static/upload/微信图片_20190112122216.jpg', '', null, '0', '', '12', '1571535437', '1');
+INSERT INTO `rms_meal` VALUES ('6', '包心菜', '/static/upload/201509031357525d68e.jpg', '', null, '0', '', '123', '1571535456', '1');
+INSERT INTO `rms_meal` VALUES ('7', '馒头', '/static/upload/201509031357525d68e.jpg', '', null, '0', '', '12', '1571577734', '1');
+INSERT INTO `rms_meal` VALUES ('8', '包子', '/static/upload/201509031357525d68e.jpg', '', null, '0', '', '123', '1571577742', '1');
+INSERT INTO `rms_meal` VALUES ('9', '牛堡', '/static/upload/201249aid28sb25dsbiizs.jpg', '', null, '0', '', '10', '1571578174', '1');
 
 -- ----------------------------
 -- Table structure for rms_meal_type
@@ -217,7 +216,7 @@ CREATE TABLE `rms_meal_type` (
 -- Records of rms_meal_type
 -- ----------------------------
 INSERT INTO `rms_meal_type` VALUES ('1', '测试', '1571721401');
-INSERT INTO `rms_meal_type` VALUES ('2', '蔬菜', '1571721407');
+INSERT INTO `rms_meal_type` VALUES ('2', '蔬菜1', '1571723169');
 
 -- ----------------------------
 -- Table structure for rms_resource
