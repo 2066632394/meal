@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-10-21 23:26:43
+Date: 2019-10-22 13:22:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS `rms_advise`;
 CREATE TABLE `rms_advise` (
   `id` int(11) NOT NULL,
   `advise` varchar(1024) DEFAULT NULL,
+  `tag_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -29,6 +30,21 @@ CREATE TABLE `rms_advise` (
 
 -- ----------------------------
 -- Records of rms_advise
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for rms_advise_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `rms_advise_tag`;
+CREATE TABLE `rms_advise_tag` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag_name` varchar(64) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of rms_advise_tag
 -- ----------------------------
 
 -- ----------------------------
@@ -133,9 +149,10 @@ INSERT INTO `rms_course` VALUES ('35', '2020考研政治精讲15', '2020考研',
 DROP TABLE IF EXISTS `rms_day_meal`;
 CREATE TABLE `rms_day_meal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` tinyint(3) DEFAULT '0' COMMENT '0 早饭 1 中饭 2 晚饭 3 其他',
+  `type` tinyint(3) DEFAULT '0' COMMENT '0 早饭 1 中饭 2 晚饭 3 外卖',
   `meal_id` int(11) NOT NULL COMMENT '菜单id',
   `meal_date` int(11) DEFAULT NULL COMMENT '日期 tian ',
+  `out_nums` int(11) DEFAULT '0' COMMENT '销量',
   `seq` tinyint(3) DEFAULT NULL,
   `time` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -145,15 +162,15 @@ CREATE TABLE `rms_day_meal` (
 -- ----------------------------
 -- Records of rms_day_meal
 -- ----------------------------
-INSERT INTO `rms_day_meal` VALUES ('1', '0', '6', '1569888000', '0', '1571563473');
-INSERT INTO `rms_day_meal` VALUES ('2', '0', '5', '1569888000', '0', '1571563473');
-INSERT INTO `rms_day_meal` VALUES ('3', '0', '6', '1570060800', '0', '1571563588');
-INSERT INTO `rms_day_meal` VALUES ('4', '0', '5', '1570060800', '0', '1571563588');
-INSERT INTO `rms_day_meal` VALUES ('5', '0', '6', '1569974400', '0', '1571563645');
-INSERT INTO `rms_day_meal` VALUES ('6', '0', '5', '1569974400', '0', '1571563645');
-INSERT INTO `rms_day_meal` VALUES ('7', '0', '8', '1571616000', '0', '1571577786');
-INSERT INTO `rms_day_meal` VALUES ('8', '1', '9', '1571616000', '0', '1571578270');
-INSERT INTO `rms_day_meal` VALUES ('9', '2', '8', '1571500800', '0', '1571578685');
+INSERT INTO `rms_day_meal` VALUES ('1', '0', '6', '1569888000', '0', '0', '1571563473');
+INSERT INTO `rms_day_meal` VALUES ('2', '0', '5', '1569888000', '0', '0', '1571563473');
+INSERT INTO `rms_day_meal` VALUES ('3', '0', '6', '1570060800', '0', '0', '1571563588');
+INSERT INTO `rms_day_meal` VALUES ('4', '0', '5', '1570060800', '0', '0', '1571563588');
+INSERT INTO `rms_day_meal` VALUES ('5', '0', '6', '1569974400', '0', '0', '1571563645');
+INSERT INTO `rms_day_meal` VALUES ('6', '0', '5', '1569974400', '0', '0', '1571563645');
+INSERT INTO `rms_day_meal` VALUES ('7', '0', '8', '1571616000', '0', '0', '1571577786');
+INSERT INTO `rms_day_meal` VALUES ('8', '1', '9', '1571616000', '0', '0', '1571578270');
+INSERT INTO `rms_day_meal` VALUES ('9', '2', '8', '1571500800', '0', '0', '1571578685');
 
 -- ----------------------------
 -- Table structure for rms_meal
@@ -170,6 +187,7 @@ CREATE TABLE `rms_meal` (
   `score_list` varchar(512) DEFAULT NULL,
   `seq` tinyint(4) DEFAULT NULL,
   `time` int(11) DEFAULT '0',
+  `mea_type_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `score` (`score`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
@@ -177,27 +195,29 @@ CREATE TABLE `rms_meal` (
 -- ----------------------------
 -- Records of rms_meal
 -- ----------------------------
-INSERT INTO `rms_meal` VALUES ('4', '红烧肉', '/static/upload/201249aid28sb25dsbiizs.jpg', '', '0', null, '0', '', '111', '1571450873');
-INSERT INTO `rms_meal` VALUES ('5', '花菜', '/static/upload/微信图片_20190112122216.jpg', '', '0', null, '0', '', '12', '1571535437');
-INSERT INTO `rms_meal` VALUES ('6', '包心菜', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '123', '1571535456');
-INSERT INTO `rms_meal` VALUES ('7', '馒头', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '12', '1571577734');
-INSERT INTO `rms_meal` VALUES ('8', '包子', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '123', '1571577742');
-INSERT INTO `rms_meal` VALUES ('9', '牛堡', '/static/upload/201249aid28sb25dsbiizs.jpg', '', '0', null, '0', '', '10', '1571578174');
+INSERT INTO `rms_meal` VALUES ('4', '红烧肉', '/static/upload/201249aid28sb25dsbiizs.jpg', '', '0', null, '0', '', '111', '1571450873', '0');
+INSERT INTO `rms_meal` VALUES ('5', '花菜', '/static/upload/微信图片_20190112122216.jpg', '', '0', null, '0', '', '12', '1571535437', '0');
+INSERT INTO `rms_meal` VALUES ('6', '包心菜', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '123', '1571535456', '0');
+INSERT INTO `rms_meal` VALUES ('7', '馒头', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '12', '1571577734', '0');
+INSERT INTO `rms_meal` VALUES ('8', '包子', '/static/upload/201509031357525d68e.jpg', '', '0', null, '0', '', '123', '1571577742', '0');
+INSERT INTO `rms_meal` VALUES ('9', '牛堡', '/static/upload/201249aid28sb25dsbiizs.jpg', '', '0', null, '0', '', '10', '1571578174', '0');
 
 -- ----------------------------
 -- Table structure for rms_meal_type
 -- ----------------------------
 DROP TABLE IF EXISTS `rms_meal_type`;
 CREATE TABLE `rms_meal_type` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of rms_meal_type
 -- ----------------------------
+INSERT INTO `rms_meal_type` VALUES ('1', '测试', '1571721401');
+INSERT INTO `rms_meal_type` VALUES ('2', '蔬菜', '1571721407');
 
 -- ----------------------------
 -- Table structure for rms_resource
@@ -212,7 +232,7 @@ CREATE TABLE `rms_resource` (
   `icon` varchar(32) NOT NULL DEFAULT '',
   `url_for` varchar(256) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of rms_resource
@@ -237,6 +257,7 @@ INSERT INTO `rms_resource` VALUES ('38', '1', '菜谱管理', '21', '100', 'fa f
 INSERT INTO `rms_resource` VALUES ('39', '2', '删除', '38', '100', '', 'MealController.Delete,:id,1');
 INSERT INTO `rms_resource` VALUES ('40', '1', '添加菜谱', '38', '100', '', 'MealController.Index');
 INSERT INTO `rms_resource` VALUES ('41', '1', '每日菜单', '38', '100', '', 'DailyMealController.Index');
+INSERT INTO `rms_resource` VALUES ('42', '1', '菜单分类', '38', '100', '', 'MealTypeController.Index');
 
 -- ----------------------------
 -- Table structure for rms_role
@@ -284,7 +305,7 @@ CREATE TABLE `rms_role_resource_rel` (
   `resource_id` int(11) NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=552 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=573 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of rms_role_resource_rel
@@ -293,26 +314,27 @@ INSERT INTO `rms_role_resource_rel` VALUES ('448', '24', '8', '2017-12-19 06:40:
 INSERT INTO `rms_role_resource_rel` VALUES ('449', '24', '14', '2017-12-19 06:40:16');
 INSERT INTO `rms_role_resource_rel` VALUES ('450', '24', '23', '2017-12-19 06:40:16');
 INSERT INTO `rms_role_resource_rel` VALUES ('451', '25', '21', '2019-05-11 13:57:37');
-INSERT INTO `rms_role_resource_rel` VALUES ('532', '22', '35', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('533', '22', '21', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('534', '22', '38', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('535', '22', '39', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('536', '22', '40', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('537', '22', '41', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('538', '22', '8', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('539', '22', '14', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('540', '22', '23', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('541', '22', '7', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('542', '22', '9', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('543', '22', '25', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('544', '22', '27', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('545', '22', '12', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('546', '22', '30', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('547', '22', '31', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('548', '22', '32', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('549', '22', '13', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('550', '22', '26', '2019-10-19 06:04:05');
-INSERT INTO `rms_role_resource_rel` VALUES ('551', '22', '29', '2019-10-19 06:04:05');
+INSERT INTO `rms_role_resource_rel` VALUES ('552', '22', '35', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('553', '22', '21', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('554', '22', '38', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('555', '22', '39', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('556', '22', '40', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('557', '22', '41', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('558', '22', '42', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('559', '22', '8', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('560', '22', '14', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('561', '22', '23', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('562', '22', '7', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('563', '22', '9', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('564', '22', '25', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('565', '22', '27', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('566', '22', '12', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('567', '22', '30', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('568', '22', '31', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('569', '22', '32', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('570', '22', '13', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('571', '22', '26', '2019-10-22 01:11:12');
+INSERT INTO `rms_role_resource_rel` VALUES ('572', '22', '29', '2019-10-22 01:11:12');
 
 -- ----------------------------
 -- Table structure for rms_user
@@ -344,10 +366,9 @@ CREATE TABLE `rms_user_calc_history` (
   `user_id` int(11) DEFAULT NULL,
   `meal_date` int(11) DEFAULT NULL,
   `time` int(11) DEFAULT NULL,
-  `meal_nums` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`,`meal_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='次日就餐历史';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='次日就餐历史';
 
 -- ----------------------------
 -- Records of rms_user_calc_history
@@ -377,16 +398,17 @@ CREATE TABLE `rms_user_meal_advise` (
 -- ----------------------------
 DROP TABLE IF EXISTS `rms_user_meal_calc`;
 CREATE TABLE `rms_user_meal_calc` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `meal_date` bigint(11) DEFAULT '0',
+  `meal_date` bigint(11) NOT NULL DEFAULT '0',
   `meal_nums` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`meal_date`),
   KEY `meal_date` (`meal_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='次日用餐统计';
 
 -- ----------------------------
 -- Records of rms_user_meal_calc
 -- ----------------------------
+INSERT INTO `rms_user_meal_calc` VALUES ('1571587200', '4');
+INSERT INTO `rms_user_meal_calc` VALUES ('1571673600', '2');
 
 -- ----------------------------
 -- Table structure for rms_user_order
