@@ -21,7 +21,7 @@ type Meal struct {
 	MealName      string `orm:"size(32)"`
 	MealImg string
 	MealDesc  string
-	MeaType   *MealType `orm:"rel(one)"`
+	MealTypeId   *MealType `orm:"rel(one)"`
 	Score     int32
 	ScoreList string
 	Seq  int32

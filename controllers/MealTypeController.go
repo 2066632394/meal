@@ -54,6 +54,7 @@ func (c *MealTypeController) DataGrid() {
 	//获取数据列表和总数
 	logs.Info("params",params)
 	data, total := models.MealTypePageList(&params)
+
 	//定义返回的数据结构
 	result := make(map[string]interface{})
 	result["total"] = total

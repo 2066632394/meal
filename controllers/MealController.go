@@ -52,13 +52,11 @@ func (c *MealController) DataGrid() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	//获取数据列表和总数
 	data, total := models.MealPageList(&params)
-	var req models.MealTypeQueryParam
-	list,_ := models.MealTypePageList(&req)
 	//定义返回的数据结构
 	result := make(map[string]interface{})
 	result["total"] = total
 	result["rows"] = data
-	result["typelist"] = list
+
 	c.Data["json"] = result
 	c.ServeJSON()
 }

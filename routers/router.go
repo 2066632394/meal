@@ -58,6 +58,7 @@ func init() {
 	beego.Router("/mealtype/index", &controllers.MealTypeController{}, "*:Index")
 	beego.Router("/mealtype/edit/?:id", &controllers.MealTypeController{}, "Get,Post:Edit")
 	beego.Router("/mealtype/delete", &controllers.MealTypeController{}, "Post:Delete")
+	beego.Router("/mealtype/datagrid", &controllers.MealTypeController{}, "Get,Post:DataGrid")
 
 	//用户
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")

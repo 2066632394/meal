@@ -25,7 +25,7 @@ func (a *MealType) TableName() string {
 
 // CoursePageList 获取分页数据
 func MealTypePageList(params *MealTypeQueryParam) ([]*MealType, int64) {
-	query := orm.NewOrm().QueryTable(CourseTBName())
+	query := orm.NewOrm().QueryTable(MealTypeTBName())
 	data := make([]*MealType, 0)
 	//默认排序
 	sortorder := "Id"

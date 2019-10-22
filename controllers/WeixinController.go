@@ -17,7 +17,7 @@ type WeixinController struct {
 }
 
 func (c *WeixinController) Prepare() {
-	c.checkWeixinLogin()
+	//c.checkWeixinLogin()
 }
 
 func (c *WeixinController) Get() {
