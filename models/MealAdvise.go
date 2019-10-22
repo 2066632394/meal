@@ -14,6 +14,8 @@ type MealAdviseQueryParam struct {
 	NameLike string
 	UserId int64
 	Advise string
+	OpenId string
+	Score int32
 }
 
 type MealAdvise struct {
@@ -48,15 +50,22 @@ func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdviseTag, int64) 
 }
 
 // MealUserOne
-func MealAdviseOne(advise *MealAdvise) (*MealAdvise, error) {
+func MealAdviseOne(id int64) (*MealAdvise, error) {
 	o := orm.NewOrm()
-	err := o.Read(advise)
+	advise := MealAdvise{Id:id}
+	err := o.Read(&advise)
 	if err != nil {
 		return nil, err
 	}
-	return advise, nil
+	return &advise, nil
 }
 
 func MealAdviseAddOne(advise *MealAdvise) (bool,int64,error) {
-	return false, 0, nil
+	o := orm.NewOrm()
+	if id,err := o.Insert(advise);err != nil {
+		return false,id,err
+	} else {
+		return true, id, nil
+	}
+
 }

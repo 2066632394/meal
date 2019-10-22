@@ -107,25 +107,11 @@
                 align: 'center',
                 sortable: true,
             }, {
-                field: 'Advise',
-                title: '意见',
-                formatter: function(value,row,index){
-                  return sdtheme.showlongstr(value)
-                },
-                cellStyle: function (value, row, index, field) {
-                    return { classes: 'ellipsis' };
-                }
-            },  {
-                field: 'Score',
-                title: '星级',
-                width: '90px',
-                align: 'center',
-            },{
                 field: 'UserId',
                 title: '用户编号',
                 width: '90px',
             }, {
-                field: 'Time',
+                field: 'MealDate',
                 title: '添加时间',
                 width: '160px',         
                 formatter: function(value, row, index, field){

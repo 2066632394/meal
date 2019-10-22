@@ -20,15 +20,16 @@ type MealUserCalc struct {
 	MealNums int32
 }
 
+
 // MealUserOne 根据id获取单条
 func MealUserCalcOne(id int64) (*MealUserCalc, error) {
-	o := orm.NewOrm()
-	m := MealUserCalc{MealDate: id}
-	err := o.Read(&m)
-	if err != nil {
-		return nil, err
+	query := orm.NewOrm().QueryTable(MealUserCalcOrderTBName())
+	data := make([]*MealUserCalc, 0)
+	query.Filter("meal_date", id).Limit(1).All(&data)
+	if len(data) == 0 {
+		return nil, orm.ErrNoRows
 	}
-	return &m, nil
+	return data[0], nil
 }
 
 func UpdateUserCalc(params *MealUserCalcQueryParam) error {

@@ -41,8 +41,8 @@ func (c *WeixinController) WeixinLogin() {
 	if req.Code == "" {
 		c.jsonResult(enums.JRCodeFailed,"code 为空",nil)
 	} else {
-		appid := beego.AppConfig.String("appid")
-		appsecret := beego.AppConfig.String("appsecret")
+		appid := beego.AppConfig.String("weixin::appid")
+		appsecret := beego.AppConfig.String("weixin::appsecret")
 		if appid == "" || appsecret == "" {
 			c.jsonResult(enums.JRCodeFailed,"appid 或者appsecret 为空",nil)
 		}
@@ -74,7 +74,7 @@ func (c *WeixinController) WeixinLogin() {
 				user.Id = id
 				user.AccessToken = token
 				c.SetSession(user.OpenId,user)
-			} else if id == 0 && !isadd {
+			} else if id > 0 && !isadd {
 				a := c.GetSession(res.OpenID)
 				aa := a.(models.MealUser)
 				aa.AccessToken = token
@@ -236,4 +236,22 @@ func (c *WeixinController) OrderList() {
 	result["total"] = total
 	result["rows"] = data
 	c.jsonResult(enums.JRCodeSucc,"ok",result)
+}
+
+func (c *WeixinController) Advise() {
+	var params models.MealAdviseQueryParam
+	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+	beego.Info("params",params)
+	var advise models.MealAdvise
+	advise.Time = time.Now().Unix()
+	advise.Score = params.Score
+	advise.Advise = params.Advise
+	advise.User.Id = params.UserId
+	isadd,id,err := models.MealAdviseAddOne(&advise)
+	if err == nil && id >0 && isadd {
+		c.jsonResult(enums.JRCodeSucc,"ok",nil)
+	}else {
+		c.jsonResult(enums.JRCodeSucc,"添加失败："+err.Error(),nil)
+	}
+
 }

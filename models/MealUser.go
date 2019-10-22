@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"time"
 )
 
 // TableName 设置MealUser表名
@@ -65,19 +66,21 @@ func MealUserOne(id int64) (*MealUser, error) {
 func WeixinUserCheck(id string) (bool,int64,error) {
 	o := orm.NewOrm()
 	err := o.Begin()
-	u := MealUser{OpenId:id}
-	err = o.Read(&u)
-	if err == orm.ErrNoRows {
-		nid ,err := o.Insert(&u)
+	query := o.QueryTable(MealUserTBName())
+	data := make([]*MealUser, 0)
+	query.Filter("open_id",id).Limit(1).All(&data)
+	if len(data) == 0 {
+		nid ,err := o.Insert(&MealUser{OpenId:id,Time:time.Now().Unix()})
 		if err != nil {
 			o.Rollback()
-			return true,0,err
+			return false,0,err
 		} else {
 			o.Commit()
 			return true,nid,nil
 		}
 	} else {
+
 		o.Rollback()
-		return false,0,err
+		return false,data[0].Id,err
 	}
 }

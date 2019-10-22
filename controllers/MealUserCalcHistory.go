@@ -13,12 +13,12 @@ import (
 	"meal/enums"
 )
 
-type MealAdviseController struct {
+type MealUserCalcHistoryController struct {
 	BaseController
 }
 
 //Prepare 参考beego官方文档说明
-func (c *MealAdviseController) Prepare() {
+func (c *MealUserCalcHistoryController) Prepare() {
 	//先执行
 	c.BaseController.Prepare()
 	//如果一个Controller的多数Action都需要权限控制，则将验证放到Prepare
@@ -29,21 +29,21 @@ func (c *MealAdviseController) Prepare() {
 }
 
 //Index 角色管理首页
-func (c *MealAdviseController) Index() {
+func (c *MealUserCalcHistoryController) Index() {
 	//将页面左边菜单的某项激活
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "mealadvise/index_headcssjs.html"
-	c.LayoutSections["footerjs"] = "mealadvise/index_footerjs.html"
+	c.LayoutSections["headcssjs"] = "mealusercalchistory/index_headcssjs.html"
+	c.LayoutSections["footerjs"] = "mealusercalchistory/index_footerjs.html"
 	//页面里按钮权限控制
-	c.Data["canEdit"] = c.checkActionAuthor("MealAdviseController", "Edit")
+	c.Data["canEdit"] = c.checkActionAuthor("MealUserCalcHistoryController", "Edit")
 	c.Data["canDelete"] = c.checkActionAuthor("MealOrderController", "Delete")
-	logs.Info("MealAdviseController,",c.Data["canDelete"])
+	logs.Info("MealUserCalcHistoryController,",c.Data["canDelete"])
 }
 
 // 获取所有菜谱
-func (c *MealAdviseController) DataGrid() {
+func (c *MealUserCalcHistoryController) DataGrid() {
 	//直接反序化获取json格式的requestbody里的值
 	var params models.MealAdviseQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
@@ -59,7 +59,7 @@ func (c *MealAdviseController) DataGrid() {
 }
 
 //Edit 添加、编辑菜谱界面
-func (c *MealAdviseController) Edit() {
+func (c *MealUserCalcHistoryController) Edit() {
 	if c.Ctx.Request.Method == "POST" {
 		c.Save()
 	}
@@ -73,17 +73,17 @@ func (c *MealAdviseController) Edit() {
 		}
 	}
 	c.Data["m"] = m
-	c.setTpl("mealadvise/edit.html", "shared/layout_page.html")
+	c.setTpl("mealusercalchistory/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "mealadvise/edit_headcssjs.html"
-	c.LayoutSections["footerjs"] = "mealadvise/edit_footerjs.html"
+	c.LayoutSections["headcssjs"] = "mealusercalchistory/edit_headcssjs.html"
+	c.LayoutSections["footerjs"] = "mealusercalchistory/edit_footerjs.html"
 
 	//将页面左边菜单的某项激活
-	c.Data["activeSidebarUrl"] = c.URLFor("MealAdviseController.Index")
+	c.Data["activeSidebarUrl"] = c.URLFor("MealUserCalcHistoryController.Index")
 }
 
 //Save 添加、编辑页面 保存
-func (c *MealAdviseController) Save() {
+func (c *MealUserCalcHistoryController) Save() {
 	var err error
 	m := models.MealAdvise{}
 	//获取form里的值
@@ -109,7 +109,7 @@ func (c *MealAdviseController) Save() {
 }
 
 //Delete 批量删除
-func (c *MealAdviseController) Delete() {
+func (c *MealUserCalcHistoryController) Delete() {
 	strs := c.GetString("ids")
 	ids := make([]int, 0, len(strs))
 	for _, str := range strings.Split(strs, ",") {
