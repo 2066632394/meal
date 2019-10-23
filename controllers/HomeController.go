@@ -16,7 +16,6 @@ type HomeController struct {
 func (c *HomeController) Index() {
 	//判断是否登录
 	c.checkLogin()
-
 	m := make(map[string]interface{},0)
 	//获取次日用餐人数
 	m["tomorrow_order_num"] = 0

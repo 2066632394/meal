@@ -5,6 +5,7 @@ import (
 	"meal/models"
 	"encoding/json"
 	"meal/enums"
+	"github.com/astaxie/beego/logs"
 )
 
 type MealUserController struct {
@@ -42,6 +43,7 @@ func (c *MealUserController) DataGrid() {
 	//直接反序化获取json格式的requestbody里的值
 	var params models.MealUserQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+	logs.Info("MealUserController DataGrid",params)
 	//获取数据列表和总数
 	data, total := models.MealUserPageList(&params)
 	//定义返回的数据结构
