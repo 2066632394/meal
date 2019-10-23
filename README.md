@@ -25,10 +25,12 @@ response
 |参数|类型|是否必填|说明|
 |-|-|-|-|
 |dateType|int|是|0是当天菜单 2是当周菜单|
+|dtype|int|否|-1传全部 0，早饭 1 中饭 2，晚饭|
 request
 ```json
 {
 	"dateType":3 ,//0 ,1,2
+	"dtype":-1
 }
 ```
 response

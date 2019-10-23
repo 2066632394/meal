@@ -81,7 +81,7 @@ func (c *WxapiController) MealList() {
 	logs.Info("datetype",req.DateType)
 	m := make([]returndata,0)
 	//当天
-
+	url := "http://"+beego.AppConfig.String("httpaddr")
 	if req.DateType == enums.MealToday {
 		//获取当前日期时间戳
 		date := utils.GetNow()
@@ -93,25 +93,25 @@ func (c *WxapiController) MealList() {
 			if v.Type == enums.Breakfast {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.Url = v.Meal.MealImg
+				un.Url = url + v.Meal.MealImg
 				rows.Breakfast = append(rows.Breakfast,un)
 			}
 			if v.Type == enums.Lunch {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.Url = v.Meal.MealImg
+				un.Url = url + v.Meal.MealImg
 				rows.Luanch = append(rows.Luanch,un)
 			}
 			if v.Type == enums.Dinner {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.Url = v.Meal.MealImg
+				un.Url = url + v.Meal.MealImg
 				rows.Dinner = append(rows.Dinner,un)
 			}
 			if v.Type == enums.TakeOut {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.Url = v.Meal.MealImg
+				un.Url = url + v.Meal.MealImg
 				rows.Takeout = append(rows.Takeout,un)
 			}
 		}
@@ -132,25 +132,25 @@ func (c *WxapiController) MealList() {
 				if v.Type == enums.Breakfast {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.Url = v.Meal.MealImg
+					un.Url = url + v.Meal.MealImg
 					rows.Breakfast = append(rows.Breakfast,un)
 				}
 				if v.Type == enums.Lunch {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.Url = v.Meal.MealImg
+					un.Url = url + v.Meal.MealImg
 					rows.Luanch = append(rows.Luanch,un)
 				}
 				if v.Type == enums.Dinner {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.Url = v.Meal.MealImg
+					un.Url = url + v.Meal.MealImg
 					rows.Dinner = append(rows.Dinner,un)
 				}
 				if v.Type == enums.TakeOut {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.Url = v.Meal.MealImg
+					un.Url = url + v.Meal.MealImg
 					rows.Takeout = append(rows.Takeout,un)
 				}
 			}

@@ -34,16 +34,16 @@ func (c *MealUserController) Index() {
 	//页面里按钮权限控制
 	//c.Data["canEdit"] = c.checkActionAuthor("MealUserController", "Edit")
 	//c.Data["canDelete"] = c.checkActionAuthor("MealUserController", "Delete")
-	beego.Info("MealUserController,",c.Data["canEdit"],c.Data["canEdit"])
+	//beego.Info("MealUserController,",c.Data["canEdit"],c.Data["canEdit"])
 }
 
 // 获取所有菜谱
 func (c *MealUserController) DataGrid() {
 	//直接反序化获取json格式的requestbody里的值
-	var params models.MealQueryParam
+	var params models.MealUserQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	//获取数据列表和总数
-	data, total := models.MealPageList(&params)
+	data, total := models.MealUserPageList(&params)
 	//定义返回的数据结构
 	result := make(map[string]interface{})
 	result["total"] = total
