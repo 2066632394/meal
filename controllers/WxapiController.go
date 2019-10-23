@@ -81,7 +81,7 @@ func (c *WxapiController) MealList() {
 	logs.Info("datetype",req.DateType)
 	m := make([]returndata,0)
 	//当天
-	url := "http://"+beego.AppConfig.String("httpaddr")
+	url := "http://"+beego.AppConfig.String("httpaddr")+":"+beego.AppConfig.String("httpport")
 	if req.DateType == enums.MealToday {
 		//获取当前日期时间戳
 		date := utils.GetNow()
