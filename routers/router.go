@@ -80,7 +80,7 @@ func init() {
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")
 	beego.Router("/mealuser/index", &controllers.MealUserController{}, "*:Index")
 	//次日用餐统计
-	beego.Router("/mealuser/secday", &controllers.MealUserCalcController{}, "Post:Secday")
+	beego.Router("/mealusercalc/index", &controllers.MealUserCalcController{}, "*:Index")
 
 	////课程路由
 	//beego.Router("/course/index", &controllers.CourseController{}, "*:Index")

@@ -100,11 +100,13 @@ func (c *WxapiController) Secday() {
 	var params models.MealUserCalcQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	beego.Info("params",params)
-	if params.Tomorrow  {
-		params.MealDate = utils.GetNow()
-		exist := models.CheckIsExists(params.MealDate,params.UserId)
-		if !exist {
-			err := models.UpdateUserCalc(&params)
+
+	params.MealDate = utils.GetNow()
+	exist := models.CheckIsExists(params.MealDate,params.UserId)
+	if !exist {
+		if params.Tomorrow  {
+			//堂食
+			err := models.UpdateUserCalc(&params,false)
 			//定义返回的数据结构
 			if err == nil {
 				c.jsonResult(enums.JRCodeSucc,"ok",nil)
@@ -112,13 +114,18 @@ func (c *WxapiController) Secday() {
 				c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
 			}
 		} else {
-			c.jsonResult(enums.JRCodeFailed,"一天只能点一次：",nil)
+			//不堂食
+			err := models.UpdateUserCalc(&params,true)
+			//定义返回的数据结构
+			if err == nil {
+				c.jsonResult(enums.JRCodeSucc,"ok",nil)
+			} else {
+				c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
+			}
 		}
-
 	} else {
-		c.jsonResult(enums.JRCodeSucc,"谢谢参与",nil)
+		c.jsonResult(enums.JRCodeFailed,"一天只能点一次：",nil)
 	}
-
 }
 
 func (c *WxapiController) OutList() {
