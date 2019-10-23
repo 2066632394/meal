@@ -132,3 +132,25 @@ response
 }
 
 ```
+
+### 7、/weixin/advise  意见提交
+|参数|类型|是否必填|说明|
+|-|-|-|-|
+|ids|[]int64|是|点的菜编号数组|
+request
+```json
+{
+  "advise":"",
+  "score":""
+}
+```
+
+response
+```json
+{
+  "code": 0,
+  "msg": "ok",
+  "obj": nil
+}
+
+```

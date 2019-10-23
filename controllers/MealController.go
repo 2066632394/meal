@@ -13,6 +13,7 @@ import (
 	"strings"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/astaxie/beego/logs"
 )
 
 //MealController 菜单管理
@@ -35,6 +36,7 @@ func (c *MealController) Prepare() {
 func (c *MealController) Index() {
 	//将页面左边菜单的某项激活
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
+
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "meal/index_headcssjs.html"
@@ -77,6 +79,12 @@ func (c *MealController) Edit() {
 	}
 	c.Data["hasImg"] = len(m.MealImg) > 0
 	c.Data["m"] = m
+	var req models.MealTypeQueryParam
+	list,count := models.MealTypePageList(&req)
+	if count >0 {
+		c.Data["typelist"] = list
+	}
+	logs.Info("typelist",list)
 	c.setTpl("meal/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "meal/edit_headcssjs.html"
