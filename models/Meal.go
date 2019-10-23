@@ -22,6 +22,9 @@ type Meal struct {
 	MealImg string
 	MealDesc  string
 	MealType   *MealType `orm:"rel(fk)"`
+	Sold    int64
+	Price   string
+	RealPrice string
 	Score     int32
 	ScoreList string
 	Seq  int32
