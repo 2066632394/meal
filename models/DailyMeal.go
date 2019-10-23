@@ -55,7 +55,10 @@ func DailyMealPageList(params *DailyMealQueryParam) ([]*DailyMeal, int64) {
 	if params.Limit == 0 {
 		params.Limit = 1000
 	}
-	query = query.Filter("Type",params.Dtype)
+	if params.Dtype != -1 {
+		query = query.Filter("Type",params.Dtype)
+	}
+
 	total, _ := query.Count()
 	query.RelatedSel().OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total

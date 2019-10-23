@@ -37,7 +37,7 @@ type returndata struct {
 type unit struct {
 	Id int64
 	Name string
-	url  string
+	Url  string
 }
 
 func (c *WxapiController) jsonResult(code enums.JsonResultCode, msg string, obj interface{}) {
@@ -93,25 +93,25 @@ func (c *WxapiController) MealList() {
 			if v.Type == enums.Breakfast {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.url = v.Meal.MealImg
+				un.Url = v.Meal.MealImg
 				rows.Breakfast = append(rows.Breakfast,un)
 			}
 			if v.Type == enums.Lunch {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.url = v.Meal.MealImg
+				un.Url = v.Meal.MealImg
 				rows.Luanch = append(rows.Luanch,un)
 			}
 			if v.Type == enums.Dinner {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.url = v.Meal.MealImg
+				un.Url = v.Meal.MealImg
 				rows.Dinner = append(rows.Dinner,un)
 			}
 			if v.Type == enums.TakeOut {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
-				un.url = v.Meal.MealImg
+				un.Url = v.Meal.MealImg
 				rows.Takeout = append(rows.Takeout,un)
 			}
 		}
@@ -132,25 +132,25 @@ func (c *WxapiController) MealList() {
 				if v.Type == enums.Breakfast {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.url = v.Meal.MealImg
+					un.Url = v.Meal.MealImg
 					rows.Breakfast = append(rows.Breakfast,un)
 				}
 				if v.Type == enums.Lunch {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.url = v.Meal.MealImg
+					un.Url = v.Meal.MealImg
 					rows.Luanch = append(rows.Luanch,un)
 				}
 				if v.Type == enums.Dinner {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.url = v.Meal.MealImg
+					un.Url = v.Meal.MealImg
 					rows.Dinner = append(rows.Dinner,un)
 				}
 				if v.Type == enums.TakeOut {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
-					un.url = v.Meal.MealImg
+					un.Url = v.Meal.MealImg
 					rows.Takeout = append(rows.Takeout,un)
 				}
 			}
