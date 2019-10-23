@@ -6,7 +6,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/context"
-	"strings"
 )
 
 func init() {
@@ -21,7 +20,6 @@ func init() {
 		}
 		if ctx.Request.RequestURI != "/weixin/wxlogin" && ctx.Input.Header("Authorization") != "" {
 			token := ctx.Input.Header("Authorization")
-			token = strings.Split(token, " ")[1]
 			logs.Info("curernttoken: ", token)
 			openid := ctx.Input.Header("openid")
 			logs.Info("openid",openid)

@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"meal/utils"
 	"github.com/astaxie/beego/logs"
-	"strings"
 	"time"
 	"github.com/astaxie/beego/orm"
 )
@@ -58,7 +57,7 @@ func (c *WxapiController) checkWeixinLogin() {
 
 func (c *WxapiController) getAuthToken() (string,string) {
 	tokenstr := c.Ctx.Input.Header("Authorization")
-	return  strings.Split(tokenstr," ")[1],c.Ctx.Input.Header("openid")
+	return  tokenstr,c.Ctx.Input.Header("openid")
 }
 
 func (c *WxapiController) MealList() {
