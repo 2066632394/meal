@@ -144,7 +144,7 @@
             queryParams: function (params) {
                 //params的自带参数类型由queryParamsType决定
                 params.NameLike = $('.searchForm input[name="Name"]').val();
-                params.Ddate = time1Api.getDate();
+                params.DdateStr = time1Api.getDate();
                 params.Dtype = parseInt($("#dtype").val());
                 console.log("params",params.Ddate,params.Dtype,params.NameLike)
                 return params;

@@ -16,6 +16,7 @@ type DailyMealQueryParam struct {
 	NameLike string
 	DateType int32
 	Ddate    int64
+	DdateStr string
 	Dtype    int32
 }
 
