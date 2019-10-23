@@ -34,13 +34,12 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">类别</label>
                     <div class="col-sm-8">
-                        <select name="dtype" id="dtype" class="form-control bs-select">
+                        <select name="MealType" id="MealType" class="form-control bs-select">
                             <option value="0">请选择所属类别</option>
                             {{range .typelist}}
                                 <option value="{{.Id}}">{{.Name}}</option>
                             {{end}}
                         </select>
-                        <input type="text" name="Seq" class="form-control" placeholder="非负整数" value="{{.m.Seq}}" max="999999" maxlength="6" required>
                     </div>
                 </div>
                 <div class="form-group">

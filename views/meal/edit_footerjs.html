@@ -84,6 +84,9 @@
                 },
                 MealImg:{
                     required:true
+                },
+                MealType:{
+                    required:true
                 }
             },
             messages: {
@@ -92,6 +95,9 @@
                 },
                 MealImg:{
                     required:"图片为空"
+                },
+                MealType:{
+                    required:"请选择类别"
                 }
             },
             submitHandler: function (form) {
@@ -99,6 +105,7 @@
               var url ='{{ urlfor "MealController.Edit"}}'
               var data = $thisForm.serialize();				
               $.sdpost(url,data,function(re){
+                  console.log("data",data)
                 if(re.code === 0){
                   layer.msg(re.msg)
                   if(doAfterSubmit === 1){

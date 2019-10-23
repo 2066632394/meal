@@ -18,7 +18,7 @@ type MealUserOrderQueryParam struct {
 	UserId int64
 	MealId int64
 	MealDate int64
-	Ids    []int64
+	Ids    []string
 }
 
 // MealUserOrder 实体类

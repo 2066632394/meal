@@ -103,6 +103,7 @@ func (c *MealController) Save() {
 		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), m.Id)
 	}
 	beego.Info("meal====",m)
+	logs.Info("mealtype",m.MealType)
 	o := orm.NewOrm()
 	if m.Id == 0 {
 		//m.Creator = &c.curUser

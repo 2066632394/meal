@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"time"
 	"github.com/astaxie/beego/orm"
+	"strings"
 )
 
 type WxapiController struct {
@@ -63,7 +64,7 @@ func (c *WxapiController) getAuthToken() (string,string) {
 func (c *WxapiController) MealList() {
 	var req models.DailyMealQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
-	beego.Info("req",req)
+	logs.Info("req",req)
 	logs.Info("datetype",req.DateType)
 	m := make(map[string]interface{})
 	//当天
@@ -98,7 +99,7 @@ func (c *WxapiController) MealList() {
 func (c *WxapiController) Secday() {
 	var params models.MealUserCalcQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
-	beego.Info("params",params)
+	logs.Info("params",params)
 
 	params.MealDate = utils.GetNow()
 	exist := models.CheckIsExists(params.MealDate,params.UserId)
@@ -150,11 +151,15 @@ func (c *WxapiController) AddOrder() {
 	mealIds := ""
 	for k,v := range params.Ids {
 		var dailymeal models.DailyMeal
-		dailymeal.Meal.Id = v
+		vs := strings.Split(v,"-")
+		if len(vs) != 2 {
+			c.jsonResult(enums.JRCodeFailed,"数据格式异常",vs)
+		}
+		dailymeal.Meal.Id = utils.ToInt64(vs[0])
 		dailymeal.MealDate = utils.GetNow()
 
 		if err := o.Read(&dailymeal);err != nil {
-			c.jsonResult(enums.JRCodeFailed,"此菜单不在单日菜谱上",params.MealId)
+			c.jsonResult(enums.JRCodeFailed,"此菜单不在今日菜谱上",params.MealId)
 		}
 		if k == 0 {
 			mealIds = utils.ToString(v) + ","
@@ -170,7 +175,7 @@ Loop:
 	var req models.MealUserOrder
 	req.MealCode = code
 	req.MealDate = utils.GetNow()
-	if err := o.Read(&req); err != nil {
+	if err := o.Read(&req,"MealCode","MealDate"); err != nil {
 		goto Loop
 	}
 	req.Time = time.Now().Unix()
@@ -186,7 +191,7 @@ Loop:
 func (c *WxapiController) OrderList() {
 	var params models.MealUserOrderQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
-	beego.Info("params",params)
+	logs.Info("params",params)
 	data,total := models.MealUserOrderPageList(&params)
 	//定义返回的数据结构
 	result := make(map[string]interface{})
@@ -198,7 +203,7 @@ func (c *WxapiController) OrderList() {
 func (c *WxapiController) Advise() {
 	var params models.MealAdviseQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
-	beego.Info("params",params)
+	logs.Info("params",params)
 	var advise models.MealAdvise
 	advise.Time = time.Now().Unix()
 	advise.Score = params.Score
@@ -210,5 +215,16 @@ func (c *WxapiController) Advise() {
 	}else {
 		c.jsonResult(enums.JRCodeSucc,"添加失败："+err.Error(),nil)
 	}
+}
 
+func (c *WxapiController) AdviseList() {
+	var params models.MealAdviseQueryParam
+	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+	logs.Info("params",params)
+	list,count:= models.MealAdvisePageList(&params)
+	m := make(map[string]interface{})
+	m["list"] = list
+	m["count"] = count
+	c.jsonResult(enums.JRCodeSucc,"ok",nil)
+	
 }
