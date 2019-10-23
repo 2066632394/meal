@@ -100,7 +100,7 @@ func (c *WxapiController) MealList() {
 				un.Id = v.Id
 				un.Name = v.Meal.MealName
 				un.url = v.Meal.MealImg
-				rows.Luanch = append(rows.Dinner,un)
+				rows.Luanch = append(rows.Luanch,un)
 			}
 			if v.Type == enums.Dinner {
 				un.Id = v.Id
@@ -139,7 +139,7 @@ func (c *WxapiController) MealList() {
 					un.Id = v.Id
 					un.Name = v.Meal.MealName
 					un.url = v.Meal.MealImg
-					rows.Luanch = append(rows.Dinner,un)
+					rows.Luanch = append(rows.Luanch,un)
 				}
 				if v.Type == enums.Dinner {
 					un.Id = v.Id
