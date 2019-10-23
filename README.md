@@ -24,11 +24,11 @@ response
 
 |参数|类型|是否必填|说明|
 |-|-|-|-|
-|dateType|int|是|1是当天菜单 3是当周菜单|
+|dateType|int|是|0是当天菜单 2是当周菜单|
 request
 ```json
 {
-	"dateType":3
+	"dateType":3 ,//0 ,1,2
 }
 ```
 response

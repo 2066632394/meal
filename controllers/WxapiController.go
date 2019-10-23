@@ -27,6 +27,19 @@ func (c *WxapiController) Get() {
 	c.TplName = "index.tpl"
 }
 
+type returndata struct {
+	Title string
+	Breakfast []unit
+	Luanch []unit
+	Dinner []unit
+	Takeout []unit
+}
+type unit struct {
+	Id int64
+	Name string
+	url  string
+}
+
 func (c *WxapiController) jsonResult(code enums.JsonResultCode, msg string, obj interface{}) {
 	r := &models.JsonResult{code, msg, obj}
 	c.Data["json"] = r
@@ -66,32 +79,87 @@ func (c *WxapiController) MealList() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
 	logs.Info("req",req)
 	logs.Info("datetype",req.DateType)
-	m := make(map[string]interface{})
+	m := make([]returndata,0)
 	//当天
+
 	if req.DateType == enums.MealToday {
 		//获取当前日期时间戳
 		date := utils.GetNow()
 		req.Ddate = date
-		list,count := models.DailyMealPageList(&req)
-		m["total"] = count
-		m["list"] = list
+		list,_ := models.DailyMealPageList(&req)
+		var rows returndata
+		for _,v:= range list {
+			var un unit
+			if v.Type == enums.Breakfast {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.url = v.Meal.MealImg
+				rows.Breakfast = append(rows.Breakfast,un)
+			}
+			if v.Type == enums.Lunch {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.url = v.Meal.MealImg
+				rows.Luanch = append(rows.Dinner,un)
+			}
+			if v.Type == enums.Dinner {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.url = v.Meal.MealImg
+				rows.Dinner = append(rows.Dinner,un)
+			}
+			if v.Type == enums.TakeOut {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.url = v.Meal.MealImg
+				rows.Takeout = append(rows.Takeout,un)
+			}
+		}
+		rows.Title = "当天"
+		m = append(m,rows)
 	} else if req.DateType == enums.MealWeek {
 		datelist,err := utils.GetCurrentDays()
 		if err != nil {
 			c.jsonResult(enums.JRCodeFailed,"getdate err"+err.Error(),datelist)
 		}
 		logs.Info("datelist:",datelist)
-		list := make([]*models.DailyMeal,0)
-		total := int64(0)
-		for _,v:= range datelist {
-			req.Ddate = v
-			list1,count := models.DailyMealPageList(&req)
-			total += count
-			list = append(list,list1...)
+		for kk,vv:= range datelist {
+			req.Ddate = vv
+			list1,_ := models.DailyMealPageList(&req)
+			var rows returndata
+			for _,v:= range list1 {
+				var un unit
+				if v.Type == enums.Breakfast {
+					un.Id = v.Id
+					un.Name = v.Meal.MealName
+					un.url = v.Meal.MealImg
+					rows.Breakfast = append(rows.Breakfast,un)
+				}
+				if v.Type == enums.Lunch {
+					un.Id = v.Id
+					un.Name = v.Meal.MealName
+					un.url = v.Meal.MealImg
+					rows.Luanch = append(rows.Dinner,un)
+				}
+				if v.Type == enums.Dinner {
+					un.Id = v.Id
+					un.Name = v.Meal.MealName
+					un.url = v.Meal.MealImg
+					rows.Dinner = append(rows.Dinner,un)
+				}
+				if v.Type == enums.TakeOut {
+					un.Id = v.Id
+					un.Name = v.Meal.MealName
+					un.url = v.Meal.MealImg
+					rows.Takeout = append(rows.Takeout,un)
+				}
+			}
+			rows.Title = utils.GetDayName(kk+1)
+			m = append(m,rows)
 		}
-		m["total"] = total
-		m["list"] = list
+
 	}
+
 	logs.Info("m",m)
 	c.jsonResult(enums.JRCodeSucc,"OK",m)
 }

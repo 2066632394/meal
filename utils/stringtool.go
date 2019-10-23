@@ -180,9 +180,9 @@ func GetCurrentDays() ([]int64,error) {
 		return nil, err
 	}
 	ntime := date.Unix()
-	list := make([]int64,7)
+	list := make([]int64,5)
 
-	for n := 1; n<= 7; n++ {
+	for n := 1; n<= 5; n++ {
 		s := n -nt
 
 		list[n-1] = ntime + int64(s) * 86400
