@@ -36,7 +36,17 @@ func (c *MealController) Prepare() {
 func (c *MealController) Index() {
 	//将页面左边菜单的某项激活
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
-
+	//获取菜单类别
+	var req models.MealTypeQueryParam
+	list,count := models.MealTypePageList(&req)
+	if count >0 {
+		mapp := make(map[int64]string)
+		for _,v := range list {
+			mapp[v.Id] = v.Name
+		}
+		c.Data["typemap"] = mapp
+		logs.Info("typemap",mapp)
+	}
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "meal/index_headcssjs.html"
@@ -54,6 +64,7 @@ func (c *MealController) DataGrid() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	//获取数据列表和总数
 	data, total := models.MealPageList(&params)
+
 	//定义返回的数据结构
 	result := make(map[string]interface{})
 	result["total"] = total
@@ -97,13 +108,22 @@ func (c *MealController) Edit() {
 //Save 添加、编辑页面 保存
 func (c *MealController) Save() {
 	var err error
-	m := models.Meal{}
+	mm := models.ReqMeal{}
 	//获取form里的值
-	if err = c.ParseForm(&m); err != nil {
-		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), m.Id)
+	if err = c.ParseForm(&mm); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), mm.Id)
 	}
+	m := models.Meal{}
+	m.Id = mm.Id
+	m.MealName = mm.MealName
+	m.MealType = &models.MealType{Id: mm.MealType}
+	m.MealImg = mm.MealImg
+	m.Score = mm.Score
+	m.ScoreList = mm.ScoreList
+	m.Seq = mm.Seq
+	m.MealDesc = mm.MealDesc
 	beego.Info("meal====",m)
-	logs.Info("mealtype",m.MealType)
+	logs.Info("meal2",mm)
 	o := orm.NewOrm()
 	if m.Id == 0 {
 		//m.Creator = &c.curUser

@@ -21,7 +21,18 @@ type Meal struct {
 	MealName      string `orm:"size(32)"`
 	MealImg string
 	MealDesc  string
-	MealType   int32
+	MealType   *MealType `orm:"rel(fk)"`
+	Score     int32
+	ScoreList string
+	Seq  int32
+	Time int64
+}
+type ReqMeal struct {
+	Id        int64
+	MealName      string `orm:"size(32)"`
+	MealImg string
+	MealDesc  string
+	MealType  int64
 	Score     int32
 	ScoreList string
 	Seq  int32

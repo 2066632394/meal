@@ -36,7 +36,10 @@ func MealTypePageList(params *MealTypeQueryParam) ([]*MealType, int64) {
 	if params.Order == "desc" {
 		sortorder = "-" + sortorder
 	}
-	query = query.Filter("name__istartswith", params.NameLike)
+	if params.NameLike != "" {
+		query = query.Filter("name__istartswith", params.NameLike)
+	}
+
 	total, _ := query.Count()
 	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total

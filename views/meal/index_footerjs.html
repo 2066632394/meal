@@ -112,12 +112,7 @@
             }, {
                 field: 'MealName',
                 title: '菜名',
-                formatter: function(value,row,index){
-                  return sdtheme.showlongstr(value)
-                },
-                cellStyle: function (value, row, index, field) {
-                    return { classes: 'ellipsis' };
-                }
+                width: '90px',
             }, {
                 field: 'MealType.Id',
                 title: '类别',
