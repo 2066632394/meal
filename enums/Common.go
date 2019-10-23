@@ -42,4 +42,5 @@ const (
 
 var (
 	ErrTokenOrOpenidNotExist = errors.New("ErrTokenOrOpenidNotExist")
+	ErrNotAuthored = errors.New("ErrNotAuthored")
 )

@@ -84,3 +84,19 @@ func WeixinUserCheck(id string) (bool,int64,error) {
 		return false,data[0].Id,err
 	}
 }
+
+func WeixinUserCheckonly(id string) (bool,error){
+	o := orm.NewOrm()
+	err := o.Begin()
+	if err != nil {
+		return false,err
+	}
+	query := o.QueryTable(MealUserTBName())
+	data := make([]*MealUser, 0)
+	query.Filter("open_id",id).Limit(1).All(&data)
+	if len(data) == 0 {
+		return false,nil
+	} else {
+		return true,nil
+	}
+}

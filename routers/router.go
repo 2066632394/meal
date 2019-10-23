@@ -34,17 +34,17 @@ func init() {
 
 	beego.Router("/weixin/wxlogin", &controllers.WeixinController{}, "Post:WeixinLogin")
 	//当天菜单、一周菜单、今日外卖
-	beego.Router("/weixin/list", &controllers.WeixinController{}, "Post:MealList")
+	beego.Router("/weixin/list", &controllers.WxapiController{}, "Post:MealList")
 	//次日用餐统计
-	beego.Router("/weixin/secday", &controllers.WeixinController{}, "Post:Secday")
+	beego.Router("/weixin/secday", &controllers.WxapiController{}, "Post:Secday")
 	//外卖用餐统计
-	beego.Router("/weixin/outlist", &controllers.WeixinController{}, "Post:OutList")
+	beego.Router("/weixin/outlist", &controllers.WxapiController{}, "Post:OutList")
 	//外卖预定
-	beego.Router("/weixin/addorder", &controllers.WeixinController{}, "Post:AddOrder")
+	beego.Router("/weixin/addorder", &controllers.WxapiController{}, "Post:AddOrder")
 	//外卖取餐列表
-	beego.Router("/weixin/orderlist", &controllers.WeixinController{}, "Post:OrderList")
+	beego.Router("/weixin/orderlist", &controllers.WxapiController{}, "Post:OrderList")
 	//提交意见
-	beego.Router("/weixin/advise", &controllers.WeixinController{}, "Post:Advise")
+	beego.Router("/weixin/advise", &controllers.WxapiController{}, "Post:Advise")
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
 	beego.Router("/meal/datagrid", &controllers.MealController{}, "Get,Post:DataGrid")
