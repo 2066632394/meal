@@ -217,6 +217,7 @@ func (c *WxapiController) OutList() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
 	date := utils.GetNow()
 	req.Ddate = date
+	req.Dtype = enums.TakeOut
 	list,_ := models.DailyMealPageList(&req)
 	url := "http://"+beego.AppConfig.String("httpaddr1")+":"+beego.AppConfig.String("httpport")
 	var typereq models.MealTypeQueryParam
