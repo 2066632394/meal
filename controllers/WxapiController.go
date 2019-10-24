@@ -264,7 +264,7 @@ func (c *WxapiController) AddOrder() {
 		dailymeal.Meal = &nmeal
 		dailymeal.MealDate = utils.GetNow()
 
-		if err := o.Read(&dailymeal);err != nil {
+		if err := o.Read(&dailymeal,"MealDate","MealId");err != nil {
 			c.jsonResult(enums.JRCodeFailed,"此菜单不在今日菜谱上",params.MealId)
 		}
 		if k == 0 {
