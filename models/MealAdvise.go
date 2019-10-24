@@ -21,7 +21,7 @@ type MealAdviseQueryParam struct {
 type MealAdvise struct {
 	Id     int64
 	Advise string
-	TagId    string
+	TagId    int32
 	Score    int32
 	User   *MealUser `orm:"rel(one)"`
 	Time  int64
