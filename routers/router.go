@@ -72,13 +72,19 @@ func init() {
 	//后台意见显示
 	beego.Router("/mealadvise/index", &controllers.MealAdviseController{}, "*:Index")
 	beego.Router("/mealadvise/delete", &controllers.MealAdviseController{}, "Post:Delete")
-
+	beego.Router("/mealadvise/datagrid", &controllers.MealAdviseController{}, "Get,Post:DataGrid")
 	//后台次日统计显示
-	beego.Router("/mealusercalchistory/index", &controllers.MealUserCalcHistoryController{}, "*:Index")
+	beego.Router("/mealusercalchistory/index", &controllers.MealUserCalcController{}, "*:Index")
+	beego.Router("/mealusercalchistory/datagrid", &controllers.MealUserCalcController{}, "Get,Post:DataGrid")
 
 	//用户
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")
 	beego.Router("/mealuser/index", &controllers.MealUserController{}, "*:Index")
+	//beego.Router("/mealuser/edit/?:id", &controllers.MealUserController{}, "Get,Post:Edit")
+	//beego.Router("/mealuser/delete", &controllers.MealUserController{}, "Post:Delete")
+	beego.Router("/mealuser/datagrid", &controllers.MealUserController{}, "Get,Post:DataGrid")
+
+
 	//次日用餐统计
 	beego.Router("/mealusercalc/index", &controllers.MealUserCalcController{}, "*:Index")
 

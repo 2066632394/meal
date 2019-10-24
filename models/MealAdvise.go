@@ -28,9 +28,9 @@ type MealAdvise struct {
 }
 
 // CoursePageList 获取分页数据
-func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdviseTag, int64) {
+func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdvise, int64) {
 	query := orm.NewOrm().QueryTable(MealUserAdviseTBName())
-	data := make([]*MealAdviseTag, 0)
+	data := make([]*MealAdvise, 0)
 	//默认排序
 	sortorder := "Id"
 	switch params.Sort {

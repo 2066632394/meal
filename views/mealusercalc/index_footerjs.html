@@ -94,20 +94,14 @@
               hlpk: sdtheme.getQueryString("hlpk")
             },
             rowAttributes: function (row, index) {
-                return { 'data-pk': row.Id }
+                return { 'data-pk': row.MealDate }
             },
             columns: [{
                 field: 'state',
                 checkbox: true,
                 radio: false,
             }, {
-                field: 'Id',
-                title: 'ID',
-                width: '90px',
-                align: 'center',
-                sortable: true,
-            }, {
-                field: 'MealNum',
+                field: 'MealNums',
                 title: '堂食人数',
                 width: '90px',
             }, {
@@ -119,7 +113,7 @@
                 title: '日期',
                 width: '160px',         
                 formatter: function(value, row, index, field){
-                    var tt = getMyDate(row.Time*1000)
+                    var tt = getMyDate(value*1000)
                     //console.log(tt)
                   return sdtheme.showDateTime(tt)
                 }

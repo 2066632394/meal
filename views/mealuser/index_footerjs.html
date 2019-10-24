@@ -107,17 +107,9 @@
                 align: 'center',
                 sortable: true,
             }, {
-                field: 'MealUser.NickName',
-                title: '名称',
+                field: 'MealUser.OpenId',
+                title: '微信编号',
                 width: '90px',
-                formatter: function(value,row,index){
-                    if (row.MealUser.NickName != ""){
-                        return row.MealUser.NickName
-                    } else {
-                        return row.MealUser.Name
-                    }
-
-                }
             }, {
                 field: 'Time',
                 title: '注册时间',
@@ -143,7 +135,8 @@
                     return ret.join('');
                 }
             }],
-            onLoadSuccess: function (data) {                
+            onLoadSuccess: function (data) {
+
             },
             onCheckAll: function (rows) {
               $(".table-btn-check-enable").prop('disabled', false);
