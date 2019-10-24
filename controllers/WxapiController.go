@@ -8,8 +8,6 @@ import (
 	"meal/utils"
 	"github.com/astaxie/beego/logs"
 	"time"
-	"github.com/astaxie/beego/orm"
-	"strings"
 )
 
 type WxapiController struct {
@@ -251,45 +249,11 @@ func (c *WxapiController) AddOrder() {
 	if len(params.Ids) == 0 {
 		c.jsonResult(enums.JRCodeFailed,"菜编号为空",nil)
 	}
-	o := orm.NewOrm()
-	mealIds := ""
-	for k,v := range params.Ids {
-		var dailymeal models.DailyMeal
-		vs := strings.Split(v,"-")
-		if len(vs) != 2 {
-			c.jsonResult(enums.JRCodeFailed,"数据格式异常",vs)
-		}
-		var nmeal models.Meal
-		nmeal.Id = utils.ToInt64(vs[0])
-		dailymeal.Meal = &nmeal
-		dailymeal.MealDate = utils.GetNow()
+	result,code,err := models.AddOrder(&params)
 
-		if err := o.Read(&dailymeal,"MealDate","MealId");err != nil {
-			c.jsonResult(enums.JRCodeFailed,"此菜单不在今日菜谱上",params.MealId)
-		}
-		if k == 0 {
-			mealIds = utils.ToString(v) + ","
-		} else if k == len(params.Ids)-1 {
-			mealIds = mealIds + utils.ToString(v)
-		} else {
-			mealIds = mealIds + ","
-		}
-	}
-
-Loop:
-	code := utils.RandomString(6)
-	var req models.MealUserOrder
-	req.MealCode = code
-	req.MealDate = utils.GetNow()
-	if err := o.Read(&req,"MealCode","MealDate"); err != nil {
-		goto Loop
-	}
-	req.Time = time.Now().Unix()
-	req.MealIds = mealIds
-	req.Status = enums.OutCommit
-	if id,err := o.Insert(&req);err != nil && id ==0{
+	if err != nil{
 		c.jsonResult(enums.JRCodeFailed,"点餐预订异常"+err.Error(),params)
-	} else {
+	} else if err == nil && result && code != ""{
 		c.jsonResult(enums.JRCodeSucc,"点餐预订成功",code)
 	}
 }

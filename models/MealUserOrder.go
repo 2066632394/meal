@@ -2,6 +2,11 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"strings"
+	"meal/utils"
+	"time"
+	"meal/enums"
+	"errors"
 )
 
 // TableName 设置MealUserOrder表名
@@ -72,5 +77,66 @@ func MealBatchDeleteOrder(ids []int) (int64, error) {
 	num, err := query.Filter("id__in", ids).Delete()
 	return num, err
 }
+func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
+	o := orm.NewOrm()
+	err := o.Begin()
+	if err != nil {
+		o.Rollback()
+		return false,"",err
+	}
+	mealIds := ""
+	for k,v := range params.Ids {
+		var dailymeal DailyMeal
+		vs := strings.Split(v,"-")
+		if len(vs) != 2 {
+			o.Rollback()
+			return false,"",errors.New("数据格式异常")
+		}
+		var nmeal Meal
+		nmeal.Id = utils.ToInt64(vs[0])
+		dailymeal.Meal = &nmeal
+		dailymeal.MealDate = utils.GetNow()
+
+		if err := o.Read(&dailymeal,"MealDate","MealId");err != nil {
+			o.Rollback()
+			return false,"",errors.New("此菜单不在今日菜谱上")
+		}
+		if k == 0 {
+			mealIds = utils.ToString(v) + ","
+		} else if k == len(params.Ids)-1 {
+			mealIds = mealIds + utils.ToString(v)
+		} else {
+			mealIds = mealIds + ","
+		}
+		if err := o.Read(&nmeal);err != nil {
+			o.Rollback()
+			return false,"",err
+		}
+		nmeal.Sold += utils.ToInt64(vs[1])
+		if _,err := o.Update(&nmeal,"sold");err != nil {
+			o.Rollback()
+			return false,"",err
+		}
+	}
+
+Loop:
+	code := utils.RandomString(6)
+	var req MealUserOrder
+	req.MealCode = code
+	req.MealDate = utils.GetNow()
+	if err := o.Read(&req,"MealCode","MealDate"); err != nil {
+		goto Loop
+	}
+	req.Time = time.Now().Unix()
+	req.MealIds = mealIds
+	req.Status = enums.OutCommit
+	if id,err := o.Insert(&req);err != nil && id ==0{
+		o.Rollback()
+		return false,code,err
+	} else {
+		o.Commit()
+		return true,code,nil
+	}
 
 
+}
