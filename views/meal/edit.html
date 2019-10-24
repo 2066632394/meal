@@ -76,7 +76,13 @@
                       <input name="MealImg" id="Img" type="hidden" value="{{.m.MealImg}}" required>
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <div class="radio-inline">
+                        <label class="radio">
+                            <input type="radio" name="IsOut" value="{{.m.IsOut}}}" {{if eq .m.IsOut 1}} checked="checked" {{end}}/>毫米
+                        </label>
+                    </div>
+                </div>
             </form>
             <!-- form end -->
           </div>

@@ -258,7 +258,9 @@ func (c *WxapiController) AddOrder() {
 		if len(vs) != 2 {
 			c.jsonResult(enums.JRCodeFailed,"数据格式异常",vs)
 		}
-		dailymeal.Meal.Id = utils.ToInt64(vs[0])
+		var nmeal models.Meal
+		nmeal.Id = utils.ToInt64(vs[0])
+		dailymeal.Meal = &nmeal
 		dailymeal.MealDate = utils.GetNow()
 
 		if err := o.Read(&dailymeal);err != nil {

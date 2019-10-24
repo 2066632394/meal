@@ -121,6 +121,8 @@ func (c *MealController) Save() {
 	m.Score = mm.Score
 	m.ScoreList = mm.ScoreList
 	m.Seq = mm.Seq
+	m.IsOut = mm.IsOut
+	m.Price = mm.Price
 	m.MealDesc = mm.MealDesc
 	beego.Info("meal====",m)
 	logs.Info("meal2",mm)

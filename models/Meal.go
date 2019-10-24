@@ -25,6 +25,7 @@ type Meal struct {
 	Sold    int64
 	Price   string
 	RealPrice string
+	IsOut    int32
 	Score     int32
 	ScoreList string
 	Seq  int32
@@ -38,6 +39,8 @@ type ReqMeal struct {
 	MealType  int64
 	Score     int32
 	ScoreList string
+	IsOut int32
+	Price string
 	Seq  int32
 	Time int64
 }
