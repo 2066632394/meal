@@ -77,11 +77,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="radio-inline">
-                        <label class="radio">
-                            <input type="radio" name="IsOut" value="{{.m.IsOut}}}" {{if eq .m.IsOut 1}} checked="checked" {{end}}/>毫米
-                        </label>
-                    </div>
+                        <label class="col-sm-2 control-label"></label>
+                        <input id="IsOut" name="IsOut" type="checkbox" value="{{.m.IsOut}}"{{if eq .m.IsOut 1}} checked="checked" {{end}}><label  for="IsOut">是否外卖</label>
+
                 </div>
             </form>
             <!-- form end -->

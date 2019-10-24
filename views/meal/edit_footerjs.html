@@ -24,7 +24,15 @@
         //验证
         validateInfo(); 
         //图片上传初始化
-        updloadCtrolInit();      
+        updloadCtrolInit();
+        $("#IsOut").click(function(){
+            var c = $("#IsOut").is(":checked")
+            if (c) {
+                $("#IsOut").val(0)
+            } else {
+                $("#IsOut").val(1)
+            }
+        })
     })
     //image upolad init
     function updloadCtrolInit() {
