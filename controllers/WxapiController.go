@@ -95,35 +95,43 @@ func (c *WxapiController) MealList() {
 	logs.Info("datetype",req.DateType)
 	m := make([]returndata,0)
 	//当天
-	todaylist := make([]interface{},0)
+
 	url := "http://"+beego.AppConfig.String("httpaddr1")+":"+beego.AppConfig.String("httpport")
 	if req.DateType == enums.MealToday {
 		//获取当前日期时间戳
 		date := utils.GetNow()
 		req.Ddate = date
 		list,_ := models.DailyMealPageList(&req)
-		var typereq models.MealTypeQueryParam
-		typelist,_ := models.MealTypePageList(&typereq)
-		for _,v:=range typelist {
-			today := &todaydata{}
-			today.Id = v.Id
-			today.Title = v.Name
-			rows := make([]unit1,0)
-			for _,vv := range list {
-				var un unit1
-				if v.Id == vv.Meal.MealType.Id {
-					un.Id = vv.Id
-					un.Name = vv.Meal.MealName
-					un.Url = url + vv.Meal.MealImg
-					un.Sold = vv.Meal.Sold
-					un.Price = vv.Meal.Price
-					rows = append(rows,un)
-				}
+		var rows returndata
+		for _,v:= range list {
+			var un unit
+			if v.Type == enums.Breakfast {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.Url = url + v.Meal.MealImg
+				rows.Breakfast = append(rows.Breakfast, un)
 			}
-			today.List = rows
-			todaylist = append(todaylist,today)
+			if v.Type == enums.Lunch {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.Url = url + v.Meal.MealImg
+				rows.Luanch = append(rows.Luanch, un)
+			}
+			if v.Type == enums.Dinner {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.Url = url + v.Meal.MealImg
+				rows.Dinner = append(rows.Dinner, un)
+			}
+			if v.Type == enums.TakeOut {
+				un.Id = v.Id
+				un.Name = v.Meal.MealName
+				un.Url = url + v.Meal.MealImg
+				rows.Takeout = append(rows.Takeout, un)
+			}
+			rows.Title = "当天"
+			m = append(m, rows)
 		}
-		c.jsonResult(enums.JRCodeSucc,"OK",todaylist)
 	} else if req.DateType == enums.MealWeek {
 		datelist,err := utils.GetCurrentDays()
 		if err != nil {
@@ -164,11 +172,11 @@ func (c *WxapiController) MealList() {
 			rows.Title = utils.GetDayName(kk+1)
 			m = append(m,rows)
 		}
-		logs.Info("m",m)
-		c.jsonResult(enums.JRCodeSucc,"OK",m)
+
 	}
 
-
+	logs.Info("m",m)
+	c.jsonResult(enums.JRCodeSucc,"OK",m)
 }
 
 func (c *WxapiController) Secday() {
@@ -204,16 +212,35 @@ func (c *WxapiController) Secday() {
 }
 
 func (c *WxapiController) OutList() {
-	now := utils.GetNow()
-	req := &models.DailyMealQueryParam{
-		Dtype:enums.TakeOut,
-		Ddate:now,
+	var req models.DailyMealQueryParam
+	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	date := utils.GetNow()
+	req.Ddate = date
+	list,_ := models.DailyMealPageList(&req)
+	url := "http://"+beego.AppConfig.String("httpaddr1")+":"+beego.AppConfig.String("httpport")
+	var typereq models.MealTypeQueryParam
+	todaylist := make([]interface{},0)
+	typelist,_ := models.MealTypePageList(&typereq)
+	for _,v:=range typelist {
+		today := &todaydata{}
+		today.Id = v.Id
+		today.Title = v.Name
+		rows := make([]unit1,0)
+		for _,vv := range list {
+			var un unit1
+			if v.Id == vv.Meal.MealType.Id {
+				un.Id = vv.Id
+				un.Name = vv.Meal.MealName
+				un.Url = url + vv.Meal.MealImg
+				un.Sold = vv.Meal.Sold
+				un.Price = vv.Meal.Price
+				rows = append(rows,un)
+			}
+		}
+		today.List = rows
+		todaylist = append(todaylist,today)
 	}
-	list,count := models.DailyMealPageList(req)
-	m := make(map[string]interface{},0)
-	m["count"] = count
-	m["list"] = list
-	c.jsonResult(enums.JRCodeSucc,"ok",m)
+	c.jsonResult(enums.JRCodeSucc,"OK",todaylist)
 }
 
 func (c *WxapiController) AddOrder() {

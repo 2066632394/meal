@@ -136,5 +136,8 @@ func init() {
 
 	beego.Router("/", &controllers.HomeController{}, "*:Index")
 
+	//本地测试  绕过token
+	beego.Router("/test/outlist", &controllers.MainController{}, "Post:OutList")
+
 }
 

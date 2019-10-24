@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"meal/enums"
 	"meal/models"
+	"meal/utils"
 )
 
 type MainController struct {
@@ -21,4 +22,18 @@ func (c *MainController) jsonResult(code enums.JsonResultCode, msg string, obj i
 	c.Data["json"] = r
 	c.ServeJSON()
 	c.StopRun()
+}
+
+
+func (c *MainController) OutList() {
+	now := utils.GetNow()
+	req := &models.DailyMealQueryParam{
+		Dtype:enums.TakeOut,
+		Ddate:now,
+	}
+	list,count := models.DailyMealPageList(req)
+	m := make(map[string]interface{},0)
+	m["count"] = count
+	m["list"] = list
+	c.jsonResult(enums.JRCodeSucc,"ok",m)
 }
