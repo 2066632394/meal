@@ -231,7 +231,7 @@ func (c *WxapiController) OutList() {
 		for _,vv := range list {
 			var un unit1
 			if v.Id == vv.Meal.MealType.Id {
-				un.Id = vv.Id
+				un.Id = vv.Meal.Id
 				un.Name = vv.Meal.MealName
 				un.Url = url + vv.Meal.MealImg
 				un.Sold = vv.Meal.Sold
