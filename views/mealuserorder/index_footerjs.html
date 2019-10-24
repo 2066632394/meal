@@ -118,23 +118,6 @@
 
                 }
             }, {
-                field: 'MealUser.Phone',
-                title: '类别',
-                width: '90px',
-                align: 'center',
-            },{
-                field: 'MealImg',
-                title: '图片',
-                formatter: function (value, row, index) {
-                    var ret = [];
-                    ret.push('<div class="img-group">')
-                    if (value != "" ) {
-                        ret.push('<img class="img-circle" src=' + value + ' alt="" height="30" width="30"/>')
-                    }
-                    ret.push('</div>')
-                    return ret.join('');
-                }
-            }, {
                 field: 'Time',
                 title: '预定时间',
                 width: '60px',

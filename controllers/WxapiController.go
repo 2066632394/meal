@@ -293,7 +293,7 @@ func (c *WxapiController) Advise() {
 	if err == nil && id >0 && isadd {
 		c.jsonResult(enums.JRCodeSucc,"ok",nil)
 	}else {
-		c.jsonResult(enums.JRCodeSucc,"添加失败："+err.Error(),nil)
+		c.jsonResult(enums.JRCodeFailed,"添加失败："+err.Error(),nil)
 	}
 }
 
