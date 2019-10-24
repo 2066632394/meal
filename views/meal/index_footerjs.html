@@ -123,6 +123,14 @@
                     return { classes: 'ellipsis' };
                 }
             },{
+                field: 'Price',
+                title: '价格',
+                width: '90px',
+                formatter: function (value, row, index) {
+
+                    return value+"元";
+                }
+            },{
                 field: 'MealImg',
                 title: '图片',
                 formatter: function (value, row, index) {

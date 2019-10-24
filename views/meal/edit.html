@@ -32,6 +32,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">价格</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="Price" class="form-control" placeholder="字母汉字" value="{{.m.Price}}"  maxlength="32" required>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">类别</label>
                     <div class="col-sm-8">
                         <select name="MealType" id="MealType" class="form-control bs-select">
@@ -70,6 +76,7 @@
                       <input name="MealImg" id="Img" type="hidden" value="{{.m.MealImg}}" required>
                     </div>
                 </div>
+
             </form>
             <!-- form end -->
           </div>
