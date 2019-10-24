@@ -129,9 +129,10 @@ func (c *WxapiController) MealList() {
 				un.Url = url + v.Meal.MealImg
 				rows.Takeout = append(rows.Takeout, un)
 			}
-			rows.Title = "当天"
-			m = append(m, rows)
+
 		}
+		rows.Title = "当天"
+		m = append(m, rows)
 	} else if req.DateType == enums.MealWeek {
 		datelist,err := utils.GetCurrentDays()
 		if err != nil {
