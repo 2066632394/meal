@@ -288,7 +288,7 @@ func (c *WxapiController) Advise() {
 	advise.Time = time.Now().Unix()
 	advise.Score = params.Score
 	advise.Advise = params.Advise
-	advise.User.Id = params.UserId
+	advise.User = &models.MealUser{Id:c.UserId}
 	isadd,id,err := models.MealAdviseAddOne(&advise)
 	if err == nil && id >0 && isadd {
 		c.jsonResult(enums.JRCodeSucc,"ok",nil)
