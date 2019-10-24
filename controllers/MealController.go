@@ -14,6 +14,8 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/logs"
+	"os"
+	"github.com/hunterhug/go_image"
 )
 
 //MealController 菜单管理
@@ -197,9 +199,37 @@ func (c *MealController) UploadImage() {
 			c.jsonResult(enums.JRCodeFailed, "上传失败", "")
 		}
 		defer f.Close()
-		filePath := "static/upload/" + h.Filename
-		// 保存位置在 static/upload, 没有文件夹要先创建
+		filepreix := "static/upload/"
+		exist := utils.IsExist(filepreix)
+		if exist {
+			logs.Info("filepreix",filepreix)
+		} else {
+			logs.Error("file path not exist",filepreix)
+			// 创建文件夹
+			err := os.Mkdir(filepreix, os.ModePerm)
+			if err != nil {
+				logs.Error("create file err",err)
+			} else {
+				logs.Error("mkdir success!\n")
+			}
+		}
+		filePath := filepreix + h.Filename
 		c.SaveToFile("fileImg", filePath)
+		realfilename, err := go_image.RealImageName(filePath)
+		if err != nil {
+			c.jsonResult(enums.JRCodeFailed, "上传失败"+err.Error(), "")
+		}
+		sp := strings.Split(realfilename,".")
+		if len(sp) != 2 {
+			c.jsonResult(enums.JRCodeFailed, "上传失败", "")
+		}
+		newfile := time.Unix(utils.GetNow(),0).Format("20060102")+utils.RandomString(10)+sp[1]
+		// 保存位置在 static/upload, 没有文件夹要先创建
+		err = go_image.ScaleF2F(filePath, newfile,600 )
+		if err != nil {
+			panic(err)
+		}
+
 		c.jsonResult(enums.JRCodeSucc, "上传成功", "/"+filePath)
 	} else {
 		c.jsonResult(enums.JRCodeFailed, "上传失败", "")

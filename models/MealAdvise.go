@@ -40,7 +40,10 @@ func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdvise, int64) {
 	if params.Order == "desc" {
 		sortorder = "-" + sortorder
 	}
-	query = query.Filter("advise__istartswith", params.NameLike)
+	if params.NameLike != "" {
+		query = query.Filter("advise__istartswith", params.NameLike)
+	}
+
 	if params.UserId != 0 {
 		query = query.Filter("user_id", params.UserId)
 	}

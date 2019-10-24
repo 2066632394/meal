@@ -1,5 +1,7 @@
 package utils
 
+import "os"
+
 func GetDayName(tt int) string {
 	//tt := int(time.Unix(t,0).Weekday())
 	name := "星期一"
@@ -16,4 +18,9 @@ func GetDayName(tt int) string {
 		name = "星期五"
 	}
 	return name
+}
+
+func IsExist(f string) bool {
+	_, err := os.Stat(f)
+	return err == nil || os.IsExist(err)
 }
