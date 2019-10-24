@@ -305,6 +305,6 @@ func (c *WxapiController) AdviseList() {
 	m := make(map[string]interface{})
 	m["list"] = list
 	m["count"] = count
-	c.jsonResult(enums.JRCodeSucc,"ok",nil)
+	c.jsonResult(enums.JRCodeSucc,"ok",m)
 	
 }
