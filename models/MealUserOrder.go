@@ -131,6 +131,7 @@ Loop:
 	}
 	req.Time = time.Now().Unix()
 	req.MealIds = mealIds
+	req.User = &MealUser{Id:params.UserId}
 	req.Status = enums.OutCommit
 	if id,err := o.Insert(&req);err != nil && id ==0{
 		o.Rollback()

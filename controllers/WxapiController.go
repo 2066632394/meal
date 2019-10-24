@@ -8,10 +8,13 @@ import (
 	"meal/utils"
 	"github.com/astaxie/beego/logs"
 	"time"
+	"github.com/astaxie/beego/orm"
 )
 
 type WxapiController struct {
 	beego.Controller
+	UserId int64
+	OpenId string
 	//WeixinUser models.MealUser
 }
 
@@ -78,6 +81,7 @@ func (c *WxapiController) checkWeixinLogin() {
 	if err != nil {
 		c.jsonResult(enums.JRCodeFailed,"用户token校验失败"+err.Error(),nil)
 	}
+	c.OpenId = openid
 }
 
 
@@ -249,6 +253,12 @@ func (c *WxapiController) AddOrder() {
 	if len(params.Ids) == 0 {
 		c.jsonResult(enums.JRCodeFailed,"菜编号为空",nil)
 	}
+	o := orm.NewOrm()
+	user := models.MealUser{OpenId:c.OpenId}
+	if err := o.Read(&user,"open_id");err != nil {
+		c.jsonResult(enums.JRCodeFailed,"用户数据异常",nil)
+	}
+	params.UserId = user.Id
 	result,code,err := models.AddOrder(&params)
 
 	if err != nil{
