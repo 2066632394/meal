@@ -143,7 +143,8 @@ func (c *MealController) Save() {
 		oM.MealDesc = m.MealDesc
 		oM.MealImg = m.MealImg
 		oM.Seq = m.Seq
-		oM.Score = 0
+		oM.IsOut = m.IsOut
+		oM.Price = m.Price
 		oM.Time = time.Now().Unix()
 		if _, err = o.Update(oM); err == nil {
 			c.jsonResult(enums.JRCodeSucc, "编辑成功", m.Id)
