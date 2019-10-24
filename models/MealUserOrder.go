@@ -7,6 +7,7 @@ import (
 	"time"
 	"meal/enums"
 	"errors"
+	"github.com/astaxie/beego/logs"
 )
 
 // TableName 设置MealUserOrder表名
@@ -97,7 +98,7 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 		dailymeal.Meal = &nmeal
 		dailymeal.MealDate = utils.GetNow()
 
-		if err := o.Read(&dailymeal,"MealDate","MealId");err != nil {
+		if err := o.Read(&dailymeal,"MealDate","meal_id");err != nil {
 			o.Rollback()
 			return false,"",errors.New("此菜单不在今日菜谱上")
 		}
@@ -124,7 +125,8 @@ Loop:
 	var req MealUserOrder
 	req.MealCode = code
 	req.MealDate = utils.GetNow()
-	if err := o.Read(&req,"MealCode","MealDate"); err != nil {
+	if err := o.Read(&req,"MealCode","MealDate"); err != nil && err != orm.ErrNoRows {
+		logs.Info(err)
 		goto Loop
 	}
 	req.Time = time.Now().Unix()
