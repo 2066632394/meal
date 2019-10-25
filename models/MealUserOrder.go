@@ -59,6 +59,9 @@ func MealUserOrderPageList(params *MealUserOrderQueryParam) ([]*MealUserOrder, i
 	if params.MealDate != 0 {
 		query = query.Filter("meal_date", params.MealDate)
 	}
+	if params.UserId != 0 {
+		query = query.Filter("user_id", params.UserId)
+	}
 	total, _ := query.Count()
 	query.RelatedSel().OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total
