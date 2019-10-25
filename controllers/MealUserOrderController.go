@@ -54,7 +54,7 @@ func (c *MealUserOrderController) DataGrid() {
 	}
 	var params models.MealUserOrderQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
-
+	params.StatusType = -1
 	//获取数据列表和总数
 	data, total := models.MealUserOrderPageList(&params)
 	for _,v := range data {
