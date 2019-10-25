@@ -300,6 +300,7 @@ func (c *WxapiController) OrderList() {
 	var params models.MealUserOrderQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	params.UserId = c.UserId
+	params.Order = "desc"
 	logs.Info("params",params)
 	data,total := models.MealUserOrderPageList(&params)
 	//定义返回的数据结构

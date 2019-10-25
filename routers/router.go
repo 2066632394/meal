@@ -75,7 +75,7 @@ func init() {
 	//后台意见显示
 	beego.Router("/mealadvise/index", &controllers.MealAdviseController{}, "*:Index")
 	beego.Router("/mealadvise/delete", &controllers.MealAdviseController{}, "Post:Delete")
-	beego.Router("/mealadvise/reply", &controllers.MealAdviseController{}, "Post:Reply")
+	beego.Router("/mealadvise/reply/?:id", &controllers.MealAdviseController{}, "Get,Post:Reply")
 	beego.Router("/mealadvise/datagrid", &controllers.MealAdviseController{}, "Get,Post:DataGrid")
 	//后台次日统计显示
 	beego.Router("/mealusercalchistory/index", &controllers.MealUserCalcController{}, "*:Index")

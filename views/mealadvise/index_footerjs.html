@@ -115,7 +115,16 @@
                 cellStyle: function (value, row, index, field) {
                     return { classes: 'ellipsis' };
                 }
-            },  {
+            }, {
+                field: 'Reply',
+                title: '回复',
+                formatter: function(value,row,index){
+                    return sdtheme.showlongstr(value)
+                },
+                cellStyle: function (value, row, index, field) {
+                    return { classes: 'ellipsis' };
+                }
+            }, {
                 field: 'Score',
                 title: '星级',
                 width: '90px',

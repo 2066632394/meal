@@ -17,10 +17,6 @@
   var doAfterSubmit = 0
    $(function () {	
         //$("#EffTimeRange").sddaterangepicker() //时间选择插件初始化
-        if(~~($("#Id").val())>0){
-          $("#saveAndgoon").hide()
-          $("#pageSmallTitle").text("编辑菜谱")
-        }        
         //验证
         validateInfo();
 
@@ -81,10 +77,10 @@
       var effTime = $("#EffTimeRange").val().split(" - ")
       $("#AddTime").val(effTime[0])
     }
-    function formSubmit(behavior) {
-      if(behavior && behavior === 1){
-        doAfterSubmit = 1
-      }
+    function FormSubmit(behavior) {
+      // if(behavior && behavior === 1){
+      //   doAfterSubmit = 1
+      // }
       $("#thisForm").submit();		
     }
     function returnList(id){  

@@ -128,7 +128,7 @@ func (c *MealAdviseController) Delete() {
 //回复意见界面
 func (c *MealAdviseController) Reply() {
 	if c.Ctx.Request.Method == "POST" {
-		c.Save()
+		c.UpdateAdvise()
 	}
 	Id, _ := c.GetInt64(":id", 0)
 	m := models.MealAdvise{Id: Id}
@@ -140,10 +140,35 @@ func (c *MealAdviseController) Reply() {
 		}
 	}
 	c.Data["m"] = m
-	c.setTpl("mealadvise/reply.html", "shared/layout_page.html")
+	c.setTpl("mealadvise/reply.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "mealadvise/reply_headcssjs.html"
-	c.LayoutSections["footerjs"] = "mealadvise/replyedit_footerjs.html"
+	c.LayoutSections["footerjs"] = "mealadvise/reply_footerjs.html"
 }
 
+//Save 添加、编辑页面 保存
+func (c *MealAdviseController) UpdateAdvise() {
+	id,_:= c.GetInt64("id")
+	advise := c.GetString("advise")
+	reply := c.GetString("reply")
+	m := models.MealAdvise{}
+	m.Id = id
+	m.Advise = advise
+	m.Reply = reply
+
+	beego.Info("m====",m)
+	o := orm.NewOrm()
+
+	//m.Creator = &c.curUser
+	m.Time = time.Now().Unix()
+
+	if _, err := o.Update(&m,"reply"); err == nil {
+		c.jsonResult(enums.JRCodeSucc, "回复成功", m.Id)
+	} else {
+		c.jsonResult(enums.JRCodeFailed, "回复失败，可能原因："+err.Error(), m.Id)
+	}
+
+
+
+}
 
