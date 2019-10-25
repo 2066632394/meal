@@ -142,7 +142,6 @@ func (c *MealAdviseController) Reply() {
 	c.Data["m"] = m
 	c.setTpl("mealadvise/reply.html", "shared/layout_pullbox.html")
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "mealadvise/reply_headcssjs.html"
 	c.LayoutSections["footerjs"] = "mealadvise/reply_footerjs.html"
 }
 
