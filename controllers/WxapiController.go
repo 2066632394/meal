@@ -191,7 +191,7 @@ func (c *WxapiController) Secday() {
 	logs.Info("params",params)
 
 	params.MealDate = utils.GetNow()
-	exist := models.CheckIsExists(params.MealDate,params.UserId)
+	exist := models.CheckIsExists(params.MealDate,c.UserId)
 	if !exist {
 		if params.Tomorrow  {
 			//堂食
