@@ -157,8 +157,8 @@ func (c *MealUserOrderController) UpdateStatus() {
 		}
 	}
 	if num, err := models.MealUserOrderBatchUpdate(ids); err == nil {
-		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("成功删除 %d 项", num), 0)
+		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("更新成功", num), 0)
 	} else {
-		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)
+		c.jsonResult(enums.JRCodeFailed, "更新失败", 0)
 	}
 }

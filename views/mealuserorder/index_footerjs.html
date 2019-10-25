@@ -158,8 +158,11 @@
                         ret.push('<button class="btn btn-primary btn-xs"  onclick="DeleteFun()">' +
                             '<i class="fa fa-pencil"></i> 删除</button>');
                     }
-                    ret.push('<button class="btn btn-primary btn-xs"  onclick="ConfirmSingleFun('+row.Id+')">' +
-                            '<i class="fa fa-pencil"></i> 已取餐</button>');
+                    if (row.Status == 0) {
+                        ret.push('<button class="btn btn-primary btn-xs"  onclick="ConfirmSingleFun('+row.Id+')" >' +
+                                '<i class="fa fa-pencil"></i> 已取餐</button>');
+                    }
+
                     ret.push('</div>')
                     return ret.join('');
                 }
