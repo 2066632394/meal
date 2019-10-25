@@ -70,6 +70,7 @@ func init() {
 	//后台外卖显示
 	beego.Router("/mealuserorder/index", &controllers.MealUserOrderController{}, "*:Index")
 	beego.Router("/mealuserorder/delete", &controllers.MealUserOrderController{}, "Post:Delete")
+	beego.Router("/mealuserorder/updatestatus", &controllers.MealUserOrderController{}, "Post:UpdateStatus")
 	beego.Router("/mealuserorder/datagrid", &controllers.MealUserOrderController{}, "Get,Post:DataGrid")
 	//后台意见显示
 	beego.Router("/mealadvise/index", &controllers.MealAdviseController{}, "*:Index")

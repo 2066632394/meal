@@ -145,3 +145,18 @@ func (c *MealUserOrderController) Delete() {
 		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)
 	}
 }
+
+func (c *MealUserOrderController) UpdateStatus() {
+	strs := c.GetString("ids")
+	ids := make([]int, 0, len(strs))
+	for _, str := range strings.Split(strs, ",") {
+		if id, err := strconv.Atoi(str); err == nil {
+			ids = append(ids, id)
+		}
+	}
+	if num, err := models.MealUserOrderBatchUpdate(ids); err == nil {
+		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("成功删除 %d 项", num), 0)
+	} else {
+		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)
+	}
+}

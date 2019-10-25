@@ -148,3 +148,12 @@ Loop:
 
 
 }
+
+// MealBatchDelete 批量删除
+func MealUserOrderBatchUpdate(ids []int) (int64, error) {
+	query := orm.NewOrm().QueryTable(MealUserOrderTBName())
+	num, err := query.Filter("id__in", ids).Update(orm.Params{
+		"status": 1,
+	})
+	return num, err
+}

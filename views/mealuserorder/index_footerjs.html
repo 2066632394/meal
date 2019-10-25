@@ -157,7 +157,9 @@
                     if ('{{.canDelete}}' === 'true') {
                         ret.push('<button class="btn btn-primary btn-xs"  onclick="DeleteFun()">' +
                             '<i class="fa fa-pencil"></i> 删除</button>');
-                    }                    
+                    }
+                    ret.push('<button class="btn btn-primary btn-xs"  onclick="ConfirmFun()">' +
+                            '<i class="fa fa-pencil"></i> 已取餐</button>');
                     ret.push('</div>')
                     return ret.join('');
                 }
@@ -205,6 +207,32 @@
         layer.confirm('您是否要删除所选的项？', {
             btn: ['是', '否'], icon: 3, title: '请确认'
         }, function () {            
+            var dataValues = { ids: ids.join(',') };
+            $.sdpost(url, dataValues, function (re) {
+                if (re.code === 0) {
+                    layer.msg(re.msg, { icon: 1, title: '成功' });
+                    refresh();
+                } else {
+                    layer.alert(re.msg, { icon: 2, title: "失败" });
+                }
+            });
+        });
+    }
+
+    function ConfirmFun() {
+        var url = '{{ urlfor "MealUserOrderController.UpdateStatus"}}';
+        var rows = $dataGrid.bootstrapTable("getSelections")
+        if (rows.length === 0) {
+            layer.alert('请选择想要更新的项', { icon: 0, title: '提示' });
+            return;
+        }
+        var ids = [];
+        $(rows).each(function (i, e) {
+            ids.push(e.Id);
+        });
+        layer.confirm('您是否要更新所选的项？', {
+            btn: ['是', '否'], icon: 3, title: '请确认'
+        }, function () {
             var dataValues = { ids: ids.join(',') };
             $.sdpost(url, dataValues, function (re) {
                 if (re.code === 0) {
