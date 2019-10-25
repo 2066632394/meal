@@ -148,14 +148,13 @@ func (c *MealAdviseController) Reply() {
 
 //Save 添加、编辑页面 保存
 func (c *MealAdviseController) UpdateAdvise() {
-	id,_:= c.GetInt64("id")
-	advise := c.GetString("advise")
-	reply := c.GetString("reply")
-	m := models.MealAdvise{}
-	m.Id = id
-	m.Advise = advise
-	m.Reply = reply
 
+	m := models.MealAdvise{}
+
+	//获取form里的值
+	if err := c.ParseForm(&m); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), m.Id)
+	}
 	beego.Info("m====",m)
 	o := orm.NewOrm()
 
