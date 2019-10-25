@@ -327,8 +327,8 @@ func (c *WxapiController) UserInfo() {
 	user.Img = req.Img
 	o := orm.NewOrm()
 	nums,err := o.Update(&user,"name","nick_name","img")
-	if err == nil && nums == 1 {
-		c.jsonResult(enums.JRCodeSucc,"ok",nil)
+	if err == nil  {
+		c.jsonResult(enums.JRCodeSucc,"ok",nums)
 	} else {
 		c.jsonResult(enums.JRCodeFailed,"更新用户出错"+err.Error(),req)
 	}
