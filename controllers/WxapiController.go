@@ -348,8 +348,8 @@ func (c *WxapiController) UserInfo() {
 	var user models.MealUser
 	user.Id = c.UserId
 	user.OpenId = req.Openid
-	user.Name = req.Name
-	user.NickName = req.Name
+	user.Name = utils.FilterEmoji(req.Name)
+	user.NickName = utils.FilterEmoji(req.Name)
 	user.Img = req.Img
 	o := orm.NewOrm()
 	nums,err := o.Update(&user,"name","nick_name","img")

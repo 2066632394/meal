@@ -1,6 +1,9 @@
 package utils
 
-import "os"
+import (
+	"os"
+	"unicode/utf8"
+)
 
 func GetDayName(tt int) string {
 	//tt := int(time.Unix(t,0).Weekday())
@@ -23,4 +26,16 @@ func GetDayName(tt int) string {
 func IsExist(f string) bool {
 	_, err := os.Stat(f)
 	return err == nil || os.IsExist(err)
+}
+
+// 过滤 emoji 表情
+func FilterEmoji(content string) string {
+	new_content := ""
+	for _, value := range content 	{
+		_, size := utf8.DecodeRuneInString(string(value))
+		if size <= 3 {
+			new_content += string(value)
+		}
+	}
+	return new_content
 }
