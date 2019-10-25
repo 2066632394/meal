@@ -24,6 +24,7 @@ type MealUser struct {
 	Name           	string
 	Phone 			int64
 	NickName        string
+	Img             string
 	Time            int64
 	SessionKey      string
 	AccessToken     string

@@ -11,6 +11,7 @@ import (
 	"meal/models"
 	"meal/enums"
 	"github.com/astaxie/beego/logs"
+	"meal/utils"
 )
 
 type MealUserOrderController struct {
@@ -45,10 +46,31 @@ func (c *MealUserOrderController) Index() {
 // 获取所有菜谱
 func (c *MealUserOrderController) DataGrid() {
 	//直接反序化获取json格式的requestbody里的值
+	var req models.MealQueryParam
+	meallist,_ := models.MealPageList(&req)
+	maplist := make(map[int64]string,0)
+	for _,v:= range meallist {
+		maplist[v.Id] = v.MealName
+	}
 	var params models.MealUserOrderQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+
 	//获取数据列表和总数
 	data, total := models.MealUserOrderPageList(&params)
+	for _,v := range data {
+		ids := strings.Split(v.MealIds,",")
+		for _,vv:= range ids {
+			if vv != "" {
+				mm := strings.Split(vv,"-")
+				if len(mm) != 2 {
+					continue
+				}
+				i := utils.ToInt64(mm[0])
+				num := utils.ToString(mm[1])
+				v.MealIds = maplist[i]+ num +"份  "
+			}
+		}
+	}
 	//定义返回的数据结构
 	result := make(map[string]interface{})
 	result["total"] = total

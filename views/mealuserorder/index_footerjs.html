@@ -107,14 +107,10 @@
                 align: 'center',
                 sortable: true,
             }, {
-                field: 'MealUser.NickName',
+                field: 'MealIds',
                 title: '菜名',
                 formatter: function(value,row,index){
-                    if (row.MealUser.NickName != ""){
-                        return row.MealUser.NickName
-                    } else {
-                        return row.MealUser.Name
-                    }
+                    return value
 
                 }
             }, {
@@ -132,9 +128,9 @@
                 width: '50px',
                 align: 'center',
                 formatter: function(value, row, index){
-                    if (value == 1) {
+                    if (value == 0) {
                         return "待取餐"
-                    } else if (value == 2) {
+                    } else if (value == 1) {
                         return "已取餐"
                     }
                 }

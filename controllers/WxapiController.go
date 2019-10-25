@@ -309,3 +309,25 @@ func (c *WxapiController) AdviseList() {
 	c.jsonResult(enums.JRCodeSucc,"ok",m)
 	
 }
+
+func (c *WxapiController) UserInfo() {
+	var req  enums.ReqUpUserInfo
+	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	if req.Openid == "" {
+		c.jsonResult(enums.JRCodeFailed,"openid 为空",req)
+	}
+	var user models.MealUser
+	user.Id = c.UserId
+	user.OpenId = req.Openid
+	user.Name = req.Name
+	user.NickName = req.Name
+	user.Img = req.Img
+	o := orm.NewOrm()
+	if nums,err := o.Update(&user,"name","nick_name","img");err == nil && nums == 1 {
+		c.jsonResult(enums.JRCodeSucc,"ok",nil)
+	} else {
+		c.jsonResult(enums.JRCodeFailed,"更新用户出错"+err.Error(),req)
+	}
+
+
+}

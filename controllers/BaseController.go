@@ -147,6 +147,7 @@ func (c *BaseController) setTpl(template ...string) {
 	c.Layout = layout
 	c.TplName = tplName
 }
+
 func (c *BaseController) jsonResult(code enums.JsonResultCode, msg string, obj interface{}) {
 	r := &models.JsonResult{code, msg, obj}
 	c.Data["json"] = r

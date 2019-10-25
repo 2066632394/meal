@@ -107,9 +107,21 @@
                 align: 'center',
                 sortable: true,
             }, {
-                field: 'MealUser.OpenId',
+                field: 'Name',
                 title: '微信编号',
                 width: '90px',
+            },{
+                field: 'Img',
+                title: '图片',
+                formatter: function (value, row, index) {
+                    var ret = [];
+                    ret.push('<div class="img-group">')
+                    if (value != "" ) {
+                        ret.push('<img class="img-circle" src=' + value + ' alt="" height="30" width="30"/>')
+                    }
+                    ret.push('</div>')
+                    return ret.join('');
+                }
             }, {
                 field: 'Time',
                 title: '注册时间',

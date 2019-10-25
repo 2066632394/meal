@@ -33,6 +33,8 @@ func init() {
 	beego.Router("/weixin/wxlogin", &controllers.WeixinController{}, "Post:WeixinLogin")
 	//当天菜单、一周菜单、今日外卖
 	beego.Router("/weixin/list", &controllers.WxapiController{}, "Post:MealList")
+
+	beego.Router("/weixin/userinfo", &controllers.WxapiController{}, "Post:UserInfo")
 	//次日用餐统计
 	beego.Router("/weixin/secday", &controllers.WxapiController{}, "Post:Secday")
 	//外卖用餐统计
