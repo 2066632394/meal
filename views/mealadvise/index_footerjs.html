@@ -133,6 +133,19 @@
                     //console.log(tt)
                   return sdtheme.showDateTime(tt)
                 }
+            },{
+                field: 'operate',
+                title: '操作',
+                width: '80px',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var ret = [];
+                    ret.push('<div class="btn-group">')
+                    ret.push('<button class="btn btn-primary btn-xs"  onclick="ReplyFun('+row.Id+')">' +
+                            '<i class="fa fa-reply"></i> 回复</button>');
+                    ret.push('</div>')
+                    return ret.join('');
+                }
             }],
             onLoadSuccess: function (data) {                
             },
@@ -152,8 +165,27 @@
               layer.alert('获取数据失败,错误代码：' + status);
             }
         });
-    }    
+    }
+    function ReplyFun(Id) {
+        var title = '意见回复';
 
+        var url = '{{ urlfor "MealAdviseController.Replay"}}' + '/' + Id;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: false,
+            shade: 0.2,
+            maxmin: true,
+            shift: 1,
+            area: ['800px', '550px'],
+            content: url,
+            btn: ['提交', '关闭'],
+            yes: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.FormSubmit();
+            }
+        });
+    }
     function EditFun(Id) {
         var title = '添加菜谱';
         if (Id > 0) {
