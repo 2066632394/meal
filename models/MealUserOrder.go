@@ -103,10 +103,10 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 			return false,"",errors.New("此菜单不在今日菜谱上")
 		}
 		if k == 0 {
-			if len(params.Ids) != 1 {
-				mealIds = utils.ToString(v)
-			}else {
+			if len(params.Ids) > 1 {
 				mealIds = utils.ToString(v) + ","
+			}else {
+				mealIds = utils.ToString(v)
 			}
 
 		} else if k == len(params.Ids)-1 {
