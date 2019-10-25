@@ -103,7 +103,7 @@
             }, {
                 field: 'Id',
                 title: 'ID',
-                width: '90px',
+                width: '30px',
                 align: 'center',
                 sortable: true,
             }, {
@@ -116,11 +116,11 @@
             }, {
                 field: 'Time',
                 title: '预定时间',
-                width: '60px',
+                width: '120px',
                 formatter: function(value, row, index, field){
                     var tt = getMyDate(row.Time*1000)
                     //console.log(tt)
-                  return sdtheme.showDateTime(tt)
+                  return sdtheme.showDateTime(tt,YYYY-MM-DD)
                 }
             }, {
                 field: 'User.Name',
@@ -137,7 +137,7 @@
             },{
                 field: 'Status',
                 title: '状态',
-                width: '50px',
+                width: '80px',
                 align: 'center',
                 formatter: function(value, row, index){
                     if (value == 0) {
@@ -149,7 +149,7 @@
             }, {
                 field: 'operate',
                 title: '操作',
-                width: '80px',
+                width: '120px',
                 align: 'center',
                 formatter: function (value, row, index) {
                     var ret = [];
@@ -160,6 +160,9 @@
                     }
                     if (row.Status == 0) {
                         ret.push('<button class="btn btn-primary btn-xs"  onclick="ConfirmSingleFun('+row.Id+')" >' +
+                                '<i class="fa fa-pencil"></i> 已取餐</button>');
+                    } else {
+                        ret.push('<button class="btn btn-primary btn-xs"  onclick="ConfirmSingleFun('+row.Id+')" disabled>' +
                                 '<i class="fa fa-pencil"></i> 已取餐</button>');
                     }
 
