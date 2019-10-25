@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"meal/models"
 	"meal/enums"
-	"github.com/astaxie/beego/logs"
 	"meal/utils"
 )
 
@@ -39,8 +38,8 @@ func (c *MealUserOrderController) Index() {
 	c.LayoutSections["footerjs"] = "mealuserorder/index_footerjs.html"
 	//页面里按钮权限控制
 	//c.Data["canEdit"] = c.checkActionAuthor("MealUserOrderController", "Edit")
-	c.Data["canDelete"] = c.checkActionAuthor("MealOrderController", "Delete")
-	logs.Info("MealUserOrderController,",c.Data["canDelete"])
+	//c.Data["canDelete"] = c.checkActionAuthor("MealOrderController", "Delete")
+	//logs.Info("MealUserOrderController,",c.Data["canDelete"])
 }
 
 // 获取所有菜谱
@@ -157,7 +156,7 @@ func (c *MealUserOrderController) UpdateStatus() {
 		}
 	}
 	if num, err := models.MealUserOrderBatchUpdate(ids); err == nil {
-		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("更新成功", num), 0)
+		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("更新成功 %d 项", num), 0)
 	} else {
 		c.jsonResult(enums.JRCodeFailed, "更新失败", 0)
 	}
