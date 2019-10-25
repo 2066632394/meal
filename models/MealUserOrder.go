@@ -58,7 +58,7 @@ func MealUserOrderPageList(params *MealUserOrderQueryParam) ([]*MealUserOrder, i
 		query = query.Filter("meal_date", params.MealDate)
 	}
 	total, _ := query.Count()
-	query.OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
+	query.RelatedSel().OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total
 }
 
