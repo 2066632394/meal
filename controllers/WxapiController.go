@@ -191,7 +191,8 @@ func (c *WxapiController) Secday() {
 	var params models.MealUserCalcQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	logs.Info(" sec params",params)
-
+	logs.Info("userid:",c.UserId)
+	logs.Info("openid:",c.OpenId)
 	params.MealDate = utils.GetNow()
 	exist := models.CheckIsExists(params.MealDate,c.UserId)
 	if !exist {
