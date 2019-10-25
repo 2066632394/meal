@@ -35,7 +35,7 @@ func MealUserCalcHistoryOne(id int64) (*MealUserCalcHistory, error) {
 
 func CheckIsExists(date,userid int64) bool {
 	o := orm.NewOrm()
-	m := MealUserCalcHistory{MealDate:date,Id:userid}
+	m := MealUserCalcHistory{MealDate:date,UserId:userid}
 	err := o.Read(&m,"MealDate","UserId")
 	if err == orm.ErrNoRows {
 		return false
