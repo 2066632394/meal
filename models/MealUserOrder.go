@@ -53,7 +53,9 @@ func MealUserOrderPageList(params *MealUserOrderQueryParam) ([]*MealUserOrder, i
 	if params.Order == "desc" {
 		sortorder = "-" + sortorder
 	}
-	query = query.Filter("status", params.StatusType)
+	if params.StatusType != -1 {
+		query = query.Filter("status", params.StatusType)
+	}
 	if params.MealDate != 0 {
 		query = query.Filter("meal_date", params.MealDate)
 	}

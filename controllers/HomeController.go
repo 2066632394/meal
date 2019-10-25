@@ -31,6 +31,7 @@ func (c *HomeController) Index() {
 	}
 	//获取当日外卖单数
 	var order models.MealUserOrderQueryParam
+	order.StatusType = -1
 	order.MealDate = utils.GetNow()
 	_,count := models.MealUserOrderPageList(&order)
 	m["today_out_num"] = count
