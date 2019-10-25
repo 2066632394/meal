@@ -59,6 +59,7 @@ func (c *MealUserOrderController) DataGrid() {
 	data, total := models.MealUserOrderPageList(&params)
 	for _,v := range data {
 		ids := strings.Split(v.MealIds,",")
+		temp := ""
 		for _,vv:= range ids {
 			if vv != "" {
 				mm := strings.Split(vv,"-")
@@ -67,9 +68,10 @@ func (c *MealUserOrderController) DataGrid() {
 				}
 				i := utils.ToInt64(mm[0])
 				num := utils.ToString(mm[1])
-				v.MealIds += maplist[i]+ num +"份  "
+				temp += maplist[i]+ num +"份  "
 			}
 		}
+		v.MealIds = temp
 	}
 	//定义返回的数据结构
 	result := make(map[string]interface{})
