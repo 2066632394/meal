@@ -16,6 +16,7 @@ type MealAdviseQueryParam struct {
 	Advise string
 	OpenId string
 	Score int32
+	StartTime int64
 }
 
 type MealAdvise struct {
@@ -44,7 +45,9 @@ func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdvise, int64) {
 	if params.NameLike != "" {
 		query = query.Filter("advise__istartswith", params.NameLike)
 	}
-
+	if params.StartTime != 0 {
+		query = query.Filter("time__gt", params.StartTime)
+	}
 	if params.UserId != 0 {
 		query = query.Filter("user_id", params.UserId)
 	}

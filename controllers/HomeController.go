@@ -43,6 +43,10 @@ func (c *HomeController) Index() {
 	if len(last) > 0 {
 		m["user_num"] = last[0].Id
 	}
+	var advise models.MealAdviseQueryParam
+	advise.StartTime = utils.GetNow()
+	_ ,advisecount := models.MealAdvisePageList(&advise)
+	m["today_advise"] = advisecount
 	logs.Info("calc",m)
 	c.Data["json"] = m
 	c.setTpl()
