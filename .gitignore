@@ -17,6 +17,9 @@ _cgo_export.*
 
 _testmain.go
 
+*.key
+*.pem
+*.cert
 *.exe
 *.test
 *.prof
