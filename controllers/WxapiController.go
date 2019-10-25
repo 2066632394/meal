@@ -68,20 +68,23 @@ func (c *WxapiController) checkWeixinLogin() {
 		logs.Error("getAuthToken err openid or token empty")
 		c.jsonResult(enums.JRCodeFailed,"用户未授权"+enums.ErrNotAuthored.Error(),nil)
 	}
-	exists,err := models.WeixinUserCheckonly(openid)
-	if err != nil {
-		c.jsonResult(enums.JRCodeFailed,"数据库异常"+err.Error(),nil)
-	}
-	if !exists {
-		c.jsonResult(enums.JRCodeFailed,"用户未登陆"+err.Error(),nil)
+	o := orm.NewOrm()
+	var user models.MealUser
+	user.OpenId = openid
+	//exists,err := models.WeixinUserCheckonly(openid)
+	if err := o.Read(&user,"openid");err != nil && err == orm.ErrNoRows {
+		c.jsonResult(enums.JRCodeFailed,"用户未注册"+err.Error(),nil)
+	} else if err != nil && err != orm.ErrNoRows {
+		c.jsonResult(enums.JRCodeFailed,"用户异常"+err.Error(),nil)
 	}
 	//校验token
 	var et utils.EasyToken
-	_,err = et.ValidateToken(token)
+	_,err := et.ValidateToken(token)
 	if err != nil {
 		c.jsonResult(enums.JRCodeFailed,"用户token校验失败"+err.Error(),nil)
 	}
 	c.OpenId = openid
+	c.UserId = user.Id
 }
 
 
