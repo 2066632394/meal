@@ -85,6 +85,8 @@ func (c *WxapiController) checkWeixinLogin() {
 	}
 	c.OpenId = openid
 	c.UserId = user.Id
+	logs.Info("OPENID:",openid)
+	logs.Info("userid:",user.Id)
 }
 
 
@@ -188,17 +190,30 @@ func (c *WxapiController) MealList() {
 func (c *WxapiController) Secday() {
 	var params models.MealUserCalcQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
-	logs.Info("params",params)
+	logs.Info(" sec params",params)
 
 	params.MealDate = utils.GetNow()
 	exist := models.CheckIsExists(params.MealDate,c.UserId)
 	if !exist {
+		o := orm.NewOrm()
+		var history models.MealUserCalcHistory
+		history.UserId = c.UserId
+		history.MealDate = params.MealDate
+		history.Time = time.Now().Unix()
 		if params.Tomorrow  {
 			//堂食
 			err := models.UpdateUserCalc(&params,false)
 			//定义返回的数据结构
 			if err == nil {
-				c.jsonResult(enums.JRCodeSucc,"ok",nil)
+				if id,err := o.Insert(&history);err != nil {
+					c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
+				} else {
+					if id > 0 {
+						c.jsonResult(enums.JRCodeSucc,"ok",nil)
+					} else {
+						c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
+					}
+				}
 			} else {
 				c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
 			}
@@ -207,7 +222,15 @@ func (c *WxapiController) Secday() {
 			err := models.UpdateUserCalc(&params,true)
 			//定义返回的数据结构
 			if err == nil {
-				c.jsonResult(enums.JRCodeSucc,"ok",nil)
+				if id,err := o.Insert(&history);err != nil {
+					c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
+				} else {
+					if id >0 {
+						c.jsonResult(enums.JRCodeSucc,"ok",nil)
+					}else {
+						c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
+					}
+				}
 			} else {
 				c.jsonResult(enums.JRCodeFailed,"更新失败："+err.Error(),nil)
 			}
@@ -304,6 +327,7 @@ func (c *WxapiController) Advise() {
 
 func (c *WxapiController) AdviseList() {
 	var params models.MealAdviseQueryParam
+	params.Order = "desc"
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	logs.Info("params",params)
 	list,count:= models.MealAdvisePageList(&params)
