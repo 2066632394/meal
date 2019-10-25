@@ -67,7 +67,7 @@ func (c *MealUserOrderController) DataGrid() {
 				}
 				i := utils.ToInt64(mm[0])
 				num := utils.ToString(mm[1])
-				v.MealIds = maplist[i]+ num +"份  "
+				v.MealIds += maplist[i]+ num +"份  "
 			}
 		}
 	}

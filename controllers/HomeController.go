@@ -37,6 +37,7 @@ func (c *HomeController) Index() {
 	//获取总用户数
 	var user models.MealUserQueryParam
 	user.Limit = 1
+	user.Order = "desc"
 	last,_ := models.MealUserPageList(&user)
 	if len(last) > 0 {
 		m["user_num"] = last[0].Id
