@@ -112,7 +112,7 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 		} else if k == len(params.Ids)-1 {
 			mealIds = mealIds + utils.ToString(v)
 		} else {
-			mealIds = mealIds + ","
+			mealIds = mealIds + utils.ToString(v)+","
 		}
 		if err := o.Read(&nmeal);err != nil {
 			o.Rollback()

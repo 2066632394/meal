@@ -254,6 +254,7 @@ func (c *WxapiController) OutList() {
 func (c *WxapiController) AddOrder() {
 	var params models.MealUserOrderQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+	logs.Info("order:",params)
 	if len(params.Ids) == 0 {
 		c.jsonResult(enums.JRCodeFailed,"菜编号为空",nil)
 	}
