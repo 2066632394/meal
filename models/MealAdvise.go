@@ -49,7 +49,7 @@ func MealAdvisePageList(params *MealAdviseQueryParam) ([]*MealAdvise, int64) {
 		query = query.Filter("user_id", params.UserId)
 	}
 	total, _ := query.Count()
-	query.RelatedSel(MealUserAdviseTBName()).OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
+	query.RelatedSel(MealUserTBName()).OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total
 }
 
