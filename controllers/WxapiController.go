@@ -192,7 +192,7 @@ func (c *WxapiController) Secday() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	logs.Info(" sec params",params)
 
-	params.MealDate = utils.GetNow()
+	params.MealDate = utils.GetNow()+86400
 	exist := models.CheckIsExists(params.MealDate,c.UserId)
 	if !exist {
 		o := orm.NewOrm()
