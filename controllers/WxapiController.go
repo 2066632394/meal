@@ -236,7 +236,7 @@ func (c *WxapiController) Secday() {
 			}
 		}
 	} else {
-		c.jsonResult(enums.JRCodeFailed,"一天只能点一次：",nil)
+		c.jsonResult(enums.JRCodeFailed,"一天只能点一次",nil)
 	}
 }
 
@@ -299,6 +299,7 @@ func (c *WxapiController) AddOrder() {
 func (c *WxapiController) OrderList() {
 	var params models.MealUserOrderQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+	params.UserId = c.UserId
 	logs.Info("params",params)
 	data,total := models.MealUserOrderPageList(&params)
 	//定义返回的数据结构

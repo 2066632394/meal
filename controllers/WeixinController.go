@@ -8,6 +8,7 @@ import (
 	"github.com/medivhzhan/weapp"
 	"meal/utils"
 	"time"
+	"github.com/astaxie/beego/orm"
 )
 
 type WeixinController struct {
@@ -40,6 +41,7 @@ func (c *WeixinController) WeixinLogin() {
 	} else {
 		appid := beego.AppConfig.String("weixin::appid")
 		appsecret := beego.AppConfig.String("weixin::appsecret")
+		hasInfo := false
 		if appid == "" || appsecret == "" {
 			c.jsonResult(enums.JRCodeFailed,"appid 或者appsecret 为空",nil)
 		}
@@ -49,6 +51,7 @@ func (c *WeixinController) WeixinLogin() {
 			c.jsonResult(enums.JRCodeFailed,"微信登录异常"+err.Error(),nil)
 		} else {
 			beego.Info("weixin login succ",res)
+			//true  新添加
 			isadd,id ,err := models.WeixinUserCheck(res.OpenID)
 			if err != nil {
 				c.jsonResult(enums.JRCodeFailed,"用户校验异常"+err.Error(),nil)
@@ -86,10 +89,18 @@ func (c *WeixinController) WeixinLogin() {
 						c.SetSession(res.OpenID,user)
 					}
 				}
-
+				var u models.MealUser
+				u.Id = id
+				o := orm.NewOrm()
+				if err := o.Read(&u);err == nil {
+					if u.Name != "" && u.Img != "" {
+						hasInfo = true
+					}
+				}
 			}
 			m["openid"] = res.OpenID
 			m["accesstoken"] = token
+			m["hasinfo"] = hasInfo
 			c.jsonResult(enums.JRCodeSucc,"用户登录成功",m)
 		}
 

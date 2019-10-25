@@ -125,5 +125,25 @@ func (c *MealAdviseController) Delete() {
 	}
 }
 
+//回复意见界面
+func (c *MealAdviseController) Reply() {
+	if c.Ctx.Request.Method == "POST" {
+		c.Save()
+	}
+	Id, _ := c.GetInt64(":id", 0)
+	m := models.MealAdvise{Id: Id}
+	if Id > 0 {
+		o := orm.NewOrm()
+		err := o.Read(&m)
+		if err != nil {
+			c.pageError("数据无效，请刷新后重试")
+		}
+	}
+	c.Data["m"] = m
+	c.setTpl("mealadvise/reply.html", "shared/layout_page.html")
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["headcssjs"] = "mealadvise/reply_headcssjs.html"
+	c.LayoutSections["footerjs"] = "mealadvise/replyedit_footerjs.html"
+}
 
 
