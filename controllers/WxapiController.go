@@ -219,7 +219,8 @@ func (c *WxapiController) OutList() {
 	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
 	date := utils.GetNow()
 	req.Ddate = date
-	req.Dtype = enums.TakeOut
+	req.Dtype = -1
+	//从今日菜单中栓选出外卖数据
 	list,_ := models.DailyMealPageList(&req)
 	url := "http://"+beego.AppConfig.String("httpaddr1")+":"+beego.AppConfig.String("httpport")
 	var typereq models.MealTypeQueryParam
@@ -232,7 +233,7 @@ func (c *WxapiController) OutList() {
 		rows := make([]unit1,0)
 		for _,vv := range list {
 			var un unit1
-			if v.Id == vv.Meal.MealType.Id {
+			if v.Id == vv.Meal.MealType.Id &&  vv.Meal.IsOut == 0 {
 				un.Id = vv.Meal.Id
 				un.Name = vv.Meal.MealName
 				un.Url = url + vv.Meal.MealImg
