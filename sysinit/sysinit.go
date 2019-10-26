@@ -12,7 +12,7 @@ func init() {
 	//初始化日志
 	utils.InitLogs()
 	//初始化缓存
-	utils.InitCache()
+	//utils.InitCache()
 	//初始化数据库
 	InitDatabase()
 }
