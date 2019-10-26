@@ -89,6 +89,11 @@ func MealOne(id int64) (*Meal, error) {
 	return &m, nil
 }
 
+func MealExistName(name string) bool {
+	query := orm.NewOrm().QueryTable(MealTBName())
+	return query.Filter("meal_name",name).Exist()
+}
+
 //AddMeal 添加菜单
 func AddMeal(params *Meal) (bool,int64,error) {
 	o := orm.NewOrm()

@@ -105,7 +105,7 @@ func (c *DailyMealController) Save() {
 		c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因：请选择日期", ddate)
 	}
 	if dtype == -1 {
-		c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因：请选择就餐时间", dtype)
+		c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因：未选择类型", dtype)
 	}
 	if strs == "" {
 		c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因：请选择菜谱", strs)

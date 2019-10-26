@@ -252,6 +252,7 @@ func (c *WxapiController) OutList() {
 	var typereq models.MealTypeQueryParam
 	todaylist := make([]interface{},0)
 	typelist,_ := models.MealTypePageList(&typereq)
+	mlist := make(map[int64]string,0)
 	for _,v:=range typelist {
 		today := &todaydata{}
 		today.Id = v.Id
@@ -265,7 +266,10 @@ func (c *WxapiController) OutList() {
 				un.Url = url + vv.Meal.MealImg
 				un.Sold = vv.Meal.Sold
 				un.Price = vv.Meal.Price
-				rows = append(rows,un)
+				if _,ok := mlist[vv.Meal.Id];!ok {
+					mlist[vv.Meal.Id] = vv.Meal.MealName
+					rows = append(rows,un)
+				}
 			}
 		}
 		today.List = rows

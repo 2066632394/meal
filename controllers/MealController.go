@@ -115,6 +115,9 @@ func (c *MealController) Save() {
 	if err = c.ParseForm(&mm); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), mm.Id)
 	}
+	if mm.MealName == "" {
+		c.jsonResult(enums.JRCodeFailed, "菜谱名称不能为空", mm.MealName)
+	}
 	m := models.Meal{}
 	m.Id = mm.Id
 	m.MealName = mm.MealName
@@ -132,13 +135,16 @@ func (c *MealController) Save() {
 	if m.Id == 0 {
 		//m.Creator = &c.curUser
 		m.Time = time.Now().Unix()
-
-		if _, err = o.Insert(&m); err == nil {
-			c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
+		exist := models.MealExistName(m.MealName)
+		if exist {
+			c.jsonResult(enums.JRCodeFailed, mm.MealName+"菜谱已存在", mm.MealName)
 		} else {
-			c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因："+err.Error(), m.Id)
+			if _, err = o.Insert(&m); err == nil {
+				c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
+			} else {
+				c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因："+err.Error(), m.Id)
+			}
 		}
-
 	} else {
 		oM, err := models.MealOne(m.Id)
 		oM.MealName = m.MealName

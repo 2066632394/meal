@@ -52,35 +52,6 @@
           //baseClass: 'cxcalendar_holyday'
       });
   }
-  function ParentSelectInit(curPid){
-      var url = '{{urlfor "ResourceController.ParentTreeGrid"}}'
-      $.sdpost(url, { id: $("#Id").val() }, function (re) {
-          if (re.code === 0) {
-              var html = ['<option value="0">- 无 -</option>']
-              var $select = $("#Parent");
-              $select.html('')
-              $(re.obj).each(function (i, e) {
-                  //下拉菜单里只显示区域和菜单
-                  if(e.Rtype >1){
-                      return true
-                  }
-                  var str = new Array(e.Level * 4).join("&nbsp;");
-                  if (e.Level > 0)
-                      str = str + "|-";
-                  html.push('<option value="' + e.Id + '"');
-                  if (e.HtmlDisabled == 1) {
-                      html.push('disabled');
-                  }
-                  html.push('>' + str + e.Name + '</option>')
-              });
-              $select.html(html.join(''));
-              $select.selectpicker();
-              $select.selectpicker('val',curPid);
-          } else {
-              parent.layer.alert("获取资源树失败", { icon: 2, title: '失败' })
-          }
-      });
-  }
   //表单验证及AJAX提交
   function validateInfo() {
       var $thisForm = $('#thisForm');
@@ -101,12 +72,7 @@
               }
           },
           messages: {
-              Rtype:{
-                  RtypeCheck:"区域只能是一级节点，不能有父节点"
-              },
-              LinkUrl:{
-                  UrlLinkCheck:"您输入的UrlFor值并不能解析为有效的地址"
-              }
+
           },
           submitHandler: function (form) {
               var url = '{{ urlfor "DailyMealController.Edit"}}'
@@ -143,7 +109,7 @@
   function FormSubmit() {
       var rows = $dataGrid.bootstrapTable("getSelections")
       if (rows.length === 0) {
-          layer.alert('请选择想要删除的项', { icon: 0, title: '提示' });
+          layer.alert('菜单列表为空，请选择菜单', { icon: 0, title: '提示' });
           return;
       }
       var ids = [];
