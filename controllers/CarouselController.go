@@ -50,7 +50,7 @@ func (c *CarouselController) Index() {
 // 获取所有菜谱
 func (c *CarouselController) DataGrid() {
 	//直接反序化获取json格式的requestbody里的值
-	var params models.MealCarouseQueryParam
+	var params models.MealCarouselQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	//获取数据列表和总数
 	data, total := models.MealCarousePageList(&params)

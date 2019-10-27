@@ -6,11 +6,11 @@ import (
 
 // TableName 设置Meal表名
 func (a *Carouse) TableName() string {
-	return MealCarouseTBName()
+	return MealCarouselTBName()
 }
 
 // MealQueryParam 用于搜索的类
-type MealCarouseQueryParam struct {
+type MealCarouselQueryParam struct {
 	BaseQueryParam
 	NameLike string
 }
@@ -25,8 +25,8 @@ type Carouse struct {
 }
 
 // MealPageList 获取分页数据
-func MealCarousePageList(params *MealCarouseQueryParam) ([]*Carouse, int64) {
-	query := orm.NewOrm().QueryTable(MealCarouseTBName())
+func MealCarousePageList(params *MealCarouselQueryParam) ([]*Carouse, int64) {
+	query := orm.NewOrm().QueryTable(MealCarouselTBName())
 	data := make([]*Carouse, 0)
 	//默认排序
 	sortorder := "Id"
@@ -46,7 +46,7 @@ func MealCarousePageList(params *MealCarouseQueryParam) ([]*Carouse, int64) {
 
 // MealBatchDelete 批量删除
 func MealCarouseBatchDelete(ids []int) (int64, error) {
-	query := orm.NewOrm().QueryTable(MealCarouseTBName())
+	query := orm.NewOrm().QueryTable(MealCarouselTBName())
 	num, err := query.Filter("id__in", ids).Delete()
 	return num, err
 }

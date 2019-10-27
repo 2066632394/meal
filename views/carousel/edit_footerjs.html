@@ -34,7 +34,7 @@
           //获取隐藏用于保存图片地址的input
           var hiddeninput = $("#" + inputId.replace('input', ''));
           $.ajaxFileUpload({
-              url: '{{ urlfor "CarouseController.UploadImage" }}',
+              url: '{{ urlfor "CarouselController.UploadImage" }}',
               secureuri: false,
               fileElementId: inputId,
               dataType: 'json',
@@ -87,7 +87,7 @@
             },
             submitHandler: function (form) {
               //beforeSubmit()
-              var url ='{{ urlfor "CarouseController.Edit"}}'
+              var url ='{{ urlfor "CarouselController.Edit"}}'
               var data = $thisForm.serialize();				
               $.sdpost(url,data,function(re){
                   console.log("data",data)
@@ -120,7 +120,7 @@
       if(!id){
         id = ~~($('#Id').val())
       }     
-      var url = '{{ urlfor "CarouseController.Index"}}' + '?hlpk=' + id;
+      var url = '{{ urlfor "CarouselController.Index"}}' + '?hlpk=' + id;
       window.location.href = url      
     }    
 </script>

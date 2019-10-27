@@ -95,6 +95,6 @@ func MealUserCalcOrderTBName() string {
 func MealUserCalcHistoryTBName() string {
 	return TableName("user_calc_history")
 }
-func MealCarouseTBName() string {
-	return TableName("carouse")
+func MealCarouselTBName() string {
+	return TableName("carousel")
 }

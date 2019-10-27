@@ -7,7 +7,7 @@ import (
 )
 
 // TableName 设置Course表名
-func (a *Course) TableName() string {
+func (a *Coursel) TableName() string {
 	return CourseTBName()
 }
 
@@ -18,7 +18,7 @@ type CourseQueryParam struct {
 }
 
 // Course 实体类
-type Course struct {
+type Coursel struct {
 	Id        int
 	Name      string `orm:"size(32)"`
 	ShortName string `orm:"size(8)"`
@@ -32,9 +32,9 @@ type Course struct {
 }
 
 // CoursePageList 获取分页数据
-func CoursePageList(params *CourseQueryParam) ([]*Course, int64) {
+func CoursePageList(params *CourseQueryParam) ([]*Coursel, int64) {
 	query := orm.NewOrm().QueryTable(CourseTBName())
-	data := make([]*Course, 0)
+	data := make([]*Coursel, 0)
 	//默认排序
 	sortorder := "Id"
 	switch params.Sort {
@@ -60,9 +60,9 @@ func CourseBatchDelete(ids []int) (int64, error) {
 }
 
 // CourseOne 获取单条
-func CourseOne(id int) (*Course, error) {
+func CourseOne(id int) (*Coursel, error) {
 	o := orm.NewOrm()
-	m := Course{Id: id}
+	m := Coursel{Id: id}
 	err := o.Read(&m)
 	if err != nil {
 		return nil, err
