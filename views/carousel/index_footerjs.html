@@ -127,19 +127,6 @@
                     //console.log(tt)
                   return sdtheme.showDateTime(tt)
                 }
-            },{
-                field: 'operate',
-                title: '操作',
-                width: '80px',
-                align: 'center',
-                formatter: function (value, row, index) {
-                    var ret = [];
-                    ret.push('<div class="btn-group">')
-                    ret.push('<button class="btn btn-primary btn-xs"  onclick="DeletFun('+row.Id+')">' +
-                            '<i class="fa fa-reply"></i> 删除</button>');
-                    ret.push('</div>')
-                    return ret.join('');
-                }
             }],
             onLoadSuccess: function (data) {                
             },
