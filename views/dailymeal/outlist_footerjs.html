@@ -19,14 +19,6 @@
     $(function () {
         pageInit();
     });
-    $('#date_e').cxCalendar(function (api) {
-        time1Api = api;
-        time1Api.setOptions({
-            type: 'date',//设置为datetime 会精确到秒
-            format: 'YYYY-MM-DD',
-            baseClass: 'cxcalendar_notsecs',
-        });
-    });
     //初始化页面
     function pageInit() {
         //从cookie加载查询条件，传入参数为form id

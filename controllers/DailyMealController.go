@@ -199,6 +199,9 @@ func (c *DailyMealController) OutGrid() {
 			}
 		}
 	}
-	c.jsonResult(enums.JRCodeSucc,"OK",rows)
+	result := make(map[string]interface{})
+	result["rows"] = rows
+	c.Data["json"] = result
+	c.ServeJSONP()
 }
 
