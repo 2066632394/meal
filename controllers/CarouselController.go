@@ -2,65 +2,53 @@ package controllers
 
 import (
 	"encoding/json"
-	"time"
-
-	"meal/enums"
 	"meal/models"
-	"meal/utils"
-
-	"fmt"
-	"strconv"
-	"strings"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/logs"
+	"meal/utils"
 	"os"
 	"github.com/hunterhug/go_image"
+	"strings"
+	"time"
+	"meal/enums"
+	"strconv"
+	"fmt"
+	"github.com/astaxie/beego/orm"
 )
 
-//MealController 菜单管理
-type MealController struct {
+//CarouselController 菜单管理
+type CarouselController struct {
 	BaseController
 }
 
 //Prepare 参考beego官方文档说明
-func (c *MealController) Prepare() {
+func (c *CarouselController) Prepare() {
 	//先执行
 	c.BaseController.Prepare()
 	//如果一个Controller的多数Action都需要权限控制，则将验证放到Prepare
-	c.checkAuthor("DataGrid", "DataList", "UpdateSeq", "UploadImage")
+	c.checkAuthor("DataGrid",  "UploadImage")
 	//如果一个Controller的所有Action都需要登录验证，则将验证放到Prepare
 	//权限控制里会进行登录验证，因此这里不用再作登录验证
 	//c.checkLogin()
 }
 
 //Index 菜谱管理首页
-func (c *MealController) Index() {
+func (c *CarouselController) Index() {
 	//将页面左边菜单的某项激活
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
 	//获取菜单类别
-	var req models.MealTypeQueryParam
-	list,count := models.MealTypePageList(&req)
-	if count >0 {
-		mapp := make(map[int64]string)
-		for _,v := range list {
-			mapp[v.Id] = v.Name
-		}
-		c.Data["typemap"] = mapp
-		logs.Info("typemap",mapp)
-	}
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "meal/index_headcssjs.html"
-	c.LayoutSections["footerjs"] = "meal/index_footerjs.html"
+	c.LayoutSections["headcssjs"] = "carousel/index_headcssjs.html"
+	c.LayoutSections["footerjs"] = "carousel/index_footerjs.html"
 	//页面里按钮权限控制
-	c.Data["canEdit"] = c.checkActionAuthor("MealController", "Edit")
-	c.Data["canDelete"] = c.checkActionAuthor("MealController", "Delete")
-	beego.Info("MealController,",c.Data["canEdit"],c.Data["canEdit"])
+	c.Data["canEdit"] = c.checkActionAuthor("CarouselController", "Edit")
+	c.Data["canDelete"] = c.checkActionAuthor("CarouselController", "Delete")
+	beego.Info("CarouselController,",c.Data["canEdit"],c.Data["canEdit"])
 }
 
 // 获取所有菜谱
-func (c *MealController) DataGrid() {
+func (c *CarouselController) DataGrid() {
 	//直接反序化获取json格式的requestbody里的值
 	var params models.MealQueryParam
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
@@ -77,7 +65,7 @@ func (c *MealController) DataGrid() {
 }
 
 //Edit 添加、编辑菜谱界面
-func (c *MealController) Edit() {
+func (c *CarouselController) Edit() {
 	if c.Ctx.Request.Method == "POST" {
 		c.Save()
 	}
@@ -98,17 +86,17 @@ func (c *MealController) Edit() {
 		c.Data["typelist"] = list
 	}
 	logs.Info("typelist",list)
-	c.setTpl("meal/edit.html", "shared/layout_page.html")
+	c.setTpl("carousel/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "meal/edit_headcssjs.html"
-	c.LayoutSections["footerjs"] = "meal/edit_footerjs.html"
+	c.LayoutSections["headcssjs"] = "carousel/edit_headcssjs.html"
+	c.LayoutSections["footerjs"] = "carousel/edit_footerjs.html"
 
 	//将页面左边菜单的某项激活
-	c.Data["activeSidebarUrl"] = c.URLFor("MealController.Index")
+	c.Data["activeSidebarUrl"] = c.URLFor("CarouselController.Index")
 }
 
 //Save 添加、编辑页面 保存
-func (c *MealController) Save() {
+func (c *CarouselController) Save() {
 	var err error
 	mm := models.ReqMeal{}
 	//获取form里的值
@@ -165,7 +153,7 @@ func (c *MealController) Save() {
 }
 
 //Delete 批量删除
-func (c *MealController) Delete() {
+func (c *CarouselController) Delete() {
 	strs := c.GetString("ids")
 	ids := make([]int, 0, len(strs))
 	for _, str := range strings.Split(strs, ",") {
@@ -180,7 +168,7 @@ func (c *MealController) Delete() {
 	}
 }
 
-func (c *MealController) UpdateSeq() {
+func (c *CarouselController) UpdateSeq() {
 	Id, _ := c.GetInt64("pk", 0)
 	oM, err := models.MealOne(Id)
 	if err != nil || oM == nil {
@@ -195,7 +183,8 @@ func (c *MealController) UpdateSeq() {
 		c.jsonResult(enums.JRCodeFailed, "修改失败", oM.Id)
 	}
 }
-func (c *MealController) UploadImage() {
+
+func (c *CarouselController) UploadImage() {
 	//这里type没有用，只是为了演示传值
 	beego.Info("body",c.Input().Get("Img"))
 	stype, _ := c.GetInt32("type", 0)
