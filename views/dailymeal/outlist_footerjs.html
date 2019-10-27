@@ -210,13 +210,10 @@
     function HotFun(Id) {
         var url = '{{ urlfor "DailyMealController.UpHot"}}';
 
-        var ids = [];
-        ids.push(Id);
-
         layer.confirm('确认今日菜单推荐？', {
             btn: ['是', '否'], icon: 3, title: '请确认'
         }, function () {
-            var dataValues = { ids: ids.join(',') ,utype:true};
+            var dataValues = { id: id ,utype:true};
             $.sdpost(url, dataValues, function (re) {
                 if (re.code === 0) {
                     layer.msg(re.msg, { icon: 1, title: '成功' });
