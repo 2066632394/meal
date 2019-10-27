@@ -246,13 +246,34 @@ func (c *WxapiController) OutList() {
 	date := utils.GetNow()
 	req.Ddate = date
 	req.Dtype = -1
+	req.IsOut = true
 	//从今日菜单中栓选出外卖数据
 	list,_ := models.DailyMealPageList(&req)
 	url := "http://"+beego.AppConfig.String("imgaddr")+":"+beego.AppConfig.String("httpport")
 	var typereq models.MealTypeQueryParam
 	todaylist := make([]interface{},0)
+	typel := make([]*models.MealType,0)
 	typelist,_ := models.MealTypePageList(&typereq)
 	mlist := make(map[int64]string,0)
+	hot := &models.MealType{Id:-1,Name:"今日推荐"}
+    typel = append(typel,hot)
+    td := &todaydata{}
+    td.Id = -1
+    td.Title = "今日推荐"
+    tdRows := make([]unit1,0)
+	for _,v := range list {
+		var un unit1
+		if v.Meal.IsOut == 0 && v.IsHot == 1 {
+			un.Id = v.Meal.Id
+			un.Name = v.Meal.MealName
+			un.Url = url + v.Meal.MealImg
+			un.Sold = v.Meal.Sold
+			un.Price = v.Meal.Price
+			tdRows = append(tdRows,un)
+		}
+	}
+	td.List = tdRows
+	todaylist = append(todaylist,td)
 	for _,v:=range typelist {
 		today := &todaydata{}
 		today.Id = v.Id

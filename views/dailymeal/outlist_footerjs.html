@@ -231,7 +231,7 @@
         layer.confirm('确认取消今日菜单推荐？', {
             btn: ['是', '否'], icon: 3, title: '请确认'
         }, function () {            
-            var dataValues = { id: I ,utype:false};
+            var dataValues = { id: Id ,utype:false};
             $.sdpost(url, dataValues, function (re) {
                 if (re.code === 0) {
                     layer.msg(re.msg, { icon: 1, title: '成功' });
