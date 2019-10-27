@@ -169,5 +169,36 @@ func (c *DailyMealController) UpdateSeq() {
 	}
 }
 
+func (c *DailyMealController) OutList() {
+	c.setTpl()
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["headcssjs"] = "dailymeal/out_headcssjs.html"
+	c.LayoutSections["footerjs"] = "dailymeal/out_footerjs.html"
+}
 
+func (c *DailyMealController) OutGrid() {
+	var req models.DailyMealQueryParam
+	json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	date := utils.GetNow()
+	req.Ddate = date
+	req.Dtype = -1
+	//从今日菜单中栓选出外卖数据
+	list,_ := models.DailyMealPageList(&req)
+	var typereq models.MealTypeQueryParam
+
+	typelist,_ := models.MealTypePageList(&typereq)
+	rows := make([]*models.DailyMeal,0)
+	mlist := make(map[int64]string,0)
+	for _,v:=range typelist {
+		for _,vv := range list {
+			if v.Id == vv.Meal.MealType.Id &&  vv.Meal.IsOut == 0 {
+				if _,ok := mlist[vv.Meal.Id];!ok {
+					mlist[vv.Meal.Id] = vv.Meal.MealName
+					rows = append(rows,vv)
+				}
+			}
+		}
+	}
+	c.jsonResult(enums.JRCodeSucc,"OK",rows)
+}
 
