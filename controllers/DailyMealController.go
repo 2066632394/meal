@@ -12,6 +12,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"meal/utils"
+	"github.com/astaxie/beego/logs"
 )
 
 //DailyMealController 菜单管理
@@ -215,6 +216,7 @@ func (c *DailyMealController) UpHot() {
 	if err := c.ParseForm(&mm); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), mm.Id)
 	}
+	logs.Info("uphot",mm)
 	oM, err := models.DailyMealOne(mm.Id)
 	if err != nil || oM == nil {
 		c.jsonResult(enums.JRCodeFailed, "选择的菜单不存在", 0)
