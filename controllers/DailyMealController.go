@@ -211,16 +211,18 @@ func (c *DailyMealController) OutGrid() {
 
 
 func (c *DailyMealController) UpHot() {
+	id,_ := c.GetInt64("id")
+	utype,_ := c.GetBool("utype")
 	mm := enums.ReqHot{}
-	//获取form里的值
-	json.Unmarshal(c.Ctx.Input.RequestBody, &mm)
+
 	logs.Info("uphot",mm)
-	oM, err := models.DailyMealOne(mm.Id)
+	oM, err := models.DailyMealOne(id)
 	if err != nil || oM == nil {
 		c.jsonResult(enums.JRCodeFailed, "选择的菜单不存在", 0)
 	}
+
 	oM.IsHot = 2
-	if mm.Utype {
+	if utype {
 		oM.IsHot = 1
 	}
 
