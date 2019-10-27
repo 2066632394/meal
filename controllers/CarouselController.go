@@ -98,10 +98,6 @@ func (c *CarouselController) Save() {
 	if err = c.ParseForm(&m); err != nil {
 		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), m.Id)
 	}
-	if m.Img == "" {
-		c.jsonResult(enums.JRCodeFailed, "图片地址不能为空", m.Img)
-	}
-
 	logs.Info("Carouse",m)
 	o := orm.NewOrm()
 	if m.Id == 0 {
