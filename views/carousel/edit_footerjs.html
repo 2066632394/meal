@@ -13,11 +13,7 @@
   var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
   var doAfterSubmit = 0
    $(function () {	
-        //$("#EffTimeRange").sddaterangepicker() //时间选择插件初始化
-        if(~~($("#Id").val())>0){
-          $("#saveAndgoon").hide()
-          $("#pageSmallTitle").text("编辑菜谱")
-        }        
+
         //验证
         validateInfo(); 
         //图片上传初始化
