@@ -69,10 +69,10 @@ func init() {
 	beego.Router("/mealtype/delete", &controllers.MealTypeController{}, "Post:Delete")
 	beego.Router("/mealtype/datagrid", &controllers.MealTypeController{}, "Get,Post:DataGrid")
 	//轮播图片
-	beego.Router("/Carousel/index", &controllers.CarouselController{}, "*:Index")
-	beego.Router("/Carousel/edit/?:id", &controllers.CarouselController{}, "Get,Post:Edit")
-	beego.Router("/Carousel/delete", &controllers.CarouselController{}, "Post:Delete")
-	beego.Router("/Carousel/datagrid", &controllers.CarouselController{}, "Get,Post:DataGrid")
+	beego.Router("/carousel/index", &controllers.CarouselController{}, "*:Index")
+	beego.Router("/carousel/edit/?:id", &controllers.CarouselController{}, "Get,Post:Edit")
+	beego.Router("/carousel/delete", &controllers.CarouselController{}, "Post:Delete")
+	beego.Router("/carousel/datagrid", &controllers.CarouselController{}, "Get,Post:DataGrid")
 	//后台外卖显示
 	beego.Router("/mealuserorder/index", &controllers.MealUserOrderController{}, "*:Index")
 	beego.Router("/mealuserorder/delete", &controllers.MealUserOrderController{}, "Post:Delete")
