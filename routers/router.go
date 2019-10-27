@@ -73,6 +73,8 @@ func init() {
 	beego.Router("/carousel/edit/?:id", &controllers.CarouselController{}, "Get,Post:Edit")
 	beego.Router("/carousel/delete", &controllers.CarouselController{}, "Post:Delete")
 	beego.Router("/carousel/datagrid", &controllers.CarouselController{}, "Get,Post:DataGrid")
+	beego.Router("/carousel/uploadimage", &controllers.CarouselController{}, "Post:UploadImage")
+
 	//后台外卖显示
 	beego.Router("/mealuserorder/index", &controllers.MealUserOrderController{}, "*:Index")
 	beego.Router("/mealuserorder/delete", &controllers.MealUserOrderController{}, "Post:Delete")
