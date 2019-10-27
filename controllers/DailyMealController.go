@@ -213,9 +213,7 @@ func (c *DailyMealController) OutGrid() {
 func (c *DailyMealController) UpHot() {
 	mm := enums.ReqHot{}
 	//获取form里的值
-	if err := c.ParseForm(&mm); err != nil {
-		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), mm.Id)
-	}
+	json.Unmarshal(c.Ctx.Input.RequestBody, &mm)
 	logs.Info("uphot",mm)
 	oM, err := models.DailyMealOne(mm.Id)
 	if err != nil || oM == nil {
