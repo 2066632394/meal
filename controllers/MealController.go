@@ -82,7 +82,7 @@ func (c *MealController) Edit() {
 		c.Save()
 	}
 	Id, _ := c.GetInt64(":id", 0)
-	m := models.Meal{Id: Id}
+	m := models.Carouse{Id: Id}
 	if Id > 0 {
 		o := orm.NewOrm()
 		err := o.Read(&m)
@@ -90,14 +90,9 @@ func (c *MealController) Edit() {
 			c.pageError("数据无效，请刷新后重试")
 		}
 	}
-	c.Data["hasImg"] = len(m.MealImg) > 0
+	c.Data["hasImg"] = len(m.Img) > 0
 	c.Data["m"] = m
-	var req models.MealTypeQueryParam
-	list,count := models.MealTypePageList(&req)
-	if count >0 {
-		c.Data["typelist"] = list
-	}
-	logs.Info("typelist",list)
+
 	c.setTpl("meal/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "meal/edit_headcssjs.html"

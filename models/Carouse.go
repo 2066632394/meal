@@ -19,6 +19,7 @@ type MealCarouseQueryParam struct {
 type Carouse struct {
 	Id        int64
 	Img     string
+	Seq     int32
 	Type    int32
 	Time int64
 }
@@ -50,3 +51,12 @@ func MealCarouseBatchDelete(ids []int) (int64, error) {
 	return num, err
 }
 
+func CarouseOne(id int64) (*Carouse,error) {
+	o := orm.NewOrm()
+	m := Carouse{Id: id}
+	err := o.Read(&m)
+	if err != nil {
+		return nil, err
+	}
+	return &m, nil
+}

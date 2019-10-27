@@ -98,55 +98,34 @@ func (c *CarouselController) Edit() {
 //Save 添加、编辑页面 保存
 func (c *CarouselController) Save() {
 	var err error
-	mm := models.ReqMeal{}
+	m := models.Carouse{}
 	//获取form里的值
-	if err = c.ParseForm(&mm); err != nil {
-		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), mm.Id)
+	if err = c.ParseForm(&m); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), m.Id)
 	}
-	if mm.MealName == "" {
-		c.jsonResult(enums.JRCodeFailed, "菜谱名称不能为空", mm.MealName)
+	if m.Img == "" {
+		c.jsonResult(enums.JRCodeFailed, "图片地址不能为空", m.Img)
 	}
-	m := models.Meal{}
-	m.Id = mm.Id
-	m.MealName = mm.MealName
-	m.MealType = &models.MealType{Id: mm.MealType}
-	m.MealImg = mm.MealImg
-	m.Score = mm.Score
-	m.ScoreList = mm.ScoreList
-	m.Seq = mm.Seq
-	m.IsOut = mm.IsOut
-	m.Price = mm.Price
-	m.MealDesc = mm.MealDesc
-	beego.Info("meal====",m)
-	logs.Info("meal2",mm)
+
+	logs.Info("Carouse",m)
 	o := orm.NewOrm()
 	if m.Id == 0 {
-		//m.Creator = &c.curUser
+
 		m.Time = time.Now().Unix()
-		exist := models.MealExistName(m.MealName)
-		if exist {
-			c.jsonResult(enums.JRCodeFailed, mm.MealName+"菜谱已存在", mm.MealName)
+		if _, err = o.Insert(&m); err == nil {
+			c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
 		} else {
-			if _, err = o.Insert(&m); err == nil {
-				c.jsonResult(enums.JRCodeSucc, "添加成功", m.Id)
-			} else {
-				c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因："+err.Error(), m.Id)
-			}
+			c.jsonResult(enums.JRCodeFailed, "添加失败，可能原因："+err.Error(), m.Id)
 		}
+
 	} else {
-		oM, err := models.MealOne(m.Id)
-		oM.MealName = m.MealName
-		oM.MealDesc = m.MealDesc
-		oM.MealImg = m.MealImg
-		oM.Seq = m.Seq
-		oM.IsOut = m.IsOut
-		oM.Price = m.Price
+		oM, err := models.CarouseOne(m.Id)
+		oM.Img = m.Img
 		oM.Time = time.Now().Unix()
 		if _, err = o.Update(oM); err == nil {
-			c.jsonResult(enums.JRCodeSucc, "编辑成功", m.Id)
+			c.jsonResult(enums.JRCodeSucc, "更新成功", m.Id)
 		} else {
-			utils.LogDebug(err)
-			c.jsonResult(enums.JRCodeFailed, "编辑失败", m.Id)
+			c.jsonResult(enums.JRCodeFailed, "更新失败", m.Id)
 		}
 	}
 
@@ -161,7 +140,7 @@ func (c *CarouselController) Delete() {
 			ids = append(ids, id)
 		}
 	}
-	if num, err := models.MealBatchDelete(ids); err == nil {
+	if num, err := models.MealCarouseBatchDelete(ids); err == nil {
 		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("成功删除 %d 项", num), 0)
 	} else {
 		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)
@@ -170,7 +149,7 @@ func (c *CarouselController) Delete() {
 
 func (c *CarouselController) UpdateSeq() {
 	Id, _ := c.GetInt64("pk", 0)
-	oM, err := models.MealOne(Id)
+	oM, err := models.CarouseOne(Id)
 	if err != nil || oM == nil {
 		c.jsonResult(enums.JRCodeFailed, "选择的数据无效", 0)
 	}
