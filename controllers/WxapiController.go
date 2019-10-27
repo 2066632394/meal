@@ -248,7 +248,7 @@ func (c *WxapiController) OutList() {
 	req.Dtype = -1
 	//从今日菜单中栓选出外卖数据
 	list,_ := models.DailyMealPageList(&req)
-	url := "https://"+beego.AppConfig.String("imgaddr")+":"+beego.AppConfig.String("httpport")
+	url := "http://"+beego.AppConfig.String("imgaddr")+":"+beego.AppConfig.String("httpport")
 	var typereq models.MealTypeQueryParam
 	todaylist := make([]interface{},0)
 	typelist,_ := models.MealTypePageList(&typereq)
