@@ -62,7 +62,7 @@ func init() {
 	beego.Router("/dailymeal/updateseq", &controllers.DailyMealController{}, "Post:UpdateSeq")
 	beego.Router("/dailymeal/outlist", &controllers.DailyMealController{}, "*:OutList")
 	beego.Router("/dailymeal/outgrid", &controllers.DailyMealController{}, "Get,Post:OutGrid")
-
+	beego.Router("/dailymeal/uphot", &controllers.DailyMealController{}, "Post:UpHot")
 	//菜单分类
 	beego.Router("/mealtype/index", &controllers.MealTypeController{}, "*:Index")
 	beego.Router("/mealtype/edit/?:id", &controllers.MealTypeController{}, "Get,Post:Edit")

@@ -208,3 +208,26 @@ func (c *DailyMealController) OutGrid() {
 	c.ServeJSON()
 }
 
+
+func (c *DailyMealController) UpHot() {
+	mm := enums.ReqHot{}
+	//获取form里的值
+	if err := c.ParseForm(&mm); err != nil {
+		c.jsonResult(enums.JRCodeFailed, "提交表单数据失败，可能原因："+err.Error(), mm.Id)
+	}
+	oM, err := models.DailyMealOne(mm.Id)
+	if err != nil || oM == nil {
+		c.jsonResult(enums.JRCodeFailed, "选择的菜单不存在", 0)
+	}
+	oM.IsHot = 2
+	if mm.Utype {
+		oM.IsHot = 1
+	}
+
+	o := orm.NewOrm()
+	if _, err := o.Update(oM,"is_hot"); err == nil {
+		c.jsonResult(enums.JRCodeSucc, "修改成功", oM.Id)
+	} else {
+		c.jsonResult(enums.JRCodeFailed, "修改失败", oM.Id)
+	}
+}

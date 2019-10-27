@@ -13,3 +13,8 @@ type ReqUpUserInfo struct {
 	Img    string
 	Name   string
 }
+
+type ReqHot struct {
+	Id int64
+	Utype bool
+}
