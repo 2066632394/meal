@@ -202,6 +202,6 @@ func (c *DailyMealController) OutGrid() {
 	result := make(map[string]interface{})
 	result["rows"] = rows
 	c.Data["json"] = result
-	c.ServeJSONP()
+	c.ServeJSON()
 }
 
