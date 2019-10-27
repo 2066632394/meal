@@ -32,10 +32,15 @@
                 <div class="box-body">
                     <div class="btn-group" id="toolbar">
                         {{ if .canEdit}}
-                        <button class="btn btn-danger table-btn-check-enable" disabled onclick="DeleteFun()">
+                        <button class="btn btn-danger table-btn-check-enable" disabled onclick="EditFun()">
                             <i class="fa fa-trash"></i> 添加
                         </button>
-                        {{end}}  
+                        {{end}}
+                        {{ if .canDelete}}
+                            <button class="btn btn-danger table-btn-check-enable" disabled onclick="DeleteFun()">
+                                <i class="fa fa-trash"></i> 删除
+                            </button>
+                        {{end}}
                     </div>
                     <table id="dataGrid"></table>
                 </div>
