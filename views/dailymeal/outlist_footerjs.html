@@ -213,7 +213,7 @@
         layer.confirm('确认今日菜单推荐？', {
             btn: ['是', '否'], icon: 3, title: '请确认'
         }, function () {
-            var dataValues = { id: id ,utype:true};
+            var dataValues = { id: Id ,utype:true};
             $.sdpost(url, dataValues, function (re) {
                 if (re.code === 0) {
                     layer.msg(re.msg, { icon: 1, title: '成功' });
@@ -228,13 +228,10 @@
     function CancelHotFun(Id) {
         var url = '{{ urlfor "DailyMealController.UpHot"}}';
 
-        var ids = [];
-        ids.push(Id);
-
-        layer.confirm('确认今日菜单推荐？', {
+        layer.confirm('确认取消今日菜单推荐？', {
             btn: ['是', '否'], icon: 3, title: '请确认'
         }, function () {            
-            var dataValues = { ids: ids.join(',') ,utype:false};
+            var dataValues = { id: I ,utype:false};
             $.sdpost(url, dataValues, function (re) {
                 if (re.code === 0) {
                     layer.msg(re.msg, { icon: 1, title: '成功' });
