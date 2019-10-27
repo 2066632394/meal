@@ -172,8 +172,8 @@ func (c *DailyMealController) UpdateSeq() {
 func (c *DailyMealController) OutList() {
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "dailymeal/out_headcssjs.html"
-	c.LayoutSections["footerjs"] = "dailymeal/out_footerjs.html"
+	c.LayoutSections["headcssjs"] = "dailymeal/outlist_headcssjs.html"
+	c.LayoutSections["footerjs"] = "dailymeal/outlist_footerjs.html"
 }
 
 func (c *DailyMealController) OutGrid() {
