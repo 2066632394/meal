@@ -143,7 +143,29 @@
                     ret.push('</div>')
                     return ret.join('');
                 }
-            },   {
+            }, {
+                field: 'Meal.Price',
+                title: '价格',
+                formatter: function(value,row,index){
+                    return value + "元"
+                },
+                cellStyle: function (value, row, index, field) {
+                    return { classes: 'ellipsis' };
+                }
+            },  {
+                field: 'IsHot',
+                title: '是否推荐',
+                formatter: function(value,row,index){
+                    if (value == 1 ){
+                        return "是"
+                    } else {
+                        return "否"
+                    }
+                },
+                cellStyle: function (value, row, index, field) {
+                    return { classes: 'ellipsis' };
+                }
+            }, {
                 field: 'operate',
                 title: '操作',
                 width: '80px',

@@ -18,6 +18,7 @@ type DailyMealQueryParam struct {
 	Ddate    int64
 	DdateStr string
 	Dtype    int32
+	IsOut    bool
 }
 
 // DailyMeal 实体类
@@ -28,6 +29,7 @@ type DailyMeal struct {
 	Meal *Meal `orm:"rel(fk)"`
 	MealDate  int64
 	Seq  int32
+	IsHot int32
 	Time int64
 
 }
@@ -57,6 +59,9 @@ func DailyMealPageList(params *DailyMealQueryParam) ([]*DailyMeal, int64) {
 	}
 	if params.Dtype != -1 {
 		query = query.Filter("Type",params.Dtype)
+	}
+	if params.IsOut {
+		query = query.Filter("Meal__Isout",0)
 	}
 
 	total, _ := query.Count()

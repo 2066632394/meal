@@ -182,13 +182,15 @@ func (c *DailyMealController) OutGrid() {
 	date := utils.GetNow()
 	req.Ddate = date
 	req.Dtype = -1
+	req.IsOut = true
 	//从今日菜单中栓选出外卖数据
-	list,_ := models.DailyMealPageList(&req)
+	list,total := models.DailyMealPageList(&req)
 	var typereq models.MealTypeQueryParam
 
 	typelist,_ := models.MealTypePageList(&typereq)
 	rows := make([]*models.DailyMeal,0)
 	mlist := make(map[int64]string,0)
+
 	for _,v:=range typelist {
 		for _,vv := range list {
 			if v.Id == vv.Meal.MealType.Id &&  vv.Meal.IsOut == 0 {
@@ -200,6 +202,7 @@ func (c *DailyMealController) OutGrid() {
 		}
 	}
 	result := make(map[string]interface{})
+	result["total"] = total
 	result["rows"] = rows
 	c.Data["json"] = result
 	c.ServeJSON()
