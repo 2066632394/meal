@@ -34,7 +34,7 @@ func (c *MealController) Prepare() {
 	//c.checkLogin()
 }
 
-//Index 菜谱管理首页
+//Index 角色管理首页
 func (c *MealController) Index() {
 	//将页面左边菜单的某项激活
 	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
@@ -82,7 +82,7 @@ func (c *MealController) Edit() {
 		c.Save()
 	}
 	Id, _ := c.GetInt64(":id", 0)
-	m := models.Carouse{Id: Id}
+	m := models.Meal{Id: Id}
 	if Id > 0 {
 		o := orm.NewOrm()
 		err := o.Read(&m)
@@ -90,9 +90,14 @@ func (c *MealController) Edit() {
 			c.pageError("数据无效，请刷新后重试")
 		}
 	}
-	c.Data["hasImg"] = len(m.Img) > 0
+	c.Data["hasImg"] = len(m.MealImg) > 0
 	c.Data["m"] = m
-
+	var req models.MealTypeQueryParam
+	list,count := models.MealTypePageList(&req)
+	if count >0 {
+		c.Data["typelist"] = list
+	}
+	logs.Info("typelist",list)
 	c.setTpl("meal/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "meal/edit_headcssjs.html"

@@ -80,12 +80,7 @@ func (c *CarouselController) Edit() {
 	}
 	c.Data["hasImg"] = len(m.MealImg) > 0
 	c.Data["m"] = m
-	var req models.MealTypeQueryParam
-	list,count := models.MealTypePageList(&req)
-	if count >0 {
-		c.Data["typelist"] = list
-	}
-	logs.Info("typelist",list)
+
 	c.setTpl("carousel/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "carousel/edit_headcssjs.html"
