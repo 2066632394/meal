@@ -47,6 +47,9 @@ func init() {
 	beego.Router("/weixin/advise", &controllers.WxapiController{}, "Post:Advise")
 	//提交意见
 	beego.Router("/weixin/adviselist", &controllers.WxapiController{}, "Post:AdviseList")
+	//提交意见
+	beego.Router("/weixin/imglist", &controllers.WxapiController{}, "Post:ImgList")
+
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
 	beego.Router("/meal/datagrid", &controllers.MealController{}, "Get,Post:DataGrid")

@@ -384,6 +384,13 @@ func (c *WxapiController) UserInfo() {
 	} else {
 		c.jsonResult(enums.JRCodeFailed,"更新用户出错"+err.Error(),req)
 	}
+}
 
-
+func (c *WxapiController) ImgList() {
+	var params models.MealCarouselQueryParam
+	list,count := models.MealCarousePageList(&params)
+	m := make(map[string]interface{})
+	m["list"] = list
+	m["count"] = count
+	c.jsonResult(enums.JRCodeSucc,"ok",m)
 }
