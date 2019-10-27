@@ -17,7 +17,7 @@
     //初始化页面
     function pageInit() {
         //从cookie加载查询条件，传入参数为form id
-        sdtheme.loadSearchText('searchForm');
+        //sdtheme.loadSearchText('searchForm');
         //初始化表格
         dataGridInit($dataGrid);
         //搜索
@@ -67,9 +67,6 @@
           $(this).bootstrapTable('extendCustomOption', { hlpk: null })
         });
         var editable4Seq = false
-        if ('{{.canEdit}}' === 'true') {
-          editable4Seq = rms.getEditableParam('{{urlfor "CarouselController.UpdateSeq"}}', null, true);
-        }  
         $ctrl.bootstrapTable({
             url: '{{ urlfor "CarouselController.DataGrid"}}',
             method: 'post',
@@ -110,7 +107,7 @@
                 align: 'center',
                 sortable: true,
             }, {
-                field: 'MealImg',
+                field: 'Img',
                 title: '图片',
                 formatter: function (value, row, index) {
                     var ret = [];
@@ -121,7 +118,7 @@
                     ret.push('</div>')
                     return ret.join('');
                 }
-            },{
+            }, {
                 field: 'Time',
                 title: '添加时间',
                 width: '160px',         
@@ -130,14 +127,7 @@
                     //console.log(tt)
                   return sdtheme.showDateTime(tt)
                 }
-            }, {
-                field: 'Seq',
-                title: '顺序',
-                width: '100px',
-                align: 'center',
-                sortable: true,
-                editable: editable4Seq
-            }, {
+            },{
                 field: 'operate',
                 title: '操作',
                 width: '80px',
@@ -145,10 +135,8 @@
                 formatter: function (value, row, index) {
                     var ret = [];
                     ret.push('<div class="btn-group">')
-                    if ('{{.canEdit}}' === 'true') {
-                        ret.push('<button class="btn btn-primary btn-xs"  onclick="EditFun(' + row.Id + ')">' +
-                            '<i class="fa fa-pencil"></i> 编辑</button>');
-                    }                    
+                    ret.push('<button class="btn btn-primary btn-xs"  onclick="DeletFun('+row.Id+')">' +
+                            '<i class="fa fa-reply"></i> 删除</button>');
                     ret.push('</div>')
                     return ret.join('');
                 }
@@ -171,12 +159,31 @@
               layer.alert('获取数据失败,错误代码：' + status);
             }
         });
-    }    
+    }
+    function ReplyFun(Id) {
+        var title = '意见回复';
 
+        var url = '{{ urlfor "CarouselController.Reply"}}' + '/' + Id;
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: false,
+            shade: 0.2,
+            maxmin: true,
+            shift: 1,
+            area: ['800px', '550px'],
+            content: url,
+            btn: ['提交', '关闭'],
+            yes: function (index, layero) {
+                var iframeWin = window[layero.find('iframe')[0]['name']];
+                iframeWin.FormSubmit();
+            }
+        });
+    }
     function EditFun(Id) {
-        var title = '添加菜谱';
+        var title = '添加图片';
         if (Id > 0) {
-            title = "编辑菜谱"
+            title = "更新图片"
         }
         var url = '{{ urlfor "CarouselController.Edit"}}' + '/' + Id;
         window.location.href = url        

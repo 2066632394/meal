@@ -83,7 +83,6 @@ func (c *CarouselController) Edit() {
 
 	c.setTpl("carousel/edit.html", "shared/layout_page.html")
 	c.LayoutSections = make(map[string]string)
-	c.LayoutSections["headcssjs"] = "carousel/edit_headcssjs.html"
 	c.LayoutSections["footerjs"] = "carousel/edit_footerjs.html"
 
 	//将页面左边菜单的某项激活
