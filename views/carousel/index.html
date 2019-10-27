@@ -32,12 +32,12 @@
                 <div class="box-body">
                     <div class="btn-group" id="toolbar">
                         {{ if .canEdit}}
-                        <button class="btn btn-danger table-btn-check-enable" disabled onclick="EditFun()">
+                        <button class="btn btn-danger table-btn-check-enable"  onclick="EditFun(0)">
                             <i class="fa fa-trash"></i> 添加
                         </button>
                         {{end}}
                         {{ if .canDelete}}
-                            <button class="btn btn-danger table-btn-check-enable" disabled onclick="DeleteFun()">
+                            <button class="btn btn-danger table-btn-check-enable" onclick="DeleteFun()">
                                 <i class="fa fa-trash"></i> 删除
                             </button>
                         {{end}}
