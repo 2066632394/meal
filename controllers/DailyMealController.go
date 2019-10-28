@@ -171,6 +171,7 @@ func (c *DailyMealController) UpdateSeq() {
 }
 
 func (c *DailyMealController) OutList() {
+	c.Data["activeSidebarUrl"] = c.URLFor(c.controllerName + "." + c.actionName)
 	c.setTpl()
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["headcssjs"] = "dailymeal/outlist_headcssjs.html"
