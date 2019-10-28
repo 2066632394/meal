@@ -389,6 +389,10 @@ func (c *WxapiController) UserInfo() {
 func (c *WxapiController) ImgList() {
 	var params models.MealCarouselQueryParam
 	list,count := models.MealCarousePageList(&params)
+	url := "http://"+beego.AppConfig.String("imgaddr")+":"+beego.AppConfig.String("httpport")
+	for _,v:= range list {
+		v.Img = url+v.Img
+	}
 	m := make(map[string]interface{})
 	m["list"] = list
 	m["count"] = count
