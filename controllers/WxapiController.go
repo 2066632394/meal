@@ -330,14 +330,14 @@ func (c *WxapiController) OrderList() {
 	logs.Info("params",params)
 	data,total := models.MealUserOrderPageList(&params)
 	mealmap := models.MealAll()
-	m := make([]*enums.ResponseOrder,0)
+	m := make([]*models.ResponseOrder,0)
 	for _,v := range data {
-		var order enums.ResponseOrder
-		orderdetail := make([]*enums.OrderDetail,0)
+		var order models.ResponseOrder
+		orderdetail := make([]*models.OrderDetail,0)
 		order.UserOrder = v
 		meallist := strings.Split(v.MealIds,",")
 		for _,vv := range meallist {
-			var o enums.OrderDetail
+			var o models.OrderDetail
 			orderd := strings.Split(vv,"-")
 			if len(orderd) != 2 {
 				logs.Warn("mealids ",orderd)

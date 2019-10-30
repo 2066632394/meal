@@ -45,6 +45,19 @@ type ReqMeal struct {
 	Time int64
 }
 
+
+type ResponseOrder struct {
+	UserOrder *MealUserOrder
+	OrderDetail []*OrderDetail
+}
+
+type OrderDetail struct {
+	MealId int64
+	MealName string
+	MealNums int32
+	MealAmount string
+}
+
 // MealPageList 获取分页数据
 func MealPageList(params *MealQueryParam) ([]*Meal, int64) {
 	query := orm.NewOrm().QueryTable(MealTBName())

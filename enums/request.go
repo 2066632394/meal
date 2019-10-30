@@ -1,7 +1,5 @@
 package enums
 
-import "meal/models"
-
 type ReqLogin struct {
 	Code string
 }
@@ -19,16 +17,4 @@ type ReqUpUserInfo struct {
 type ReqHot struct {
 	Id int64
 	Utype bool
-}
-
-type ResponseOrder struct {
-	UserOrder *models.MealUserOrder
-	OrderDetail []*OrderDetail
-}
-
-type OrderDetail struct {
-	MealId int64
-	MealName string
-	MealNums int32
-	MealAmount string
 }
