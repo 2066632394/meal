@@ -98,5 +98,17 @@ func MealExistName(name string) bool {
 func AddMeal(params *Meal) (bool,int64,error) {
 	o := orm.NewOrm()
 	return o.ReadOrCreate(&params, "Name")
+}
 
+func MealAll() map[int64]*Meal {
+	query := orm.NewOrm().QueryTable(MealTBName())
+	data := make([]*Meal, 0)
+	mapdata := make(map[int64]*Meal, 0)
+	query.All(&data)
+	for _,v := range data {
+		if _,ok := mapdata[v.Id];!ok {
+			mapdata[v.Id] = v
+		}
+	}
+	return mapdata
 }

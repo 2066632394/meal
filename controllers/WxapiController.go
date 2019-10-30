@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"time"
 	"github.com/astaxie/beego/orm"
+	"strings"
 )
 
 type WxapiController struct {
@@ -328,10 +329,34 @@ func (c *WxapiController) OrderList() {
 	params.Order = "desc"
 	logs.Info("params",params)
 	data,total := models.MealUserOrderPageList(&params)
+	mealmap := models.MealAll()
+	m := make([]*enums.ResponseOrder,0)
+	for _,v := range data {
+		var order enums.ResponseOrder
+		orderdetail := make([]*enums.OrderDetail,0)
+		order.UserOrder = v
+		meallist := strings.Split(v.MealIds,",")
+		for _,vv := range meallist {
+			var o enums.OrderDetail
+			orderd := strings.Split(vv,"-")
+			if len(orderd) != 2 {
+				logs.Warn("mealids ",orderd)
+				continue
+			}
+			o.MealNums = utils.ToInt32(orderd[1])
+			o.MealId = utils.ToInt64(orderd[0])
+			o.MealName = mealmap[o.MealId].MealName
+			o.MealAmount = utils.ToString(int64(o.MealNums)* utils.ToInt64(mealmap[o.MealId].Price))
+			orderdetail = append(orderdetail,&o)
+		}
+		order.OrderDetail = orderdetail
+		m = append(m,&order)
+	}
 	//定义返回的数据结构
 	result := make(map[string]interface{})
 	result["total"] = total
-	result["rows"] = data
+	result["rows"] = m
+	logs.Info("orderlist",m)
 	c.jsonResult(enums.JRCodeSucc,"ok",result)
 }
 
