@@ -90,7 +90,9 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 		o.Rollback()
 		return false,"",err
 	}
+	total := int64(0)
 	mealIds := ""
+	mealmap := MealAll()
 	for k,v := range params.Ids {
 		var dailymeal DailyMeal
 		vs := strings.Split(v,"-")
@@ -128,6 +130,7 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 			o.Rollback()
 			return false,"",err
 		}
+		total += utils.ToInt64(vs[1]) * utils.ToInt64(mealmap[nmeal.Id].Price)
 	}
 
 Loop:
@@ -143,6 +146,7 @@ Loop:
 	req.MealIds = mealIds
 	req.User = &MealUser{Id:params.UserId}
 	req.Status = enums.OutCommit
+	req.Total = utils.ToString(total)
 	if id,err := o.Insert(&req);err != nil && id ==0{
 		o.Rollback()
 		return false,code,err
