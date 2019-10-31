@@ -313,12 +313,12 @@ func (c *WxapiController) AddOrder() {
 		c.jsonResult(enums.JRCodeFailed,"用户数据异常",nil)
 	}
 	params.UserId = user.Id
-	result,code,err := models.AddOrder(&params)
+	response,result,code,err := models.AddOrder(&params)
 
 	if err != nil{
 		c.jsonResult(enums.JRCodeFailed,"点餐预订异常"+err.Error(),params)
 	} else if err == nil && result && code != ""{
-		c.jsonResult(enums.JRCodeSucc,"点餐预订成功",code)
+		c.jsonResult(enums.JRCodeSucc,"点餐预订成功",response)
 	}
 }
 

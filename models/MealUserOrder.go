@@ -83,22 +83,25 @@ func MealBatchDeleteOrder(ids []int) (int64, error) {
 	num, err := query.Filter("id__in", ids).Delete()
 	return num, err
 }
-func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
+func AddOrder(params *MealUserOrderQueryParam) (*ResponseOrder,bool,string,error) {
 	o := orm.NewOrm()
 	err := o.Begin()
 	if err != nil {
 		o.Rollback()
-		return false,"",err
+		return nil,false,"",err
 	}
+	response := ResponseOrder{}
+	orderdetail := make([]*OrderDetail,0)
 	total := int64(0)
 	mealIds := ""
 	mealmap := MealAll()
 	for k,v := range params.Ids {
+		var oo OrderDetail
 		var dailymeal DailyMeal
 		vs := strings.Split(v,"-")
 		if len(vs) != 2 {
 			o.Rollback()
-			return false,"",errors.New("数据格式异常")
+			return nil,false,"",errors.New("数据格式异常")
 		}
 		var nmeal Meal
 		nmeal.Id = utils.ToInt64(vs[0])
@@ -107,7 +110,7 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 
 		if err := o.Read(&dailymeal,"MealDate","meal_id");err != nil {
 			o.Rollback()
-			return false,"",errors.New("此菜单不在今日菜谱上")
+			return nil,false,"",errors.New("此菜单不在今日菜谱上")
 		}
 		if k == 0 {
 			if len(params.Ids) > 1 {
@@ -123,15 +126,21 @@ func AddOrder(params *MealUserOrderQueryParam) (bool,string,error) {
 		}
 		if err := o.Read(&nmeal);err != nil {
 			o.Rollback()
-			return false,"",err
+			return nil,false,"",err
 		}
 		nmeal.Sold += utils.ToInt64(vs[1])
 		if _,err := o.Update(&nmeal,"sold");err != nil {
 			o.Rollback()
-			return false,"",err
+			return nil,false,"",err
 		}
 		total += utils.ToInt64(vs[1]) * utils.ToInt64(mealmap[nmeal.Id].Price)
+		oo.MealId = nmeal.Id
+		oo.MealName = mealmap[nmeal.Id].MealName
+		oo.MealNums = utils.ToInt32(vs[1])
+		oo.MealAmount = utils.ToString(utils.ToInt64(vs[1]) * utils.ToInt64(mealmap[nmeal.Id].Price))
+		orderdetail = append(orderdetail,&oo)
 	}
+	response.OrderDetail = orderdetail
 
 Loop:
 	code := utils.RandomString(6)
@@ -147,12 +156,13 @@ Loop:
 	req.User = &MealUser{Id:params.UserId}
 	req.Status = enums.OutCommit
 	req.Total = utils.ToString(total)
+	response.UserOrder = &req
 	if id,err := o.Insert(&req);err != nil && id ==0{
 		o.Rollback()
-		return false,code,err
+		return &response,false,code,err
 	} else {
 		o.Commit()
-		return true,code,nil
+		return &response,true,code,nil
 	}
 
 
