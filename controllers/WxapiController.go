@@ -423,3 +423,24 @@ func (c *WxapiController) ImgList() {
 	m["count"] = count
 	c.jsonResult(enums.JRCodeSucc,"ok",m)
 }
+
+
+func (c *WxapiController) Maintain() {
+	var params enums.ReqMaintain
+	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
+	logs.Info("params",params)
+	var maintain models.Maintain
+	maintain.Time = time.Now().Unix()
+	maintain.ContractName = params.Name
+	maintain.ContractPhone = params.Phone
+	maintain.DeviceType = params.Type
+	maintain.Ext = params.Ext
+	maintain.User = &models.MealUser{Id:c.UserId}
+
+	id,err := models.AddMaintain(&maintain)
+	if err == nil && id >0 {
+		c.jsonResult(enums.JRCodeSucc,"ok",nil)
+	}else {
+		c.jsonResult(enums.JRCodeFailed,"添加失败："+err.Error(),nil)
+	}
+}

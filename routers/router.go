@@ -49,6 +49,8 @@ func init() {
 	beego.Router("/weixin/adviselist", &controllers.WxapiController{}, "Post:AdviseList")
 	//提交意见
 	beego.Router("/weixin/imglist", &controllers.WxapiController{}, "Post:ImgList")
+	//提交故障报告
+	beego.Router("/weixin/maintain", &controllers.WxapiController{}, "Post:Maintain")
 
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
@@ -77,6 +79,10 @@ func init() {
 	beego.Router("/carousel/delete", &controllers.CarouselController{}, "Post:Delete")
 	beego.Router("/carousel/datagrid", &controllers.CarouselController{}, "Get,Post:DataGrid")
 	beego.Router("/carousel/uploadimage", &controllers.CarouselController{}, "Post:UploadImage")
+
+	//物业报修
+	beego.Router("/maintain/index", &controllers.MaintainController{}, "*:Index")
+	beego.Router("/maintain/datagrid", &controllers.MaintainController{}, "Get,Post:DataGrid")
 
 	//后台外卖显示
 	beego.Router("/mealuserorder/index", &controllers.MealUserOrderController{}, "*:Index")
