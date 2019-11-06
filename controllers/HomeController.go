@@ -48,6 +48,11 @@ func (c *HomeController) Index() {
 	_ ,advisecount := models.MealAdvisePageList(&advise)
 	m["today_advise"] = advisecount
 	logs.Info("calc",m)
+
+	var maintain models.MaintainQueryParam
+	maintain.StartTime = utils.GetNow()
+	_,mcount := models.MaintainPageList(&maintain)
+	m["maintain"] = mcount
 	c.Data["json"] = m
 	c.setTpl()
 

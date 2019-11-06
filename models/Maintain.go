@@ -13,6 +13,7 @@ func (a *Maintain) TableName() string {
 type MaintainQueryParam struct {
 	BaseQueryParam
 	NameLike string
+	StartTime int64
 }
 
 // Maintain 实体类
@@ -42,7 +43,10 @@ func MaintainPageList(params *MaintainQueryParam) ([]*Maintain, int64) {
 		sortorder = "-" + sortorder
 	}
 	if params.NameLike != "" {
-		query = query.Filter("MaintainName__istartswith", params.NameLike)
+		query = query.Filter("Name__istartswith", params.NameLike)
+	}
+	if params.StartTime > 0 {
+		query = query.Filter("Time__gt",params.StartTime)
 	}
 
 	total, _ := query.Count()
