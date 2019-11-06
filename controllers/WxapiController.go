@@ -10,6 +10,7 @@ import (
 	"time"
 	"github.com/astaxie/beego/orm"
 	"strings"
+	"github.com/astaxie/beego/validation"
 )
 
 type WxapiController struct {
@@ -429,6 +430,11 @@ func (c *WxapiController) Maintain() {
 	var params enums.ReqMaintain
 	json.Unmarshal(c.Ctx.Input.RequestBody, &params)
 	logs.Info("params",params)
+	valid := validation.Validation{}
+	_,err := valid.Valid(&params)
+	if err != nil {
+		c.jsonResult(enums.JRCodeFailed,"参数异常："+err.Error(),nil)
+	}
 	var maintain models.Maintain
 	maintain.Time = time.Now().Unix()
 	maintain.ContractName = params.Name

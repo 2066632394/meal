@@ -21,9 +21,9 @@ type ReqHot struct {
 
 
 type ReqMaintain struct {
-	Name string
-	Phone string
-	Desc string
-	Type string
+	Name string `valid:"Required"`
+	Phone string `valid:"Required"`
+	Desc string `valid:"Required"`
+	Type string `valid:"Required"`
 	Ext string
 }
