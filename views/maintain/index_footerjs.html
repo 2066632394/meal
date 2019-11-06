@@ -114,6 +114,7 @@
             },{
                 field: 'User.Img',
                 title: '微信头像',
+                width: '120px',
                 formatter: function (value, row, index) {
                     var ret = [];
                     ret.push('<div class="img-group">')
@@ -138,6 +139,9 @@
                 title: '故障描述',
                 width: '360px',
                 align: 'center',
+                formatter: function (value, row, index) {
+                   return sdtheme.showlongstr(value)
+                }
             },{
                 field: 'DeviceType',
                 title: '故障类型',
