@@ -440,6 +440,7 @@ func (c *WxapiController) Maintain() {
 	maintain.ContractName = params.Name
 	maintain.ContractPhone = params.Phone
 	maintain.DeviceType = params.Type
+	maintain.Content = params.Desc
 	maintain.Ext = params.Ext
 	maintain.User = &models.MealUser{Id:c.UserId}
 
