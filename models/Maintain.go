@@ -71,5 +71,5 @@ func MaintainOne(id int64) (*Maintain, error) {
 //AddMaintain 添加菜单
 func AddMaintain(params *Maintain) (int64,error) {
 	o := orm.NewOrm()
-	return o.Insert(&params)
+	return o.Insert(params)
 }
