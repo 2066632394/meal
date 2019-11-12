@@ -51,7 +51,8 @@ func init() {
 	beego.Router("/weixin/imglist", &controllers.WxapiController{}, "Post:ImgList")
 	//提交故障报告
 	beego.Router("/weixin/maintain", &controllers.WxapiController{}, "Post:Maintain")
-
+	//上传图片
+	beego.Router("/weixin/uploadimage", &controllers.WxapiController{}, "Post:UploadImage")
 	//菜谱管理
 	beego.Router("/meal/index", &controllers.MealController{}, "*:Index")
 	beego.Router("/meal/datagrid", &controllers.MealController{}, "Get,Post:DataGrid")

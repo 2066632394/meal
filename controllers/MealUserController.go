@@ -34,7 +34,7 @@ func (c *MealUserController) Index() {
 	c.LayoutSections["footerjs"] = "mealuser/index_footerjs.html"
 	//	页面里按钮权限控制
 	c.Data["canEdit"] = c.checkActionAuthor("MealUserController", "Edit")
-	//c.Data["canDelete"] = c.checkActionAuthor("MealUserController", "Delete")
+	c.Data["canDelete"] = c.checkActionAuthor("MealUserController", "Delete")
 	beego.Info("MealUserController,",c.Data["canEdit"],c.Data["canEdit"])
 }
 

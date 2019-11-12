@@ -62,3 +62,9 @@ func AddMealType(name string) (int64,error) {
 	id,err := o.Insert(m)
 	return id,err
 }
+// MealBatchDelete 批量删除
+func MealTypeBatchDelete(ids []int) (int64, error) {
+	query := orm.NewOrm().QueryTable(MealTypeTBName())
+	num, err := query.Filter("id__in", ids).Delete()
+	return num, err
+}

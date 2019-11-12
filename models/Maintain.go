@@ -19,11 +19,12 @@ type MaintainQueryParam struct {
 // Maintain 实体类
 type Maintain struct {
 	Id        int64
-	User *MealUser `orm:"rel(one)"`
+	User *MealUser `orm:"rel(one);on_delete(do_nothing)"`
 	ContractName string
 	ContractPhone  string
 	DeviceType   string
 	Content string
+	Images  string `orm:"size(512)"`
 	Ext    string
 	Time   int64
 }

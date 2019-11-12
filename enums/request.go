@@ -25,5 +25,6 @@ type ReqMaintain struct {
 	Phone string `valid:"Required"`
 	Desc string `valid:"Required"`
 	Type string `valid:"Required"`
+	Images string
 	Ext string
 }

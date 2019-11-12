@@ -21,7 +21,7 @@ type Meal struct {
 	MealName      string `orm:"size(32)"`
 	MealImg string
 	MealDesc  string
-	MealType   *MealType `orm:"rel(fk)"`
+	MealType   *MealType `orm:"rel(one);on_delete(do_nothing)"`
 	Sold    int64
 	Price   string
 	RealPrice string

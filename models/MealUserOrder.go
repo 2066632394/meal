@@ -18,6 +18,7 @@ func (a *MealUserOrder) TableName() string {
 // MealUserOrderQueryParam 用于查询的类
 type MealUserOrderQueryParam struct {
 	BaseQueryParam
+	QueryType int32
 	StatusType int32
 	NameLike string
 	Phone int64
@@ -30,7 +31,7 @@ type MealUserOrderQueryParam struct {
 // MealUserOrder 实体类
 type MealUserOrder struct {
 	Id              int64
-	User          *MealUser  `orm:"rel(one)"`
+	User          *MealUser  `orm:"rel(one);on_delete(do_nothing)"`
 	Type 			int32
 	MealIds         string
 	MealDate        int64
@@ -62,6 +63,9 @@ func MealUserOrderPageList(params *MealUserOrderQueryParam) ([]*MealUserOrder, i
 	if params.UserId != 0 {
 		query = query.Filter("user_id", params.UserId)
 	}
+	if params.NameLike != "" {
+		query = query.Filter("meal_code",params.NameLike)
+	}
 	total, _ := query.Count()
 	query.RelatedSel().OrderBy(sortorder).Limit(params.Limit, params.Offset).All(&data)
 	return data, total
@@ -78,7 +82,7 @@ func MealUserOrderOne(id int64) (*MealUserOrder, error) {
 	return &m, nil
 }
 // MealBatchDelete 批量删除
-func MealBatchDeleteOrder(ids []int) (int64, error) {
+func MealUserOrderBatchDelete(ids []int) (int64, error) {
 	query := orm.NewOrm().QueryTable(MealUserOrderTBName())
 	num, err := query.Filter("id__in", ids).Delete()
 	return num, err

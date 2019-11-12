@@ -143,6 +143,22 @@
                    return sdtheme.showlongstr(value)
                 }
             },{
+                field: 'Images',
+                title: '图片',
+                width: '120px',
+                formatter: function (value, row, index) {
+                    imglist = value.split("|")
+                    var ret = [];
+                    ret.push('<div class="img-group">')
+                    $.each(value,function(i,v){
+                        if (v != "") {
+                            ret.push('<img class="img-responsive" src=' + v + ' alt="" height="60" width="60"/>')
+                        }
+                    });
+                    ret.push('</div>')
+                    return ret.join('');
+                }
+            },{
                 field: 'Ext',
                 title: '其他',
                 width: '120px',

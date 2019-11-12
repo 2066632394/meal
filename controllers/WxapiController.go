@@ -11,6 +11,8 @@ import (
 	"github.com/astaxie/beego/orm"
 	"strings"
 	"github.com/astaxie/beego/validation"
+	"os"
+	"github.com/hunterhug/go_image"
 )
 
 type WxapiController struct {
@@ -441,6 +443,7 @@ func (c *WxapiController) Maintain() {
 	maintain.ContractPhone = params.Phone
 	maintain.DeviceType = params.Type
 	maintain.Content = params.Desc
+	maintain.Images = params.Images
 	maintain.Ext = params.Ext
 	maintain.User = &models.MealUser{Id:c.UserId}
 
@@ -450,4 +453,49 @@ func (c *WxapiController) Maintain() {
 	}else {
 		c.jsonResult(enums.JRCodeFailed,"添加失败："+err.Error(),nil)
 	}
+}
+
+func (c *WxapiController) UploadImage() {
+	//这里type没有用，只是为了演示传值
+	beego.Info("body",c.Input().Get("Img"))
+
+	f, h, err := c.GetFile("fileImg")
+	if err != nil {
+		c.jsonResult(enums.JRCodeFailed, "上传失败", "")
+	}
+	defer f.Close()
+	filepreix := "static/upload/"
+	exist := utils.IsExist(filepreix)
+	if exist {
+		logs.Info("filepreix",filepreix)
+	} else {
+		logs.Error("file path not exist",filepreix)
+		// 创建文件夹
+		err := os.Mkdir(filepreix, os.ModePerm)
+		if err != nil {
+			logs.Error("create file err",err)
+		} else {
+			logs.Error("mkdir success!\n")
+		}
+	}
+	filePath := filepreix + h.Filename
+	c.SaveToFile("fileImg", filePath)
+	realfilename, err := go_image.RealImageName(filePath)
+	if err != nil {
+		c.jsonResult(enums.JRCodeFailed, "上传失败"+err.Error(), "")
+	}
+	sp := strings.Split(realfilename,".")
+	if len(sp) != 2 {
+		c.jsonResult(enums.JRCodeFailed, "上传失败", "")
+	}
+	newfile := filepreix+time.Unix(utils.GetNow(),0).Format("2006-01-02")+utils.RandomString(10)+sp[1]
+	// 保存位置在 static/upload, 没有文件夹要先创建
+	err = go_image.ScaleF2F(filePath, newfile,600 )
+	if err != nil {
+		c.jsonResult(enums.JRCodeFailed, "上传失败"+err.Error(), "")
+	}
+	logs.Info("oldfile",filePath)
+	logs.Info("newfile",newfile)
+	c.jsonResult(enums.JRCodeSucc, "上传成功", "/"+newfile)
+
 }

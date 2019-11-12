@@ -38,7 +38,7 @@ func (c *MealUserOrderController) Index() {
 	c.LayoutSections["footerjs"] = "mealuserorder/index_footerjs.html"
 	//页面里按钮权限控制
 	//c.Data["canEdit"] = c.checkActionAuthor("MealUserOrderController", "Edit")
-	//c.Data["canDelete"] = c.checkActionAuthor("MealOrderController", "Delete")
+	c.Data["canDelete"] = c.checkActionAuthor("MealOrderController", "Delete")
 	//logs.Info("MealUserOrderController,",c.Data["canDelete"])
 }
 
@@ -140,7 +140,7 @@ func (c *MealUserOrderController) Delete() {
 			ids = append(ids, id)
 		}
 	}
-	if num, err := models.MealBatchDelete(ids); err == nil {
+	if num, err := models.MealUserOrderBatchDelete(ids); err == nil {
 		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("成功删除 %d 项", num), 0)
 	} else {
 		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)

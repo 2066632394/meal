@@ -26,7 +26,7 @@ type DailyMeal struct {
 	Id        int64
 	Type      int32
 	//MealId    int64
-	Meal *Meal `orm:"rel(fk)"`
+	Meal *Meal `orm:"rel(one);on_delete(do_nothing)"`
 	MealDate  int64
 	Seq  int32
 	IsHot int32

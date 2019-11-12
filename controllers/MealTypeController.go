@@ -130,7 +130,7 @@ func (c *MealTypeController) Delete() {
 			ids = append(ids, id)
 		}
 	}
-	if num, err := models.MealBatchDelete(ids); err == nil {
+	if num, err := models.MealTypeBatchDelete(ids); err == nil {
 		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("成功删除 %d 项", num), 0)
 	} else {
 		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)

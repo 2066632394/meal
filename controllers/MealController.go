@@ -233,7 +233,7 @@ func (c *MealController) UploadImage() {
 		// 保存位置在 static/upload, 没有文件夹要先创建
 		err = go_image.ScaleF2F(filePath, newfile,600 )
 		if err != nil {
-			panic(err)
+			c.jsonResult(enums.JRCodeFailed, "上传失败"+err.Error(), "")
 		}
 		logs.Info("oldfile",filePath)
 		logs.Info("newfile",newfile)

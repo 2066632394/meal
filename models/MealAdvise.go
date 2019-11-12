@@ -25,7 +25,7 @@ type MealAdvise struct {
 	Reply  string
 	TagId    int32
 	Score    int32
-	User   *MealUser `orm:"rel(one)"`
+	User   *MealUser `orm:"rel(one);on_delete(do_nothing)"`
 	Time  int64
 }
 
