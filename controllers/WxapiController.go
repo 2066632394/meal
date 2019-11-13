@@ -488,7 +488,7 @@ func (c *WxapiController) UploadImage() {
 	if len(sp) < 2 {
 		c.jsonResult(enums.JRCodeFailed, "上传失败,图片格式异常", "")
 	}
-	newfile := filepreix+time.Unix(utils.GetNow(),0).Format("2006-01-02")+utils.RandomString(10)+sp[len(sp)-1]
+	newfile := filepreix+time.Unix(utils.GetNow(),0).Format("2006-01-02")+utils.RandomString(10)+"."+sp[len(sp)-1]
 	// 保存位置在 static/upload, 没有文件夹要先创建
 	err = go_image.ScaleF2F(filePath, newfile,600 )
 	if err != nil {
