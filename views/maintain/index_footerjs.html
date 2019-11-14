@@ -150,7 +150,7 @@
                     imglist = value.split("|")
                     var ret = [];
                     ret.push('<div class="img-group">')
-                    $.each(value,function(i,v){
+                    $.each(imglist,function(i,v){
                         if (v != "") {
                             ret.push('<img class="img-responsive" src=' + v + ' alt="" height="60" width="60"/>')
                         }
