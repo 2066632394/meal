@@ -348,8 +348,14 @@ func (c *WxapiController) OrderList() {
 			}
 			o.MealNums = utils.ToInt32(orderd[1])
 			o.MealId = utils.ToInt64(orderd[0])
-			o.MealName = mealmap[o.MealId].MealName
-			o.MealAmount = utils.ToString(int64(o.MealNums)* utils.ToInt64(mealmap[o.MealId].Price))
+			if _,ok := mealmap[o.MealId];ok {
+				o.MealName = mealmap[o.MealId].MealName
+				o.MealAmount = utils.ToString(int64(o.MealNums)* utils.ToInt64(mealmap[o.MealId].Price))
+			} else {
+				o.MealName = "菜谱已删除"
+				o.MealAmount = "0"
+			}
+
 			orderdetail = append(orderdetail,&o)
 		}
 		order.OrderDetail = orderdetail
