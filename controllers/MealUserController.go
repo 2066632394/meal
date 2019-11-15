@@ -6,6 +6,9 @@ import (
 	"encoding/json"
 	"meal/enums"
 	"github.com/astaxie/beego/logs"
+	"strings"
+	"strconv"
+	"fmt"
 )
 
 type MealUserController struct {
@@ -64,4 +67,20 @@ func (c *MealUserController) OrderList() {
 	result["total"] = total
 	result["rows"] = data
 	c.jsonResult(enums.JRCodeSucc,"ok",result)
+}
+
+//Delete 批量删除
+func (c *MealUserController) Delete() {
+	strs := c.GetString("ids")
+	ids := make([]int, 0, len(strs))
+	for _, str := range strings.Split(strs, ",") {
+		if id, err := strconv.Atoi(str); err == nil {
+			ids = append(ids, id)
+		}
+	}
+	if num, err := models.MealUserBatchDelete(ids); err == nil {
+		c.jsonResult(enums.JRCodeSucc, fmt.Sprintf("成功删除 %d 项", num), 0)
+	} else {
+		c.jsonResult(enums.JRCodeFailed, "删除失败", 0)
+	}
 }

@@ -101,3 +101,9 @@ func WeixinUserCheckonly(id string) (bool,error){
 		return true,nil
 	}
 }
+
+func MealUserBatchDelete(ids []int) (int64, error) {
+	query := orm.NewOrm().QueryTable(MealUserTBName())
+	num, err := query.Filter("id__in", ids).Delete()
+	return num, err
+}

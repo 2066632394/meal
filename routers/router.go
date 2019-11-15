@@ -103,7 +103,7 @@ func init() {
 	beego.Router("/mealuser/orderlist", &controllers.MealUserController{}, "Post:OrderList")
 	beego.Router("/mealuser/index", &controllers.MealUserController{}, "*:Index")
 	//beego.Router("/mealuser/edit/?:id", &controllers.MealUserController{}, "Get,Post:Edit")
-	//beego.Router("/mealuser/delete", &controllers.MealUserController{}, "Post:Delete")
+	beego.Router("/mealuser/delete", &controllers.MealUserController{}, "Post:Delete")
 	beego.Router("/mealuser/datagrid", &controllers.MealUserController{}, "Get,Post:DataGrid")
 
 
